@@ -93,8 +93,8 @@ route.post('/upload',userAuth, async(req:any,res:Response)=>{
     // pdfs will be uploaded to this route
     try {
       
-      const filepath = 'src/test files/a.txt'
-      const filename = 'a.txt'
+      const filepath = 'src/test files/b.txt'
+      const filename = 'b.txt'
       const data = fs.readFileSync(filepath)
       const already = await prisma.file.findUnique({
         where:{filename:filename}
