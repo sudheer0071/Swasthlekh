@@ -10,7 +10,7 @@ declare module 'express' {
  }
   
 async function userAuth(req:Request,res:Response, next:NextFunction, ) {
-   const auth = req.headers.authorization
+   const auth = req.headers.authorization 
    if (auth!=null) {
      const token = auth.split(' ')[1]
      if (!auth || !auth.startsWith('Bearer ')) {
