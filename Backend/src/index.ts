@@ -1,8 +1,11 @@
 import express,{Express, Response, Request} from 'express'
 import {router} from "./routes/index"
+import cors from 'cors';
 const app:Express = express() 
  
-const PORT = 5000 
+const PORT = 3000 
+// yaad rehne wala error
+app.use(cors())
 app.use(express.json())
 app.use('/api/v3',router)
 

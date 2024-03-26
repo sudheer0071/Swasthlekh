@@ -8,8 +8,7 @@ type props = {
   empty:boolean
 }
 
-export function InputBox({placeholder, label, onChange, password, value, empty}:props){     
-  console.log("label: "+empty);   
+export function InputBox({placeholder, label, onChange, password, value, empty}:any){       
   return <div> 
       <div className="text-md font-medium text-left py-2">
         {label}

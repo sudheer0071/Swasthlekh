@@ -65,7 +65,7 @@ route.post('/signin',async (req:Request,res:Response)=>{
   }
   
   if (!exist) {
-    return res.json({message:"User doesn't esixt"})
+    return res.json({message:"User doesn't exist"})
   }
   
   if (!user) {
@@ -75,7 +75,7 @@ route.post('/signin',async (req:Request,res:Response)=>{
   console.log(exist);
    
   const token = jwt.sign({userId:user.id},secret) 
-  res.json({message:"Fetching details...",token:token})
+  res.json({message:"Fetching details...",token:token, firstname:user.firstname})
 })
 
 route.put('/',userAuth,async (req:Request,res)=>{
