@@ -8,24 +8,26 @@ declare module 'express' {
      userId?: string;
   }
  }
-  
-async function userAuth(req:Request,res:Response, next:NextFunction, ) {
+ 
+ async function userAuth(req:Request,res:Response, next:NextFunction, ) {
+   
    const auth = req.headers.authorization 
-   if (auth!=null) {
-     const token = auth.split(' ')[1]
-     if (!auth || !auth.startsWith('Bearer ')) {
-       return res.json({message:"Token error"})
-     }
-     try {
-      const decode = jwt.verify(token,secret)
+   try {
+  console.log(auth);
+  if (auth!=null) {
+    const token = auth.split(' ')[1]
+    if (!auth || !auth.startsWith('Bearer ')) {
+      return res.json({message:"Token error"})
+    }
+    const decode = jwt.verify(token,secret)
       req.userId = decode.userId
       console.log(req.userId);
       
       return next()
-     } catch (error) {
-      res.json({message:"Error"})
-     }
-   }
+    }
+  } catch (error) {
+   res.json({message:"Error"})
+  }
 
 }
 

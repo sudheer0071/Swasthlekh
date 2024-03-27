@@ -2,8 +2,9 @@ import express,{Express, Request, Response, Router} from 'express';
 import {signinSchema,signUpSchema} from '../zodAuth';
 import { PrismaClient } from '@prisma/client'; 
 import { userAuth } from '../middleware';
-import { strict } from 'assert';
+import { strict } from 'assert';  
 import fs from 'fs'
+import multer from 'multer'
 import { NextApiRequest } from 'next';
 
 const jwt = require('jsonwebtoken')
@@ -23,10 +24,12 @@ route.get('/ts',(req:Request,res:Response)=>{
 
  
 route.post('/signup',async (req,res)=>{
-  const {username, password, firstname, lastname} = req.body
-  const zodVerfify = signUpSchema.safeParse(req.body)
-   
-  const alreadyExist = await prisma.user.findUnique({
+  try {
+    
+    const {username, password, firstname, lastname} = req.body
+    const zodVerfify = signUpSchema.safeParse(req.body)
+    
+    const alreadyExist = await prisma.user.findUnique({
     where:{username}
   })
   
@@ -46,36 +49,44 @@ route.post('/signup',async (req,res)=>{
   const token = jwt.sign({userId:user.id},secret)
   
   res.json({message:"User created successfully",token:token})
+} catch (error) {
+  return res.json({message:"Backend Route Error"})
+}
 })
 
 route.post('/signin',async (req:Request,res:Response)=>{ 
-  const {username, password} = req.body
-  const zodVerfify = signinSchema.safeParse(req.body)
-   
-  const exist = await prisma.user.findUnique({
-    where:{username}
-  })
-  const user = await prisma.user.findUnique({
-    where:{username,password}
-  })
-  
-  if (!zodVerfify.success) {
-    console.log(zodVerfify); 
-    return res.json({message:"make sure to add correct email"})
-  }
-  
-  if (!exist) {
-    return res.json({message:"User doesn't exist"})
-  }
-  
-  if (!user) {
-    return res.json({message:"Invalid Credentials"})
+  try {
+    const {username, password} = req.body
+    const zodVerfify = signinSchema.safeParse(req.body)
+    
+    const exist = await prisma.user.findUnique({
+      where:{username}
+    })
+    const user = await prisma.user.findUnique({
+      where:{username,password}
+    })
+     
+    if (!zodVerfify.success) {
+      console.log(zodVerfify); 
+      return res.json({message:"make sure to add correct email"})
+    }
+    
+    if (!exist) {
+      return res.json({message:"User doesn't exist"})
+    }
+    
+    if (!user) {
+      return res.json({message:"Invalid Credentials"})
   }
   
   console.log(exist);
-   
+  
   const token = jwt.sign({userId:user.id},secret) 
   res.json({message:"Fetching details...",token:token, firstname:user.firstname})
+  
+} catch (error) {
+  return res.json({message:"Backend is down",Error:error})
+  }
 })
 
 route.put('/',userAuth,async (req:Request,res)=>{
@@ -89,49 +100,93 @@ route.put('/',userAuth,async (req:Request,res)=>{
  res.json({message:"Details updated sucessfully!"}) 
 })
 
-route.post('/upload',userAuth, async(req:any,res:Response)=>{
+// initializing multer
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage})
+
+route.post('/upload',userAuth,upload.single('file'), async(req:any,res:Response)=>{
     // pdfs will be uploaded to this route
     try {
+      const filepath = 'testing' 
       
-      const filepath = 'src/test files/b.txt'
-      const filename = 'b.txt'
-      const data = fs.readFileSync(filepath)
+      if (!req.file) {
+        console.log("no file");
+        
+        return res.json({message:"File is not uploaded"})
+      }
+      const {originalname, buffer} = req.file      
+      console.log(req.file);
+      
+      console.log("filename: "+originalname);
       const already = await prisma.file.findUnique({
-        where:{filename:filename}
+        where:{filename:originalname}
       })
     if (already) {
       return res.json({message:"File already exist"})
     }
     else{ 
-      const resposne = await prisma.file.create({ 
-        data:{ 
-          filepath,
-          filename,
+      const resposne = await prisma.file.create({  
+        data:{  
+          filename:originalname,
           userId:req.userId,
-          mimettype:'application/pdf', 
-          encoding:'binary',
-          data:data
+          mimettype:req.file.mimetype,
+          encoding:req.file.encoding,
+          data:buffer
         }
       })
       console.log(res);
  
-      res.json({message:"Your pdf is added to database! ", data:{filename:resposne.filename,data:resposne.data}})
+      res.json({message:"Report is uploaded successfully! ", data:{filename:resposne.filename,data:resposne.data}})
 
 
     }
   } catch (error) {
     res.json({message:"No such file in the directory",Error:error})
+    console.log(error);
   }
 })
  
-route.get('/pdf',userAuth,async (req:any,res:Response)=>{
+route.post('/reports',userAuth,async(req:Request,res)=>{ 
+  try {
+    
+    const response = await prisma.user.findUnique({
+      where:{id:req.userId},
+      include:{
+        files:{
+          select:{
+            filename:true,
+            data:true
+          }
+        } 
+      }
+    })
+    if (response==null) { 
+      return res.json({message:'You have no files'})
+    }
+
+    if (response.files.length==0) {
+     return res.json({message:"You have no reports"})
+    }
+    console.log(response);
+    const filenames = response.files.map(file=>file.filename)
+    console.log(filenames);
+    
+    res.json({filename:filenames})
+  } catch (error) {
+    res.json({message:"No resports associated with username: "})
+  }
+})
+
+
+route.get('/pdf',userAuth,async (req:any,res:Response)=>{ 
+  
   const user = await prisma.user.findUnique({
     where:{id:req.userId},
     include:{
       files:{
         select:{
           filename:true,
-          data:true
+          data:true 
         }
       }
   }})

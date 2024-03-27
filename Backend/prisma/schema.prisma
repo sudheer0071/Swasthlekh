@@ -32,8 +32,7 @@ model Doctor {
 
 model File {
   id        Int    @id @default(autoincrement())
-  userId    String
-  filepath  String @unique 
+  userId    String 
   filename  String @unique
   mimettype String
   encoding  String
