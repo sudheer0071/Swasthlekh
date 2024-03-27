@@ -29,6 +29,16 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 } 
+
+#pdf-content{
+  height: 500px;
+  overflow: scroll;  
+}
+
+canvas.react-pdf__Page__canvas{
+  margin-bottom: 50px;
+}
+
 .popup {
   transform: translateY(-100%);
   opacity: 0;

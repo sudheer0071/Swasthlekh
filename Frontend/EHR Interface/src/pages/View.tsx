@@ -1,27 +1,125 @@
+import { useEffect, useState } from "react"
 import { Button } from "../components/Button"
 import { Heading } from "../components/Heading"
 import { InputBox } from "../components/InputBox"
+import axios from "axios"
+import { useRecoilState } from "recoil"
+import { wordss, typereffectt, currentindex } from '../atom'; 
+import { pdfjs } from 'react-pdf';
+import { PdfComp } from "../components/PdfComp"
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
+
+export function View() {
+  const [words, setWords] = useRecoilState(wordss);
+  const [typereffect, setTyperEffect] = useRecoilState(typereffectt)
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentindex)
+  const [input, setInput] = useState('')
+  const [popup, setPop] = useState('')
+  const [isOpen, setIsopen] = useState(false) 
+  const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
+  const [viewPdf,setViewpdf] = useState(true)  
+  const[pdfFile,setPeffile] = useState('')
+
+  useEffect(() => {
+    if (words.length == 0) {
+      setTyperEffect(' ')
+      return;
+    }
+    // let currentIndex = 0
+    const interval = setInterval(() => {
+      if (currentIndex < words.length) {
+        const nextword = words[currentIndex];
+        setTyperEffect((prev) => prev + "" + nextword)
+        setCurrentIndex((prev) => prev + 1)
+      } else {
+        clearInterval(interval)
+      }
+    }, 50);
+    return () => clearInterval(interval)
+  }, [words, currentIndex])
 
 
-export function View(){
+  const fetchResponse = async () => {
+    if (input=='') {
+      setTimeout(() => {
+        setIsopen(false)
+        setPop('')
+      }, 2000);
+      setIsopen(true),
+      setPop('Please type something first')
+    }
+    else{
+      const userMessage = input;
+  setChatHistory(prevChatHistory => [...prevChatHistory, { message: userMessage, sender: 'user' }]);
+      setIsopen(true)
+      setPop('Generating response..')
+      const res = await axios.post('http://127.0.0.1:5000/chat', { message: input })
+      const message = res.data.response
+      //  setTimeout(() => {
+      //    setIsopen(false)
+      //    setPop('')
+      //   }, 2000);
+      
+      console.log(message);
+      setWords(message)
+      setTyperEffect('')
+      setChatHistory(prevChatHistory => [...prevChatHistory, { message: message, sender: 'bot' }]);
+
+
+  // Add the response to the chat history
+  setChatHistory(prevChatHistory => [...prevChatHistory, message]);
+      setCurrentIndex(0)
+      setIsopen(false)
+      setViewpdf(false)
+      setInput('')
+      setPop('')
+    }
+
+  }
+ 
+ const showPdf = (pdf:string)=>{
+  window.open(`http://localhost:5173/${pdf}`,'_blank', 'noreferrer')
+  //  setPeffile(`http://localhost:5173/${pdf}`)
+ }
+
   return <div className="text-slate-600">
+    <div className="flex justify-center">
+      <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-300 p-2 h-11' : ''}  text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+    </div>
     <Heading text="This is view page"></Heading>
-    <div id="pdf-content" className="flex justify-center rounded-lg bg-slate-400 border w-full h-96 mt-8 text-white">
-        pdf conent
+    <div id="pdf-content" className="flex justify-center rounded-lg shadow-lg bg-slate-200 border w-full mt-8 text-white">
+       {viewPdf?(
+          <div>
+           <PdfComp />
+          <p> 
+          </p>
+        </div>
+       ):( 
+      <div className="flex shadow-xl rounded-lg bg-slate-400 p-2 w-full mx-7 mt-8 h-12">
+      <h3 className="flex font-semibold text-lg text-zinc-800">
+        {typereffect}
+      </h3>
+      </div>  
+       )}
     </div>
-    <div className="mt-7">
-      <h1>Suggestions</h1>
-    <div id="suggested Response" className="flex justify-center rounded-lg bg-slate-300 border w-full h-60 mt-8 text-white">
-        pdf conent
-    </div>
-    </div>
- <div className="flex justify-center px-9 mt-1">
-  <div className="w-full p-1 ml-7">
-      <InputBox label={''}/>
-  </div>
-  <div className="mt-1 w-24">
-      <Button onclick={''} loader={''} label={'Send'}></Button>
-  </div>
+    
+    <div id="inputss" className="flex justify-center mt-9 px-11">
+    
+      <div className=" ml-7 w-full ">
+        <InputBox placeholder={'Ask you query...'} label={''} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+          fetchResponse();
+        }
+      }} onChange={(e: any) => { setInput(e.target.value) }} value={input} />
+      
+      </div>
+      <div className="w-24 ml-2">
+        <Button onclick={fetchResponse} loader={''} label={'Send'}></Button>
+      </div>
     </div>
 
 

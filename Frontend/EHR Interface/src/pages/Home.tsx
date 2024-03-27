@@ -22,8 +22,7 @@ export function Home(){
     </div>
     <div id="new-features">
       <div className="flex justify-center h-96 rounded-lg bg-gradient-to-br from-blue-300 to-black  shadow-lg">
-        <p className="m-auto">New Features</p>
-        {/* Images or gifs goes here */}
+        <p className="m-auto">New Features</p> 
       </div>
     </div>
      <div id="report-section">
@@ -36,7 +35,7 @@ export function Home(){
        <div id="reports-list" className=" p-4 bg-zinc-400 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
           <Reports/>
        </div>
-       <div id="upload" className=" px-20 cursor-pointer mt-9">
+       <div id="upload" className="px-20 cursor-pointer mt-9">
         <Upload/>
        </div>
      </div>

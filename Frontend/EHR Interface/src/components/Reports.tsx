@@ -3,12 +3,11 @@ import { Button } from "./Button"
 import axios from "axios" 
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../config"
- 
+ import pdf from '../pdfs/DS-unit1 part2.pdf'
   
 export function Reports() {
   console.log(localStorage.getItem("TOKEN"));
   const [report, setReport] = useState<any>([]); 
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -60,8 +59,11 @@ function Reps({report}:any){
   <p className="flex text-slate-800 text-md">uploaded on: {report.date.split(' G')[0]}</p>
  </div>
 </div>
- <div className="flex flex-col justify-center h-full mr-2">
-  <Button loader={''} onclick={()=> {navigate('/view?id='+localStorage.getItem("TOKEN"))}} label={"Open"}></Button>
+ <div className="flex justify-center h-full mr-2 ml-4">
+  <Button loader={''} onclick={()=> {window.open(`http://localhost:5173/${pdf}`,'_blank', 'noreferrer')}} label={"View"}></Button>
+  <div className="flex px-3">
+  <Button loader={''} onclick={()=> {navigate('/view?id='+localStorage.getItem("TOKEN"))}} label={"Analyze"}></Button>
+  </div>
  </div>
 </div>
 }

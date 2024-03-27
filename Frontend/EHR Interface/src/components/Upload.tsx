@@ -37,7 +37,7 @@ export function Upload(){
             setIsopen(false)
             setPopup('')
             navigate('/home')
-            window.location.reload()
+            // window.location.reload()
           }, 3000);
           setIsopen(true)
           setPopup(json)
