@@ -10,8 +10,9 @@ import { backendDown, navState } from './atom'
 import { useRecoilState } from 'recoil'
 import { BACKEND_URL } from './config'
 import { HashLoader } from 'react-spinners' 
-import { Upload } from './pages/Upload' 
+import { Upload } from './components/Upload' 
 import { Home } from './pages/Home';
+import { View } from './pages/View';
 function App() {
   const [logged, setLogged] = useRecoilState(navState)
   
@@ -25,6 +26,7 @@ function App() {
           {/* <Route path='/backendDown' element={<BackendDown/>}></Route> */}
           {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
           <Route path='/mainpage' element={<Upload />}></Route> 
+          <Route path='/view' element={<View />}></Route> 
           <Route path='/home' element={<Home />}></Route> 
           <Route path='/signup' element={<Signup />}></Route> 
           {/* <Route path='/send' element={<SendMoney />}></Route> */}

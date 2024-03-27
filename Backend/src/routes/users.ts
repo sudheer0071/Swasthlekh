@@ -125,20 +125,23 @@ route.post('/upload',userAuth,upload.single('file'), async(req:any,res:Response)
       return res.json({message:"File already exist"})
     }
     else{ 
+      const date = new Date()
       const resposne = await prisma.file.create({  
-        data:{  
+        data:{ 
           filename:originalname,
           userId:req.userId,
           mimettype:req.file.mimetype,
           encoding:req.file.encoding,
-          data:buffer
+          data:buffer,
+          date:new Date(),
+          time:new Date()
         }
-      })
-      console.log(res);
- 
+      }) 
+      console.log("date: "+resposne.date.getDate()); 
+      console.log("time: "+resposne.date); 
+      
       res.json({message:"Report is uploaded successfully! ", data:{filename:resposne.filename,data:resposne.data}})
-
-
+ 
     }
   } catch (error) {
     res.json({message:"No such file in the directory",Error:error})
@@ -155,7 +158,8 @@ route.post('/reports',userAuth,async(req:Request,res)=>{
         files:{
           select:{
             filename:true,
-            data:true
+            data:true, 
+            date:true
           }
         } 
       }
@@ -166,12 +170,15 @@ route.post('/reports',userAuth,async(req:Request,res)=>{
 
     if (response.files.length==0) {
      return res.json({message:"You have no reports"})
-    }
-    console.log(response);
-    const filenames = response.files.map(file=>file.filename)
-    console.log(filenames);
+    } 
+    const files = response.files.map((file) => ({
+      filename: file.filename,
+      date: new Date(file.date).toString()// Assuming file.date is a Date object
+    }));
+    console.log(files);
     
-    res.json({filename:filenames})
+
+    res.json(files);
   } catch (error) {
     res.json({message:"No resports associated with username: "})
   }

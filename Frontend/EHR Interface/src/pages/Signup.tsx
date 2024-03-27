@@ -26,8 +26,10 @@ const navigate = useNavigate()
 
 return <div className="bg-slate-300 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
-  <div className="px-4 bg-white w-80 text-zinc-950 text-center rounded-lg h-max p-2"> 
-  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+  <div className="px-4 bg-white w-80 text-zinc-950 text-center rounded-lg h-max p-2">
+     
+  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
+  </div>
    <Heading text={"Sign up"}></Heading>
    <SubHeading text={"Enter your information to create an account"}></SubHeading>
  

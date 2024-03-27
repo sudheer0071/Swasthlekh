@@ -36,6 +36,8 @@ model File {
   filename  String @unique
   mimettype String
   encoding  String
-  data      Bytes
+  data      Bytes  
+  date      DateTime
+  time      DateTime
   users     User   @relation(fields: [userId], references: [id])
 }
