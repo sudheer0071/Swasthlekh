@@ -7,7 +7,8 @@ const express_1 = __importDefault(require("express"));
 const index_1 = require("./routes/index");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const hellop = 'sdf';
 // yaad rehne wala error
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
