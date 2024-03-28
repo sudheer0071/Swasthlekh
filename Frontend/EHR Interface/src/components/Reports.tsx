@@ -15,7 +15,7 @@ import { BACKEND_URL } from "../pages/config"
       async function fetchData() {
         try {
           const res = await axios.post(
-            `http://localhost:3000/api/v3/doctors/reports`,
+            `${BACKEND_URL}/api/v3/doctors/reports`,
             {username},
             {
               headers: {
@@ -45,7 +45,7 @@ import { BACKEND_URL } from "../pages/config"
       async function fetchData() {
         try {
           const res = await axios.post(
-            `http://localhost:3000/api/v3/users/reports`,
+            `${BACKEND_URL}/api/v3/users/reports`,
             {},
             {
               headers: {
@@ -93,7 +93,7 @@ function Reps({report,token,username}:any){
   var blog
   if (username) {
     const res = await axios.post(
-      `http://localhost:3000/api/v3/doctors/pdf`,
+      `${BACKEND_URL}/api/v3/doctors/pdf`,
       {
         filename:localStorage.getItem('viewFile'),
         username
@@ -113,7 +113,7 @@ function Reps({report,token,username}:any){
 
   else{
     const res = await axios.post(
-      `http://localhost:3000/api/v3/users/pdf`,
+      `${BACKEND_URL}/api/v3/users/pdf`,
       {filename:localStorage.getItem('viewFile')},
       {
         responseType:'blob',

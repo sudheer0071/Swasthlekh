@@ -14,7 +14,7 @@ declare module 'express' {
    const auth = req.headers.authorization 
    try {
   console.log(auth);
-  if (auth!=null) {
+  if (auth!=null) { 
     const token = auth.split(' ')[1]
     if (!auth || !auth.startsWith('Bearer ')) {
       return res.json({message:"Token error"})

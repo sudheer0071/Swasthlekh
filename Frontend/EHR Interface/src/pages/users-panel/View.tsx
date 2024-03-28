@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil"
 import { wordss, typereffectt, currentindex } from '../atom'; 
 import { pdfjs } from 'react-pdf';
 import { PdfComp } from "../../components/PdfComp"
+import { BACKEND_URL } from "../config"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -80,7 +81,7 @@ export function View() {
   useEffect(()=>{
     const viewdoc = async()=>{
       const res = await axios.post(
-        `http://localhost:3000/api/v3/users/pdf`,
+        `${BACKEND_URL}/api/v3/users/pdf`,
         {filename:localStorage.getItem('analyze')},
         {
           responseType:'blob',
