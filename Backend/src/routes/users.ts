@@ -6,6 +6,8 @@ import { strict } from 'assert';
 import fs from 'fs'
 import multer from 'multer'
 import { NextApiRequest } from 'next';
+import { Readable } from 'stream';
+import path from 'path';
 
 const jwt = require('jsonwebtoken')
 const route:Router  = express.Router()
@@ -124,8 +126,7 @@ route.post('/upload',userAuth,upload.single('file'), async(req:any,res:Response)
     if (already) {
       return res.json({message:"File already exist"})
     }
-    else{ 
-      const date = new Date()
+    else{  
       const resposne = await prisma.file.create({  
         data:{ 
           filename:originalname,
@@ -184,30 +185,65 @@ route.post('/reports',userAuth,async(req:Request,res)=>{
   }
 })
 
+ 
 
-route.get('/pdf',userAuth,async (req:any,res:Response)=>{ 
+route.post('/pdf', userAuth, async (req: any, res: Response) => {
+  const { filename } = req.body;
+  console.log(req.userId);
   
   const user = await prisma.user.findUnique({
-    where:{id:req.userId},
-    include:{
-      files:{
-        select:{
-          filename:true,
-          data:true 
+    where: { id:req.userId },
+    include: {
+      files: {
+        select: {
+          filename: true,
+          data: true
         }
       }
-  }})
-if (!user) {
-  return res.json({message:"User not found"})
-}
-  const pdf = user?.files.forEach((file)=>{
-    fs.writeFileSync(`${file.filename}.pdf`,Buffer.from(file.data))
-  })
-  console.log(pdf);
-  
-  res.json({pdf:pdf})
-  
-})
+    }
+  });
+
+  if (!user) {
+    return res.json({ message: "User not found" });
+  }
+
+  const downloadPath = 'src\\downloads';
+
+  if (!fs.existsSync(downloadPath)) {
+    fs.mkdirSync(downloadPath, { recursive: true });
+  }
+
+  const file = user.files.find((file) => file.filename === filename);
+
+  if (!file) {
+    return res.json({ message: "File doesn't exist in database" });
+  } else {
+    const filePath = path.join(downloadPath, filename);
+    fs.writeFileSync(filePath, Buffer.from(file.data));
+
+    // Read the file from disk
+    const stream = fs.createReadStream(filePath);
+    const stat = fs.statSync(filePath);
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+
+    const readableStream = new Readable({
+      read() {}
+    });
+
+    // Pipe the file contents to the response
+    stream.on('data', (chunk) => {
+      readableStream.push(chunk);
+    });
+    stream.on('end', () => {
+      readableStream.push(null);
+    });
+
+    readableStream.pipe(res);
+  }
+});
+
 
 route.get('/',userAuth) 
 export {route, secret} 

@@ -1,6 +1,6 @@
-import MySVG from "../components/MySvg"
-import { Reports } from "../components/Reports"
-import { Upload } from "../components/Upload"
+import MySVG from "../../components/MySvg"
+import { Reports } from "../../components/Reports"
+import { Upload } from "../../components/Upload"
 
 export function Home(){ 
   return <div>
@@ -32,8 +32,8 @@ export function Home(){
         </div>
        <h1 className="mt-10 p-3 my-5 text-zinc-700 font-semibold">Your past Reports</h1>
       </div>
-       <div id="reports-list" className=" p-4 bg-zinc-400 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
-          <Reports/>
+       <div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
+          <Reports token={localStorage.getItem('TOKEN')}/>
        </div>
        <div id="upload" className="px-20 cursor-pointer mt-9">
         <Upload/>

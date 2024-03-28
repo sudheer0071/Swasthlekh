@@ -4,7 +4,7 @@ import { FileUploader } from "react-drag-drop-files";
 import axios from "axios";
 import { useDropzone } from 'react-dropzone';
 const fileTypes = ["JPG", "PNG", "GIF"];
-import { BACKEND_URL } from "../config"
+import { BACKEND_URL } from "../pages/config"
 import { useNavigate } from "react-router-dom";
 import { Heading } from "./Heading";
 
@@ -36,8 +36,8 @@ export function Upload(){
           setTimeout(() => {
             setIsopen(false)
             setPopup('')
-            navigate('/home')
-            // window.location.reload()
+            navigate('/users/home')
+            window.location.reload()
           }, 3000);
           setIsopen(true)
           setPopup(json)
@@ -61,10 +61,11 @@ export function Upload(){
 
   return (
     <div className=""> 
+     <div className="flex justify-center">
        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium ml-14 text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+     </div>
       
       <div>
- 
     <div {...getRootProps()} className="flex justify-center bg-slate-200 shadow-md shadow-gray-500 p-3 rounded-lg w">
       <input {...getInputProps()} /> 
 

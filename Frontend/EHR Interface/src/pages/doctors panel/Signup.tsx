@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { BottomWarn } from "../components/BottomWarn"
-import { Button } from "../components/Button" 
+import { BottomWarn } from "../../components/BottomWarn"
+import { Button } from "../../components/Button" 
 
-import { Heading } from "../components/Heading"
-import { InputBox } from "../components/InputBox"
-import { SubHeading } from "../components/SubHeading"
+import { Heading } from "../../components/Heading"
+import { InputBox } from "../../components/InputBox"
+import { SubHeading } from "../../components/SubHeading"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../config"
@@ -26,9 +26,9 @@ const navigate = useNavigate()
 
 return <div className="bg-slate-300 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
-  <div className="px-4 bg-white w-80 text-zinc-950 text-center rounded-lg h-max p-2">
+  <div className="px-4 bg-white w-96 text-zinc-950 text-center rounded-lg h-max p-2">
      
-  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
+  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
   </div>
    <Heading text={"Sign up"}></Heading>
    <SubHeading text={"Enter your information to create an account"}></SubHeading>
@@ -38,7 +38,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
    <InputBox placeholder={"Enter Email"} value={username} onChange={(e:any)=>{setUsername(e.target.value)}}  label={"Email"}></InputBox>
    <InputBox password={true} placeholder={"Password name"} value={password} onChange={(e:any)=>{setPassword(e.target.value)}}  label={"Password"}></InputBox>
 
-   <Button onclick={async ()=>{
+   <Button height={12} onclick={async ()=>{
      
      if (firstname==''||lastname==''||password==''||username=='') { 
        console.log('ssssffs');
@@ -51,9 +51,9 @@ return <div className="bg-slate-300 h-screen flex justify-center">
       }
       else{
         try {
-          http://localhost:5000/api/v3/users/signup
+          http://localhost:5000/api/v3/doctors/signup
           setLoader('signup')
-          const res = await axios.post(`${BACKEND_URL}/api/v3/users/signup`,
+          const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/signup`,
       {
         firstname, lastname, username, password
        })
@@ -69,10 +69,10 @@ return <div className="bg-slate-300 h-screen flex justify-center">
             setLoader('')
             setPopup('')
             setLogged(true)
-            navigate('/mainpage')
+            navigate('/doctors/home')
           }, 3000);
-          localStorage.setItem("TOKEN", res.data.token)
-          localStorage.setItem('firstname',firstname)
+          localStorage.setItem("docToken", res.data.token)
+          localStorage.setItem('docFirstname',firstname)
           setIsopen(true)
           setPopup(json)
           console.log(res.data.token);
@@ -90,7 +90,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
       } catch (error) {
        setTimeout(() => {
         setIsbackDown(true)
-        navigate('/backendDown')
+        navigate('/doctors/backendDown')
         console.log("inside sighup catch")
        }, 3500);
     }
@@ -98,7 +98,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
     }
      
    }} loader={loader} label={"Sign up"}></Button> 
-    <BottomWarn label={"Already have an account?"} link={"/signin"} linktext={"Sign In"}></BottomWarn>
+    <BottomWarn label={"Already have an account?"} link={"/doctors/signin"} linktext={"Sign In"}></BottomWarn>
     </div> 
 </div>
   </div>

@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { BottomWarn } from "../components/BottomWarn"
-import { Button } from "../components/Button"
-import { Heading } from "../components/Heading"
-import { InputBox } from "../components/InputBox"
-import { SubHeading } from "../components/SubHeading"
+import { BottomWarn } from "../../components/BottomWarn"
+import { Button } from "../../components/Button"
+import { Heading } from "../../components/Heading"
+import { InputBox } from "../../components/InputBox"
+import { SubHeading } from "../../components/SubHeading"
 import axios from 'axios'
 import {useNavigate } from "react-router-dom"
 import { load, navState } from "../atom"
@@ -24,14 +24,14 @@ export function  Signin(){
 
   return <div className="bg-gray-500 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
-  <div className="px-4 bg-white w-80 text-zinc-950 text-center rounded-lg h-max p-2"> 
+  <div className="px-4 bg-white w-96 text-zinc-950 text-center rounded-lg h-max p-2"> 
   <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('exist')||popup.includes('Invalid')||popup.includes('email')||popup.includes('down')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
    <Heading text={"Sign in"}></Heading>
    <SubHeading text={"Enter your information to access an account"}></SubHeading>
  
    <InputBox empty={emptyEmail} placeholder={"Enter Email"} value={username} onChange={(e:any)=>{setUsername(e.target.value)}}  label={"Email"}></InputBox>
    <InputBox empty={emptyPass} password={true} placeholder={"Enter Password"} value={password} onChange={(e:any)=>{setPassword(e.target.value)}}  label={"Password"}></InputBox>
-   <Button  onclick={async ()=>{
+   <Button height={12} onclick={async ()=>{
      
      if (password==''||username=='') {  
        setTimeout(() => { 
@@ -59,7 +59,7 @@ export function  Signin(){
               setPopup('')
               setLoader('')
               setLogged(true)
-              navigate('/mainpage')
+              navigate('/users/home')
             }, 3000);
             setIsopen(true)
           setPopup(json)
@@ -79,7 +79,7 @@ export function  Signin(){
         }
      
    }}label={"Sign in"} loader={loader}></Button>
-   <BottomWarn label={"No Accout?"} link={"/signup"} linktext={"Sign up"}></BottomWarn>
+   <BottomWarn label={"No Accout?"} link={"/users/signup"} linktext={"Sign up"}></BottomWarn>
     </div> 
 </div>
   </div>

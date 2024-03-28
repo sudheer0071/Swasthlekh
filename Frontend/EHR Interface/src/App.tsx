@@ -1,18 +1,17 @@
 import { BrowserRouter, Routes, Route, redirect, Navigate, useNavigate, Router, useNavigation } from 'react-router-dom'
-import { Signin } from './pages/Signin'
-import { Signup } from './pages/Signup'
+import { Signin } from './pages/users-panel/Signin'
+import { Signup } from './pages/users-panel/Signup'
 // import { Dashboard } from './pages/Dashboard'
 // import { SendMoney } from './pages/SendMony'
 import axios from 'axios'
 import "./App.css";
 import { useEffect, useState } from 'react'
-import { backendDown, navState } from './atom'
-import { useRecoilState } from 'recoil'
-import { BACKEND_URL } from './config'
-import { HashLoader } from 'react-spinners' 
-import { Upload } from './components/Upload' 
-import { Home } from './pages/Home';
-import { View } from './pages/View';
+import { backendDown, navState } from './pages/atom'
+import { useRecoilState } from 'recoil'  
+import  Users  from './pages/users-panel/Users';
+import Doctor from './pages/doctors panel/doctor-panel';
+
+
 function App() {
   const [logged, setLogged] = useRecoilState(navState)
   
@@ -21,16 +20,14 @@ function App() {
 
   return (
     <div>
+          {/* <PdfComp/> */} 
       <BrowserRouter>
         <Routes>
           {/* <Route path='/backendDown' element={<BackendDown/>}></Route> */}
-          {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
-          <Route path='/mainpage' element={<Upload />}></Route> 
-          <Route path='/view' element={<View />}></Route> 
-          <Route path='/home' element={<Home />}></Route> 
-          <Route path='/signup' element={<Signup />}></Route> 
-          {/* <Route path='/send' element={<SendMoney />}></Route> */}
-          <Route path='/signin' element={<Signin />}></Route>
+          {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */} 
+          <Route path='/users//*' element={<Users />}></Route>
+          <Route path='doctors//*' element={<Doctor />}></Route>
+          
           {/* <Route path='/dashboard' element={isbackendDown?<BackendDown/>:logged ? <Dashboard /> : <Navigate to='/signin' />}></Route> */}
         </Routes>
       </BrowserRouter>

@@ -68,7 +68,7 @@ route1.post('/signin',async (req:Request,res:Response)=>{
   console.log(exist);
    
   const token = jwt.sign({userId:user.id},secret) 
-  res.json({message:"Fetching details...",token:token})
+  res.json({message:"Fetching details...",token:token,firstname:user.firstname})
 })
 
 route1.post('/reports',userAuth,async(req,res)=>{

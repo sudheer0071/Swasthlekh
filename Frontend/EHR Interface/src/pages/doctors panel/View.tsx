@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { Button } from "../components/Button"
-import { Heading } from "../components/Heading"
-import { InputBox } from "../components/InputBox"
+import { Button } from "../../components/Button"
+import { Heading } from "../../components/Heading"
+import { InputBox } from "../../components/InputBox"
 import axios from "axios"
 import { useRecoilState } from "recoil"
 import { wordss, typereffectt, currentindex } from '../atom'; 
 import { pdfjs } from 'react-pdf';
-import { PdfComp } from "../components/PdfComp"
+import { PdfComp } from "../../components/PdfComp"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -23,6 +23,8 @@ export function View() {
   const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
   const [viewPdf,setViewpdf] = useState(true)  
   const[pdfFile,setPeffile] = useState('')
+  const[filename,setFilename] = useState('')
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     if (words.length == 0) {
@@ -41,7 +43,6 @@ export function View() {
     }, 50);
     return () => clearInterval(interval)
   }, [words, currentIndex])
-
 
   const fetchResponse = async () => {
     if (input=='') {
@@ -66,12 +67,7 @@ export function View() {
       
       console.log(message);
       setWords(message)
-      setTyperEffect('')
-      setChatHistory(prevChatHistory => [...prevChatHistory, { message: message, sender: 'bot' }]);
-
-
-  // Add the response to the chat history
-  setChatHistory(prevChatHistory => [...prevChatHistory, message]);
+      setTyperEffect('') 
       setCurrentIndex(0)
       setIsopen(false)
       setViewpdf(false)
@@ -80,11 +76,32 @@ export function View() {
     }
 
   }
+
+  useEffect(()=>{
+    const viewdoc = async()=>{
+      const res = await axios.post(
+        `http://localhost:3000/api/v3/users/pdf`,
+        {filename:localStorage.getItem('filename')},
+        {
+          responseType:'blob',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('TOKEN')
+          }
+        }
+      );
+      const blog = URL.createObjectURL(res.data); 
+       setContent(blog)
+    }
+    viewdoc()
+  },[filename])
+
  
  const showPdf = (pdf:string)=>{
   window.open(`http://localhost:5173/${pdf}`,'_blank', 'noreferrer')
   //  setPeffile(`http://localhost:5173/${pdf}`)
  }
+
 
   return <div className="text-slate-600">
     <div className="flex justify-center">
@@ -94,7 +111,7 @@ export function View() {
     <div id="pdf-content" className="flex justify-center rounded-lg shadow-lg bg-slate-200 border w-full mt-8 text-white">
        {viewPdf?(
           <div>
-           <PdfComp />
+           <PdfComp content={content} />
           <p> 
           </p>
         </div>
@@ -118,7 +135,7 @@ export function View() {
       
       </div>
       <div className="w-24 ml-2">
-        <Button onclick={fetchResponse} loader={''} label={'Send'}></Button>
+        <Button height={12} onclick={fetchResponse} loader={''} label={'Send'}></Button>
       </div>
     </div>
 
