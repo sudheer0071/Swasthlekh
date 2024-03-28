@@ -58,7 +58,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
         firstname, lastname, username, password
        })
        const json = res.data.message 
-       if (json.includes('sucessfully')) {
+       if (json.includes('successfully')) { 
         
           setTimeout(() => { 
             setIsopen(false)

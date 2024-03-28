@@ -5,10 +5,13 @@ import { userAuth } from '../middleware';
 import { strict } from 'assert';
 import fs from 'fs'
 import path from 'path';
+import { Readable } from 'stream';
+
 
 const jwt = require('jsonwebtoken')
 const route1:Router  = express.Router()
 const prisma = new PrismaClient()
+
 
 const secret = '1234hjkl'
 route1.get('/doc',(req:Request,res:Response)=>{
@@ -71,17 +74,20 @@ route1.post('/signin',async (req:Request,res:Response)=>{
   res.json({message:"Fetching details...",token:token,firstname:user.firstname})
 })
 
-route1.post('/reports',userAuth,async(req,res)=>{
-  try {
+route1.post('/reports',userAuth,async(req:Request,res)=>{
+  try {    
     
     const {username} =  req.body
+    console.log("patients id: "+username.username);
+    
     const response = await prisma.user.findUnique({
       where:{username},
       include:{
         files:{
           select:{
             filename:true,
-            data:true
+            data:true,
+            date:true
           }
         }
       }
@@ -94,53 +100,76 @@ route1.post('/reports',userAuth,async(req,res)=>{
      return res.json({message:"No resports associated with username: "+username})
     }
     console.log(response);
-    res.json({filename:response?.files})
-  } catch (error) {
+    const files = response.files.map((file) => ({
+      filename: file.filename,
+      date: new Date(file.date).toString()// Assuming file.date is a Date object
+    }));
+    res.json(files) 
+  } catch (error) { 
     res.json({message:"No resports associated with username: "+req.body})
   }
 })
+   
 
-
-route1.get('/pdf',userAuth,async (req:any,res:Response)=>{
-  const {username,filename} = req.body 
-  console.log(username);
+route1.post('/pdf', userAuth, async (req: any, res: Response) => {
+  const { filename, username } = req.body;
+  console.log("userid: "+req.userId);
   
   const user = await prisma.user.findUnique({
-    where:{username},
-    include:{
-      files:{
-        select:{
-          filename:true,
-          data:true
-        } 
+    where: { username},
+    include: {
+      files: {
+        select: {
+          filename: true,
+          data: true
+        }
       }
-  }})
-if (!user) {
-  return res.json({message:"User not found"})
-}
-const downloadPath = 'src\\downloads'
+    }
+  });
 
-if (!fs.existsSync(downloadPath)) {
-  fs.mkdirSync(downloadPath, { recursive: true }); 
-}
+  if (!user) {
+    return res.json({ message: "User not found" });
+  }
 
-const fileExist = await prisma.file.findUnique({where:{filename}})
+  const downloadPath = 'src\\downloads';
 
-if (!fileExist) {
-  return res.json({message:"File doesn't exist in database"})
-}
-else{
-  const pdf =  user.files.filter((file)=>{
-    const filePath = path.join(downloadPath, filename); 
-    if (file.filename==filename) {
-      fs.writeFileSync(filePath, Buffer.from(file.data)); 
-      } 
-    })
-    // res.send(fs.writeFileSync())
-    console.log(pdf);
+  if (!fs.existsSync(downloadPath)) {
+    fs.mkdirSync(downloadPath, { recursive: true });
+  }
+  
+  
+  const file = user.files.find((file) => file.filename === filename);
+
+  if (!file) {
+    return res.json({ message: "File doesn't exist in database" });
+  } else {
+    console.log("inside the fileee");
     
-    res.json({message:"file downloaded successfully!",pdf:pdf})
-}
-}) 
+    const filePath = path.join(downloadPath, filename);
+    fs.writeFileSync(filePath, Buffer.from(file.data));
+
+    // Read the file from disk
+    const stream = fs.createReadStream(filePath);
+    const stat = fs.statSync(filePath);
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+
+    const readableStream = new Readable({
+      read() {}
+    });
+
+    // Pipe the file contents to the response
+    stream.on('data', (chunk) => {
+      readableStream.push(chunk);
+    });
+    stream.on('end', () => {
+      readableStream.push(null);
+    });
+
+    readableStream.pipe(res);
+  }
+});
+
 
 export {route1}

@@ -81,7 +81,7 @@ export function View() {
     const viewdoc = async()=>{
       const res = await axios.post(
         `http://localhost:3000/api/v3/users/pdf`,
-        {filename:localStorage.getItem('filename')},
+        {filename:localStorage.getItem('analyze')},
         {
           responseType:'blob',
           headers: {

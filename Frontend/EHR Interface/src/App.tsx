@@ -24,7 +24,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path='/backendDown' element={<BackendDown/>}></Route> */}
-          {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */} 
+          {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route>  */}
           <Route path='/users//*' element={<Users />}></Route>
           <Route path='doctors//*' element={<Doctor />}></Route>
           

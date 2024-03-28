@@ -3,38 +3,73 @@ import { Button } from "./Button"
 import axios from "axios" 
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../pages/config" 
- export function Reports({token}:any) {
+ export function Reports({token,username}:any) {
   // console.log(localStorage.getItem("TOKEN"));
   const [report, setReport] = useState<any>([]);
   const initialRender = useRef(true); 
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.post(
-          `http://localhost:3000/api/v3/users/reports`,
-          {},
-          {
-            headers: {
-              'Content-Type': 'application/pdf',
-              'Authorization': 'Bearer ' + token
-            }
-          }
-        );
-        const allReports = res.data;
-        console.log("date: " + res.data);
+  if (username) {
+  console.log("inside usernamee");
 
-        if (!initialRender.current && allReports.length > report.length) {
-          setReport(allReports);
-        } else {
-          initialRender.current = false;
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const res = await axios.post(
+            `http://localhost:3000/api/v3/doctors/reports`,
+            {username},
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+              }
+            }
+          );
+          const allReports = res.data;
+          console.log("date: " + res.data);
+  
+          if (!initialRender.current && allReports.length > report.length) {
+            setReport(allReports);
+          } else {
+            initialRender.current = false;
+          }
+        } catch (error) {
+          console.error('Error fetching reports:', error);
         }
-      } catch (error) {
-        console.error('Error fetching reports:', error);
       }
-    }
-    fetchData();
-  }, []);
+      fetchData();
+    }, []);
+  }
+  
+  else{
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const res = await axios.post(
+            `http://localhost:3000/api/v3/users/reports`,
+            {},
+            {
+              headers: {
+                'Content-Type': 'application/pdf',
+                'Authorization': 'Bearer ' + token
+              }
+            }
+          );
+          const allReports = res.data;
+          console.log("date: " + res.data);
+  
+          if (!initialRender.current && allReports.length > report.length) {
+            setReport(allReports);
+          } else {
+            initialRender.current = false;
+          }
+        } catch (error) {
+          console.error('Error fetching reports:', error);
+        }
+      }
+      fetchData();
+    }, []);
+  }
+
  
 
   console.log(report);
@@ -42,35 +77,60 @@ import { BACKEND_URL } from "../pages/config"
   return (
     <div>
       <div className="my-2">
-        {report.map((report: any, index: any) => <Reps token={token} key={index} report={report}></Reps>)}
+        {report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report}></Reps>)}
       </div>
     </div>
   )
 }
 
 
-function Reps({report,token}:any){
+function Reps({report,token,username}:any){
   
   const [content,setContent] = useState('')
+ 
 
-  useEffect(()=>{
-    const viewdoc = async()=>{
-      const res = await axios.post(
-        `http://localhost:3000/api/v3/users/pdf`,
-        {filename:localStorage.getItem('filename')},
-        {
-          responseType:'blob',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          }
+ async function viewdoc(){
+  var blog
+  if (username) {
+    const res = await axios.post(
+      `http://localhost:3000/api/v3/doctors/pdf`,
+      {
+        filename:localStorage.getItem('viewFile'),
+        username
+    },
+      {
+        responseType:'blob',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
         }
-      );
-      const blog = URL.createObjectURL(res.data); 
-       setContent(blog)
-    }
-    viewdoc()
-  },[''])
+      }
+    );
+    console.log("inside viewDoc: ");
+    
+      blog = URL.createObjectURL(res.data); 
+  }
+
+  else{
+    const res = await axios.post(
+      `http://localhost:3000/api/v3/users/pdf`,
+      {filename:localStorage.getItem('viewFile')},
+      {
+        responseType:'blob',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    );
+    console.log("inside viewDoc: ");
+    
+      blog = URL.createObjectURL(res.data); 
+  }
+  setContent(blog)
+    window.open(`${blog}`,'_blank', 'noreferrer')
+    }  
+
   const navigate = useNavigate()
 
   return  <div id="reports" className="flex justify-between shadow-md shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400">
@@ -86,13 +146,22 @@ function Reps({report,token}:any){
  </div>
 </div>
  <div className="flex justify-center h-full mr-2 ml-4">
-  <Button height={11} loader={''} onclick={()=> {window.open(`${content}`,'_blank', 'noreferrer')}} label={"View"}></Button>
+  <Button height={11} loader={''} onclick={()=> {
+    localStorage.setItem('viewFile',report.filename)
+    viewdoc()
+    // window.open(`${content}`,'_blank', 'noreferrer')
+    }} label={"View"}></Button>
+
   <div className="flex px-3">
-  <Button height={11} loader={''} onclick={ ()=> {
-    const filename = localStorage.setItem('filename',report.filename)
+  <Button height={11} loader={''} onclick={ ()=> {  
+    const filename = localStorage.setItem('analyze',report.filename)
     console.log(filename);
-    
-    navigate('/users/view?id='+token);
+    if (username) {
+      localStorage.setItem('userName',username)
+      navigate('/doctors/view?id='+token);
+    }else{
+      navigate('/users/view?id='+token);
+    }
   }
     } label={"Analyze"}></Button>
   </div>

@@ -13,6 +13,8 @@ import { HashLoader } from 'react-spinners'
 import { Home } from './Home';
 import { View } from './View'; 
 import { Upload } from '../../components/Upload';
+import { Logs } from './Logs'
+
 
 function Users() {
   const [logged, setLogged] = useRecoilState(navState)
@@ -23,10 +25,11 @@ function Users() {
   return (
     <div>
           {/* <PdfComp/> */}   
-        <Routes>
+        <Routes> 
           {/* <Route path='/backendDown' element={<BackendDown/>}></Route> */}
           {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
           <Route path='/mainpage' element={<Upload />}></Route> 
+          <Route path='/logs' element={<Logs />}></Route> 
           <Route path='/view' element={<View />}></Route> 
           <Route path='/home' element={<Home />}></Route> 
           <Route path='/signup' element={<Signup />}></Route> 

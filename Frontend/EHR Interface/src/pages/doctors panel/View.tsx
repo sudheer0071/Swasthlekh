@@ -80,13 +80,16 @@ export function View() {
   useEffect(()=>{
     const viewdoc = async()=>{
       const res = await axios.post(
-        `http://localhost:3000/api/v3/users/pdf`,
-        {filename:localStorage.getItem('filename')},
+        `http://localhost:3000/api/v3/doctors/pdf`,
+        {
+          filename:localStorage.getItem('analyze'),
+          username:localStorage.getItem('userName')
+      },
         {
           responseType:'blob',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('TOKEN')
+            'Authorization': 'Bearer ' + localStorage.getItem('docToken')
           }
         }
       );
