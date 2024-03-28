@@ -3,7 +3,8 @@ import {router} from "./routes/index"
 import cors from 'cors';
 const app:Express = express() 
  
-const PORT = 3000 
+const PORT =  process.env.PORT || 8080
+
 // yaad rehne wala error
 app.use(cors())
 app.use(express.json())
