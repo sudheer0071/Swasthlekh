@@ -2,13 +2,13 @@
   "name": "ehr-backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": { 
-        "postinstall": "prisma generate", 
+  "scripts": {
+    "postinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/index.js",
     "build:azure": "env NODE_ENV=production npm biuld",
-    "dev":"node dist/index.js"
+    "dev": "node dist/index.js"
   },
   "pre-commit": [
     "ts.check",
@@ -40,6 +40,7 @@
     "multer": "^1.4.5-lts.1",
     "next": "^14.1.4",
     "nodemon": "^3.1.0",
+    "react-dom": "^18.2.0",
     "zod": "^3.22.4"
   },
   "description": ""
