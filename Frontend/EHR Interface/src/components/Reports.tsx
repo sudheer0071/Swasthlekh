@@ -10,21 +10,23 @@ import { BACKEND_URL } from "../pages/config"
   const [zero,setZero] = useState(false)
   
  
-  useEffect(()=>{
-    async function fetchData() {
-      try {
-            console.log("inside main fetch 1");
+  if (username) {
+    console.log("inside usernamee");
+  
+      useEffect(() => {
+        async function fetchData() {
+          try {
             const res = await axios.post(
-              `${BACKEND_URL}/api/v3/users/reports`,
-              {},
+              `${BACKEND_URL}/api/v3/doctors/reports`,
+              {username},
               {
                 headers: {
-                  'Content-Type': 'application/pdf',
+                  'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' + token
                 }
-              } 
+              }
             );
-            const allReports = res.data
+            const allReports = res.data;
             console.log((allReports.files));
             if (allReports.message.includes("no")) {
               setZero(true)
@@ -32,15 +34,52 @@ import { BACKEND_URL } from "../pages/config"
             console.log("date: " + res.data.files);
             console.log("executed main fetch 1"); 
             setReport(allReports.files)
+    
+            // if (!initialRender.current && allReports.length > report.length) {
+            //   setReport(allReports);
+            // } else {
+            //   initialRender.current = false;
+            // }
           } catch (error) {
             console.error('Error fetching reports:', error);
           }
         }
-        
         fetchData();
-  },[])
- 
-
+      }, []);
+    }
+    
+  else{
+    useEffect(()=>{
+      async function fetchData() {
+        try {
+              console.log("inside main fetch 1");
+              const res = await axios.post(
+                `${BACKEND_URL}/api/v3/users/reports`,
+                {},
+                {
+                  headers: {
+                    'Content-Type': 'application/pdf',
+                    'Authorization': 'Bearer ' + token
+                  }
+                } 
+              );
+              const allReports = res.data
+              console.log((allReports.files));
+              if (allReports.message.includes("no")) {
+                setZero(true)
+              }
+              console.log("date: " + res.data.files);
+              console.log("executed main fetch 1"); 
+              setReport(allReports.files)
+            } catch (error) {
+              console.error('Error fetching reports:', error);
+            }
+          }
+          
+          fetchData();
+    },[])
+   
+  }  
  
 
   console.log(report);
@@ -48,7 +87,7 @@ import { BACKEND_URL } from "../pages/config"
   return (
     <div>
          <div className="my-2">
-        <h3 className="text-slate-700">list of users</h3>
+        {/* <h3 className="text-slate-700">list of users</h3> */}
         {zero ? <div>
           <h1 className="flex justify-center text-slate-600 mt-10">Add your reports </h1>
         </div> : 
@@ -125,8 +164,7 @@ function Reps({report,token,username}:any){
   </div>
   <p id="date-text" className="flex text-slate-400 group-hover:text-slate-500">Uploaded on: {report.date.split(' G')[0]}</p>
  </div>
-</div>
-{'dsfd'}
+</div> 
  <div className="flex justify-center h-full mr-2 ml-4">
   <Button height={11} loader={''} onclick={()=> {
     localStorage.setItem('viewFile',report.filename)

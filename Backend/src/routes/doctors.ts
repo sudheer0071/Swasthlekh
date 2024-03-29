@@ -104,7 +104,7 @@ route1.post('/reports',userAuth,async(req:Request,res)=>{
       filename: file.filename,
       date: new Date(file.date).toString()// Assuming file.date is a Date object
     }));
-    res.json(files) 
+    res.json({message:"showing reports", files:files});
   } catch (error) { 
     res.json({message:"No resports associated with username: "+req.body})
   }
