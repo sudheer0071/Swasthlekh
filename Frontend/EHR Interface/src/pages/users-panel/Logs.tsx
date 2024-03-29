@@ -30,7 +30,9 @@ export function Logs(){
      <div id="report-section">
       
        <div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
-          <Reports />
+ 
+          {/* <Reports /> */}
+          
        </div>
       
      </div>
