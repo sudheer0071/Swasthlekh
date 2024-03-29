@@ -12,6 +12,6 @@ exports.router = router;
 router.use('/users', route);
 router.use('/doctors', route1);
 router.get('/', (req, res) => {
-    res.send("backend is working fine for index.js route inside routes folder");
+    res.send("backend is working fine for index.js route inside routes folders");
 });
 //# sourceMappingURL=index.js.map
