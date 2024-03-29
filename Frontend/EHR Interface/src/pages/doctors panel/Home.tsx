@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import MySVG from "../../components/MySvg"
-import { Reports } from "../../components/Reports"
-import { Upload } from "../../components/Upload"
+import { Reports } from "../../components/Reports" 
 import { Button } from "../../components/Button"
 import { InputBox } from "../../components/InputBox"
-import { BACKEND_URL } from "../config"
-import axios from "axios"
+// import { BACKEND_URL } from "../config"
+// import axios from "axios"
 
 
 export function Home(){ 
   const [input, setInput] = useState('')
   const [search,setSearch] = useState(false)
  
-    const fetchData = ()=>{
-      setInput(input)
-    }
-  
+ 
 
   return <div>
     <div className="flex flex-col">

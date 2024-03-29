@@ -1,12 +1,12 @@
  
-type props = {
-  placeholder:string,
-  label:string,
-  onChange:any,
-  password:string,
-  value:string,
-  empty:boolean
-}
+// type props = {
+//   placeholder:string,
+//   label:string,
+//   onChange:any,
+//   password:string,
+//   value:string,
+//   empty:boolean, 
+// }
 
 export function InputBox({onKeyPress, placeholder, label, onChange, password, value, empty}:any){       
   return <div> 

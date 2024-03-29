@@ -8,7 +8,7 @@ import { SubHeading } from "../../components/SubHeading"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../config"
-import { backendDown, load, navState } from "../atom"
+import { load, navState } from "../atom"
 import { useRecoilState } from "recoil" 
   
 
@@ -21,8 +21,9 @@ const [popup, setPopup] = useState("")
 const [isOpen, setIsopen] = useState(false)
 const [logged, setLogged] = useRecoilState(navState)
 const [loader, setLoader] = useRecoilState(load)
-const [isbackendDown, setIsbackDown] = useRecoilState(backendDown)
+// const [isbackendDown, setIsbackDown] = useRecoilState(backendDown)
 const navigate = useNavigate()
+console.log(logged);
 
 return <div className="bg-slate-300 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
@@ -88,7 +89,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
         }
       } catch (error) {
        setTimeout(() => {
-        setIsbackDown(true)
+        // setIsbackDown(true)
         navigate('/doctors/backendDown')
         console.log("inside sighup catch")
        }, 3500);

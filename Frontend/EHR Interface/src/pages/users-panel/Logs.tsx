@@ -1,6 +1,5 @@
 import MySVG from "../../components/MySvg"
-import { Reports } from "../../components/Reports"
-import { Upload } from "../../components/Upload"
+import { Reports } from "../../components/Reports" 
 
 export function Logs(){ 
   return <div>

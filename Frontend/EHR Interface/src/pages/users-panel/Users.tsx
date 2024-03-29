@@ -1,14 +1,11 @@
-import { BrowserRouter, Routes, Route, redirect, Navigate, useNavigate, Router, useNavigation } from 'react-router-dom'
+import { Routes, Route  } from 'react-router-dom'
 import { Signin } from './Signin'
 import { Signup } from './Signup'
 // import { Dashboard } from './pages/Dashboard'
-// import { SendMoney } from './pages/SendMony'
-import axios from 'axios' 
-import { useEffect, useState } from 'react'
-import { backendDown, navState } from '../atom'
-import { useRecoilState } from 'recoil'
-import { BACKEND_URL } from '../config'
-import { HashLoader } from 'react-spinners'  
+// import { SendMoney } from './pages/SendMony' 
+// import {  useState } from 'react'
+// import { backendDown, navState } from '../atom'
+// import { useRecoilState } from 'recoil' 
 
 import { Home } from './Home';
 import { View } from './View'; 
@@ -17,10 +14,10 @@ import { Logs } from './Logs'
 
 
 function Users() {
-  const [logged, setLogged] = useRecoilState(navState)
+  // const [logged, setLogged] = useRecoilState(navState)
   
-  const [isloading, setIsloading] = useState(true)
-  const [isbackendDown,setIsbackDown] = useRecoilState(backendDown) 
+  // const [isloading, setIsloading] = useState(true)
+  // const [isbackendDown,setIsbackDown] = useRecoilState(backendDown) 
 
   return (
     <div>

@@ -22,11 +22,13 @@ export function View() {
   const [popup, setPop] = useState('')
   const [isOpen, setIsopen] = useState(false) 
   const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
-  const [viewPdf,setViewpdf] = useState(true)  
-  const[pdfFile,setPeffile] = useState('')
+  const [viewPdf,setViewpdf] = useState(true)   
   const[filename,setFilename] = useState('')
   const [content, setContent] = useState('')
 
+
+  console.log(chatHistory,setFilename);
+  
   useEffect(() => {
     if (words.length == 0) {
       setTyperEffect(' ')
@@ -100,12 +102,7 @@ export function View() {
     viewdoc()
   },[filename])
 
- 
- const showPdf = (pdf:string)=>{
-  window.open(`http://localhost:5173/${pdf}`,'_blank', 'noreferrer')
-  //  setPeffile(`http://localhost:5173/${pdf}`)
- }
-
+  
 
   return <div className="text-slate-600">
     <div className="flex justify-center">

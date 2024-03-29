@@ -87,6 +87,7 @@ import { BACKEND_URL } from "../pages/config"
 function Reps({report,token,username}:any){
   
   const [content,setContent] = useState('')
+ console.log(content);
  
 
  async function viewdoc(){
