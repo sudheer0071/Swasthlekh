@@ -37,6 +37,7 @@ export function Home(){
           <Reports token={localStorage.getItem('TOKEN')}/>
        </div>
        <div id="upload" className="px-20 cursor-pointer mt-9">
+        
         <Upload/>
        </div>
      </div>

@@ -7,68 +7,39 @@ import { BACKEND_URL } from "../pages/config"
   // console.log(localStorage.getItem("TOKEN"));
   const [report, setReport] = useState<any>([]);
   const initialRender = useRef(true); 
-
-  if (username) {
-  console.log("inside usernamee");
-
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const res = await axios.post(
-            `${BACKEND_URL}/api/v3/doctors/reports`,
-            {username},
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-              }
+  const [zero,setZero] = useState(false)
+  
+ 
+  useEffect(()=>{
+    async function fetchData() {
+      try {
+            console.log("inside main fetch 1");
+            const res = await axios.post(
+              `${BACKEND_URL}/api/v3/users/reports`,
+              {},
+              {
+                headers: {
+                  'Content-Type': 'application/pdf',
+                  'Authorization': 'Bearer ' + token
+                }
+              } 
+            );
+            const allReports = res.data
+            console.log((allReports.files));
+            if (allReports.message.includes("no")) {
+              setZero(true)
             }
-          );
-          const allReports = res.data;
-          console.log("date: " + res.data);
-  
-          if (!initialRender.current && allReports.length > report.length) {
-            setReport(allReports);
-          } else {
-            initialRender.current = false;
+            console.log("date: " + res.data.files);
+            console.log("executed main fetch 1"); 
+            setReport(allReports.files)
+          } catch (error) {
+            console.error('Error fetching reports:', error);
           }
-        } catch (error) {
-          console.error('Error fetching reports:', error);
         }
-      }
-      fetchData();
-    }, []);
-  }
-  
-  else{
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const res = await axios.post(
-            `${BACKEND_URL}/api/v3/users/reports`,
-            {},
-            {
-              headers: {
-                'Content-Type': 'application/pdf',
-                'Authorization': 'Bearer ' + token
-              }
-            }
-          );
-          const allReports = res.data;
-          console.log("date: " + res.data);
-  
-          if (!initialRender.current && allReports.length > report.length) {
-            setReport(allReports);
-          } else {
-            initialRender.current = false;
-          }
-        } catch (error) {
-          console.error('Error fetching reports:', error);
-        }
-      }
-      fetchData();
-    }, []);
-  }
+        
+        fetchData();
+  },[])
+ 
 
  
 
@@ -76,8 +47,13 @@ import { BACKEND_URL } from "../pages/config"
 
   return (
     <div>
-      <div className="my-2">
-        {report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report}></Reps>)}
+         <div className="my-2">
+        <h3 className="text-slate-700">list of users</h3>
+        {zero ? <div>
+          <h1 className="flex justify-center text-slate-600 mt-10">Add your reports </h1>
+        </div> : 
+          report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report} />)
+        }
       </div>
     </div>
   )
@@ -86,6 +62,7 @@ import { BACKEND_URL } from "../pages/config"
 
 function Reps({report,token,username}:any){
   
+  {console.log("inside Report:")}
   const [content,setContent] = useState('')
  console.log(content);
  
@@ -113,6 +90,8 @@ function Reps({report,token,username}:any){
   }
 
   else{
+    console.log("inside main fetch 2");
+    
     const res = await axios.post(
       `${BACKEND_URL}/api/v3/users/pdf`,
       {filename:localStorage.getItem('viewFile')},
@@ -123,11 +102,12 @@ function Reps({report,token,username}:any){
           'Authorization': 'Bearer ' + token
         }
       }
-    );
-    console.log("inside viewDoc: ");
-    
+      );
+      console.log("inside viewDoc: ");
+      
       blog = URL.createObjectURL(res.data); 
-  }
+    }
+    console.log("Executed main fetch 2");
   setContent(blog)
     window.open(`${blog}`,'_blank', 'noreferrer')
     }  
@@ -146,6 +126,7 @@ function Reps({report,token,username}:any){
   <p id="date-text" className="flex text-slate-400 group-hover:text-slate-500">Uploaded on: {report.date.split(' G')[0]}</p>
  </div>
 </div>
+{'dsfd'}
  <div className="flex justify-center h-full mr-2 ml-4">
   <Button height={11} loader={''} onclick={()=> {
     localStorage.setItem('viewFile',report.filename)
