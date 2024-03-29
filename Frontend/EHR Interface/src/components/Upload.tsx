@@ -30,7 +30,7 @@ export function Upload(){
           setTimeout(() => {
             setIsopen(false)
             setPopup('')
-            navigate('/users/home')
+            // navigate('/users/home')
             window.location.reload()
           }, 3000);
           setIsopen(true)
