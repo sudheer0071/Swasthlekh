@@ -21,6 +21,8 @@ export function  Signin(){
 
   const navigate = useNavigate()
   
+  console.log(logged,setEmtpyemail,setEmtpypass);
+  
 
   return <div className="bg-gray-500 h-screen flex justify-center">
   <div className="flex flex-col justify-center">

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Document, Page } from 'react-pdf';
-import pdf from  '../pdfs/DS-unit1 part2.pdf'
+import { Document, Page } from 'react-pdf'; 
 import { Button } from './Button';
 
 function PdfComp({content}:any) {
@@ -19,6 +18,7 @@ function PdfComp({content}:any) {
   function zoomOut() {
     setScale(scale - 0.1);
   }
+console.log(setPageNumber);
 
   return (
     <div className='pdf p-10 flex flex-col justify-center items-center'>
@@ -39,7 +39,7 @@ function PdfComp({content}:any) {
       </div>
       <div className='pdf-container'>
         <Document file={content} onLoadSuccess={onDocumentLoadSuccess}>
-          {Array.from(new Array(numPages), (l, index) => (
+          {Array.from(new Array(numPages), (_, index) => (
             <Page key={`page_${index + 4}`} pageNumber={index + 1} scale={scale} renderTextLayer={false} renderAnnotationLayer={false} />
           ))}
         </Document>

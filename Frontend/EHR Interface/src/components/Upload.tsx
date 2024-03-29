@@ -1,16 +1,10 @@
-import { useCallback, useState } from "react";
-import { Button } from "./Button"
-import { FileUploader } from "react-drag-drop-files"; 
+import { useCallback, useState } from "react"; 
 import axios from "axios";
-import { useDropzone } from 'react-dropzone';
-const fileTypes = ["JPG", "PNG", "GIF"];
+import { useDropzone } from 'react-dropzone'; 
 import { BACKEND_URL } from "../pages/config"
-import { useNavigate } from "react-router-dom";
-import { Heading } from "./Heading";
+import { useNavigate } from "react-router-dom"; 
 
-export function Upload(){
-  
-  const [upload,setupload] = useState(false)
+export function Upload(){ 
   const [popup, setPopup] = useState("")
   const [isOpen, setIsopen] = useState(false)
    

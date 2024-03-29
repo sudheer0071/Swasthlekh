@@ -8,7 +8,7 @@ import { SubHeading } from "../../components/SubHeading"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../config"
-import { backendDown, load, navState } from "../atom"
+import { load,navState } from "../atom"
 import { useRecoilState } from "recoil" 
   
 
@@ -21,7 +21,7 @@ const [popup, setPopup] = useState("")
 const [isOpen, setIsopen] = useState(false)
 const [logged, setLogged] = useRecoilState(navState)
 const [loader, setLoader] = useRecoilState(load)
-const [isbackendDown, setIsbackDown] = useRecoilState(backendDown)
+// const [isbackendDown, setIsbackDown] = useRecoilState(backendDown)
 const navigate = useNavigate()
 
 return <div className="bg-slate-300 h-screen flex justify-center">
@@ -39,6 +39,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
    <InputBox password={true} placeholder={"Password name"} value={password} onChange={(e:any)=>{setPassword(e.target.value)}}  label={"Password"}></InputBox>
 
    <Button height={12} onclick={async ()=>{
+     console.log(logged);
      
      if (firstname==''||lastname==''||password==''||username=='') { 
        console.log('ssssffs');
@@ -89,7 +90,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
         }
       } catch (error) {
        setTimeout(() => {
-        setIsbackDown(true)
+        // setIsbackDown(true)
         navigate('/users/backendDown')
         console.log("inside sighup catch")
        }, 3500);
