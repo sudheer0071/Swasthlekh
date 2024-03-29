@@ -221,7 +221,7 @@ route.post('/reports', userAuth, async (req: Request, res) => {
     console.log(files);
 
 
-    res.json(files);
+    res.json({message:"showing reports", files:files});
   } catch (error) {
     res.json({ message: "No resports associated with username: " })
   }
