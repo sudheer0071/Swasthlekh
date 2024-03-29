@@ -9,7 +9,7 @@ router.use('/users',route)
 router.use('/doctors',route1)
 
 router.get('/',(req:Request, res:Response)=>{
-  res.send("backend is working fine for index.js route inside routes folder")
+  res.send("backend is working fine for index.js route inside routes folders")
 })
 export {router}  
 
