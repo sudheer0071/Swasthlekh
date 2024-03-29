@@ -6,10 +6,10 @@
     "postinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "build:azure": "env NODE_ENV=production npm biuld",
-    "dev": "node dist/index.js"
+    "start": "node dist/index.js", 
+    "dev": "tsc && node dist/index.js"
   },
+
   "pre-commit": [
     "ts.check",
     "build",
