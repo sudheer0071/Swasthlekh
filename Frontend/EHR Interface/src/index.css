@@ -100,7 +100,7 @@ h1 {
 #reports-list{
 
   --tw-bg-opacity: 1; 
-  border: 10px solid rgb(203 213 225 / var(--tw-bg-opacity));
+  border: 10px solid rgb rgb(219 234 254 / var(--tw-bg-opacity));
 }
 
 #reports-list::-webkit-scrollbar {

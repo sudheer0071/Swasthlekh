@@ -4,7 +4,7 @@ import { Heading } from "../../components/Heading"
 import { InputBox } from "../../components/InputBox"
 import axios from "axios"
 import { useRecoilState } from "recoil"
-import { wordss, typereffectt, currentindex } from '../atom'; 
+import { wordss, typereffectt, currentindex, actions } from '../atom'; 
 import { pdfjs } from 'react-pdf';
 import { PdfComp } from "../../components/PdfComp"
 import { BACKEND_URL } from "../config"
@@ -25,7 +25,7 @@ export function View() {
   const [viewPdf,setViewpdf] = useState(true)   
   const[filename,setFilename] = useState('')
   const [content, setContent] = useState('')
-
+  const [action,setActions] = useRecoilState(actions)
 
   console.log(chatHistory,setFilename);
   
@@ -86,7 +86,9 @@ export function View() {
         `${BACKEND_URL}/api/v3/doctors/pdf`,
         {
           filename:localStorage.getItem('analyze'),
-          username:localStorage.getItem('userName')
+          username:localStorage.getItem('userName'),
+          actions:action
+          
       },
         {
           responseType:'blob',

@@ -1,8 +1,13 @@
+import { useNavigate } from "react-router-dom"
+import { Button } from "../../components/Button"
 import MySVG from "../../components/MySvg"
 import { Reports } from "../../components/Reports"
 import { Upload } from "../../components/Upload"
 
 export function Home(){ 
+
+  const navigate = useNavigate()
+
   return <div>
     <div className="flex flex-col">
     <div id="navbar" className="flex justify-between">
@@ -37,8 +42,12 @@ export function Home(){
           <Reports token={localStorage.getItem('TOKEN')}/>
        </div>
        <div id="upload" className="px-20 cursor-pointer mt-9">
-        
         <Upload/>
+        <div className=" mt-10">
+
+        <Button onclick={()=> navigate('/users/logs')} label={'Check logs'} loader={''} height={12}></Button>
+        <p className=" text-slate-400 font-medium">This is temporary button</p>
+        </div>
        </div>
      </div>
     </div>

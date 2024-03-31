@@ -20,6 +20,7 @@ model User {
   firstname String?
   lastname  String?
   files     File[]
+  logs      Logs[]
 }
 
 model Doctor {
@@ -28,16 +29,37 @@ model Doctor {
   password  String
   firstname String?
   lastname  String?
+  Logs      Logs[]
 }
 
 model File {
-  id        Int    @id @default(autoincrement())
-  userId    String 
-  filename  String @unique
+  id        Int      @id @default(autoincrement())
+  userId    String
+  filename  String   @unique
   mimettype String
   encoding  String
-  data      Bytes   
+  data      Bytes
   date      DateTime
   time      DateTime
-  users     User   @relation(fields: [userId], references: [id])
+  users     User     @relation(fields: [userId], references: [id])
+}
+
+model Logs {
+  id        String          @id @default(cuid())
+  accessedFiles     AccessedFiles[]
+  User      User?           @relation(fields: [userEmail], references: [username])
+  userEmail String
+  doctor    Doctor          @relation(fields: [doctorEmail], references: [username])
+  doctorEmail  String       
+  @@unique(name:"combinedLogs",[doctorEmail,userEmail])
+}
+
+
+model AccessedFiles {
+  id       Int      @id @default(autoincrement())
+  actions  String
+  date     DateTime
+  filename String
+  log      Logs     @relation(fields: [logId], references: [id])
+  logId    String
 }

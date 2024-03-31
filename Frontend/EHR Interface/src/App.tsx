@@ -12,7 +12,7 @@ import "./App.css";
 import  Users  from './pages/users-panel/Users';
 import Doctor from './pages/doctors panel/doctor-panel';
 // import { Button } from './components/Button';
-import { Rouute } from './Rouute';
+import { Rouute } from './Rouute'; 
 
 
 function App() {

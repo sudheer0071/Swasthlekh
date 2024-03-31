@@ -3,7 +3,7 @@ import { signinSchema, signUpSchema } from '../zodAuth';
 import { PrismaClient } from '@prisma/client';
 import { userAuth } from '../middleware';
 import { strict } from 'assert';
-import fs from 'fs'
+import fs, { access } from 'fs'
 import multer from 'multer'
 import { NextApiRequest } from 'next';
 import { Readable } from 'stream';
@@ -155,8 +155,8 @@ route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Res
     }
 
     else {
-      
-      
+
+
       console.log("creating... ");
 
       const resposne = await prisma.file.create({
@@ -187,7 +187,7 @@ route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Res
     }
   } catch (error) {
     res.json({ message: "Error in uploading", Error: error })
-    console.log("user id: "+req.userId);
+    console.log("user id: " + req.userId);
     console.log(error);
   }
 })
@@ -207,6 +207,8 @@ route.post('/reports', userAuth, async (req: Request, res) => {
         }
       }
     })
+    
+   
     if (response == null) {
       return res.json({ message: 'You have no files' })
     }
@@ -214,6 +216,7 @@ route.post('/reports', userAuth, async (req: Request, res) => {
     if (response.files.length == 0) {
       return res.json({ message: "You have no reports" })
     }
+  
     const files = response.files.map((file) => ({
       filename: file.filename,
       date: new Date(file.date).toString()// Assuming file.date is a Date object
@@ -221,7 +224,7 @@ route.post('/reports', userAuth, async (req: Request, res) => {
     console.log(files);
 
 
-    res.json({message:"showing reports", files:files});
+    res.json({ message: "showing reports", files: files });
   } catch (error) {
     res.json({ message: "No resports associated with username: " })
   }
@@ -284,6 +287,48 @@ route.post('/pdf', userAuth, async (req: any, res: Response) => {
   }
 });
 
+route.get('/logs', userAuth, async (req: Request, res:Response) => {
+  const user = await prisma.user.findUnique({ where: { id: req.userId }  
+  })
+  const logs = await prisma.user.findUnique({
+    where: {
+      username: user.username
+    },
+    include: {
+      logs: {
+        include: {
+          accessedFiles: true
+        }
+      }
+    }
+  });
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+};
 
-route.get('/', userAuth)
+  const all_logs = logs.logs.map((log)=>({
+    doctor:log.doctorEmail,
+    accessedFiles:log.accessedFiles.map((file)=>({
+      actions:file.actions,
+      date: new Date(file.date).toLocaleString('en-US', dateOptions),
+      filename:file.filename
+    }))
+  }))
+
+  console.log("showing logs.."+all_logs);
+  
+  res.json({ message:"laoding logs... ", logs:all_logs}) 
+   
+})
+ 
+ 
+ 
+ 
+
 export { route, secret } 
