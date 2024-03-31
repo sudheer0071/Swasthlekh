@@ -4,8 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { userAuth } from '../middleware';
 import fs from 'fs'
 import path from 'path';
-import { Readable } from 'stream';
-import axios from 'axios';
+import { Readable } from 'stream'; 
 
 
 const jwt = require('jsonwebtoken')
