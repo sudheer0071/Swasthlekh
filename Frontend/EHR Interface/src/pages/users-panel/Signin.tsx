@@ -27,7 +27,7 @@ export function  Signin(){
   return <div className="bg-gray-500 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
   <div className="px-4 bg-white w-96 text-zinc-950 text-center rounded-lg h-max p-2"> 
-  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('exist')||popup.includes('Invalid')||popup.includes('email')||popup.includes('down')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('exist')||popup.includes('Invalid')||popup.includes('email')||popup.includes('down')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-96 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
    <Heading text={"Sign in"}></Heading>
    <SubHeading text={"Enter your information to access an account"}></SubHeading>
  

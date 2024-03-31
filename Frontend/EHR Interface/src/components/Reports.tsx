@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "./Button"
 import axios from "axios" 
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../pages/config" 
+import { useRecoilState } from "recoil"
+import { actions } from "../pages/atom"
  export function Reports({token,username}:any) {
   // console.log(localStorage.getItem("TOKEN"));
-  const [report, setReport] = useState<any>([]);
-  const initialRender = useRef(true); 
+  const [report, setReport] = useState<any>([]); 
   const [zero,setZero] = useState(false)
   
  
@@ -100,7 +101,8 @@ import { BACKEND_URL } from "../pages/config"
 
 
 function Reps({report,token,username}:any){
-  
+   const [action,setActions] = useRecoilState(actions)
+
   {console.log("inside Report:")}
   const [content,setContent] = useState('')
  console.log(content);
@@ -113,7 +115,8 @@ function Reps({report,token,username}:any){
       `${BACKEND_URL}/api/v3/doctors/pdf`,
       {
         filename:localStorage.getItem('viewFile'),
-        username
+        username,
+        actions:action
     },
       {
         responseType:'blob',
@@ -167,7 +170,9 @@ function Reps({report,token,username}:any){
 </div> 
  <div className="flex justify-center h-full mr-2 ml-4">
   <Button height={11} loader={''} onclick={()=> {
+
     localStorage.setItem('viewFile',report.filename)
+    setActions('Viewed')
     viewdoc()
     // window.open(`${content}`,'_blank', 'noreferrer')
     }} label={"View"}></Button>
@@ -177,6 +182,7 @@ function Reps({report,token,username}:any){
     const filename = localStorage.setItem('analyze',report.filename)
     console.log(filename);
     if (username) {
+      setActions('Analyzed')
       localStorage.setItem('userName',username)
       navigate('/doctors/view?id='+token);
     }else{

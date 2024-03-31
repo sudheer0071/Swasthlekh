@@ -38,3 +38,7 @@ export const currentindex = atom({
   default:0
 })
 
+export const actions = atom({
+  key:"actions",
+  default:''
+})

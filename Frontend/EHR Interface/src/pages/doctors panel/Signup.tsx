@@ -29,7 +29,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
   <div className="flex flex-col justify-center">
   <div className="px-4 bg-white w-96 text-zinc-950 text-center rounded-lg h-max p-2">
      
-  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
+  <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already')|| popup.includes('email')||popup.includes('more')||popup.includes('exist')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
   </div>
    <Heading text={"Sign up"}></Heading>
    <SubHeading text={"Enter your information to create an account"}></SubHeading>
@@ -51,8 +51,7 @@ return <div className="bg-slate-300 h-screen flex justify-center">
         setPopup("Please enter all feilds")
       }
       else{
-        try {
-          http://localhost:5000/api/v3/doctors/signup
+        try { 
           setLoader('signup')
           const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/signup`,
       {
