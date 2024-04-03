@@ -41,7 +41,12 @@ a:hover {
 }
 
  
- 
+ .username{
+  width: 78%;
+  margin-top: -24px;
+  z-index: 99;
+  left: 160px;
+ }
 
 @media (max-width: 768px) {
   .pdf {

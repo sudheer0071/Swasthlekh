@@ -40,7 +40,7 @@ export function Home(){
         </div>
        <h1 className="mt-10 p-3 my-5 text-zinc-700 font-semibold">Search for Patient</h1>
       </div>
-
+ 
      <div id="inputss" className="flex justify-center mt-9 px-11">
     
     <div className=" ml-7 w-full text-slate-700">
@@ -59,7 +59,7 @@ export function Home(){
     {search?(<div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
           <Reports token={localStorage.getItem('docToken')} username={input}/>
        </div> ):(<div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 text-slate-800" >
-           <h1 className="flex justify-center mt-20">Search for users</h1>
+           <h1 className="flex justify-center mt-10 text-4xl">Search reports here</h1>
        </div> )}
  
        

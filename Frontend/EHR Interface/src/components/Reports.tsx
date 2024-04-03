@@ -144,7 +144,13 @@ import { actions } from "../pages/atom"
 
          </div>)}
         </div> : 
-          report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report} />)
+         <div> 
+          {username?(
+          <div className="username flex justify-center bg-slate-300 rounded-lg shadow-md h-9 fixed text-slate-600 text-2xl font-medium">
+            Showing reports associated with username: <div className=" text-slate-500 font-bold">"{username}"</div> 
+          </div>):''}
+           {report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report} />)}
+         </div>
         }
       </div>
     </div>
@@ -163,6 +169,8 @@ function Reps({report,token,username}:any){
  async function viewdoc(){
   var blog
   if (username) {
+    console.log("action: "+action);
+    
     const res = await axios.post(
       `${BACKEND_URL}/api/v3/doctors/pdf`,
       {
@@ -209,7 +217,7 @@ async function analyze(filename:any) {
   console.log("filename: "+filename);
   
   const res = await axios.post(
-    `${BACKEND_URL}/api/v3/users/analyze`,
+    `${BACKEND_URL}/api/v3/users/analdyze`,
     {
       userFile:filename,  
   },
@@ -260,7 +268,7 @@ async function analyze(filename:any) {
       localStorage.setItem('chat_token',token)
       console.log("token 2: "+localStorage.getItem('chat_token'));
       
-      analyze(localStorage.getItem('analyzee'))
+      // analyze(localStorage.getItem('analyzee'))
       navigate('/users/view?id='+token);
     }
   }
@@ -269,3 +277,4 @@ async function analyze(filename:any) {
  </div>
 </div>
 }
+

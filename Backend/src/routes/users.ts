@@ -16,7 +16,11 @@ import { RecursiveCharacterTextSplitter, TextSplitter } from "langchain/text_spl
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { createRetrievalChain } from "langchain/chains/retrieval";
+import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
 
+
+import { MessagesPlaceholder } from "@langchain/core/prompts";
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { Document } from "@langchain/core/documents"; 
 // Import environment variables
 import * as dotenv from "dotenv";
@@ -126,14 +130,14 @@ route.put('/', userAuth, async (req: Request, res) => {
   })
   res.json({ message: "Details updated sucessfully!" })
 })
-
+ 
 // initializing multer
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 type blobs = {
   blobname: string, data: Buffer, bucketname: string
-}
+} 
 // initializind cloud storage
 async function uploadToBucket({ blobname, data, bucketname }: blobs) {
   try {
@@ -176,8 +180,7 @@ console.log("prefix: "+prefix);
 
     for (let i = 0; i < pgnumber; i++) {
       const PageResponse = jstring.responses[i];
-      const annotation = PageResponse.fullTextAnnotation;   
-      console.log("annotations: "+annotation.text); 
+      const annotation = PageResponse.fullTextAnnotation;  
       data += annotation.text;
     }
   }); 
@@ -387,16 +390,17 @@ route.get('/logs', userAuth, async (req: Request, res:Response) => {
   })
   const logs = await prisma.user.findUnique({
     where: {
-      username: user.username
+      username: user.username 
     },
     include: {
       logs: {
         include: {
           accessedFiles: true
         }
-      }
+      }  
     }
-  });
+  }); 
+   
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'short',
@@ -457,15 +461,15 @@ const data = await listFilesByPrefix(prefix)
 // })
 // .catch((error) => {
 // console.error("Error: " + error);
-// });
+// }); 
  
 dotenv.config();
 
 // Instantiate Model
 const model = new ChatOpenAI({
-  modelName: "gpt-3.5-turbo-1106",
+  modelName: "gpt-3.5-turbo",
   temperature: 0.9,
-});
+}); 
 
 // Create prompt
 const prompt = ChatPromptTemplate.fromMessages(
@@ -511,13 +515,26 @@ const prompt = ChatPromptTemplate.fromMessages(
 
   Question: {input}`]
 );
+
+const retrieverPrompt = ChatPromptTemplate.fromMessages([
+  new MessagesPlaceholder("chat_history"),
+  ["user", "{input}"],
+  [
+    "user",
+    "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
+  ],
+]);
+
+ 
+
 // Create Chain
 const chain = await createStuffDocumentsChain({
   llm: model,
   prompt,
-});
-  console.log("data: "+data);
-  
+
+}); 
+
+
 // const data = localStorage.getItem("ExtractedData")
 const doc = new Document({
   pageContent: data
@@ -526,18 +543,32 @@ const splitter = new RecursiveCharacterTextSplitter({
   chunkSize: 10000,
   chunkOverlap: 20,
 });
- const splitDocs = await splitter.splitDocuments([doc]);
- const embeddings = new OpenAIEmbeddings();
- 
- // Create Vector Store
- const vectorstore = await MemoryVectorStore.fromDocuments(
-   splitDocs,
-   embeddings,
+const splitDocs = await splitter.splitDocuments([doc]);
+const embeddings = new OpenAIEmbeddings();
+
+// Create Vector Store
+const vectorstore = await MemoryVectorStore.fromDocuments(
+  splitDocs,
+  embeddings,
  );
  
  // Create a retriever from vector store
  const retriever = vectorstore.asRetriever({ k: 5 });
- 
+
+ const retrieverChain = await createHistoryAwareRetriever({
+  llm: model,
+  retriever,
+  rephrasePrompt:retrieverPrompt,
+});
+
+const chatHistory:any = [];
+
+function add_history(response:any){
+  new HumanMessage(response.input),
+  new AIMessage(response.answer)
+};
+
+
  // Create a retrieval chain
  const retrievalChain = await createRetrievalChain({
    combineDocsChain: chain,
@@ -545,10 +576,13 @@ const splitter = new RecursiveCharacterTextSplitter({
  });
 
  const response = await retrievalChain.invoke({
+  chat_history: chatHistory,
    input
- });
- console.log("AI BOLTA HAI KI: ",response)  
- 
+ }); 
+//  console.log("AI BOLTA HAI KI: ",response)  
+add_history(response)
+console.log(response.answer);
+
  res.json({message:response.answer})
 // export {prefix} 
 })  
