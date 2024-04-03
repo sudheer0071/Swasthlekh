@@ -436,29 +436,7 @@ route.get('/logs', userAuth, async (req: Request, res:Response) => {
 //     }
 //   }
 // ] 
- 
- route.post('/analyze',userAuth,async (req:Request,res:Response)=>{
-      const {userFile} = req.body
   
-      const user = await prisma.user.findUnique({
-        where:{
-          id:req.userId
-        }
-      })  
-     const prefix = `responses/${user.username}/${userFile}/`
-// The delimiter to use 
-let dataaa 
-listFilesByPrefix(prefix)
-  .then((data) => { 
-    console.log("data: "+data); 
-    res.json({extracted:data}) 
-  })
-  .catch((error) => {
-    console.error("Error: " + error);
-  });
-// export {prefix} 
-})
- 
 route.post('/chat',userAuth,async (req:Request,res:Response)=>{
   const {userFile,input} = req.body
 
