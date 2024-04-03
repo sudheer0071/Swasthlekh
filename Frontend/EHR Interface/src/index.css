@@ -33,8 +33,8 @@ a:hover {
 
 .zoom-buttons {
   position: fixed;
-  top: 0;
-  left: 50%;
+  top: -12px;
+  right:-8%; 
   transform: translateX(-50%);
   z-index: 1; 
   padding: 130px; 
@@ -59,7 +59,7 @@ h1 {
 #pdf-content{
   height: 500px; 
   overflow-y: scroll;  
-  border: 15px solid rgb(226 232 240 / var(--tw-bg-opacity)); 
+  border: 10px solid rgb(226 232 240 / var(--tw-bg-opacity)); 
 }
 
 #pdf-content::-webkit-scrollbar {
@@ -97,10 +97,9 @@ h1 {
   background: #4a6179;
 }
  
-#reports-list{
-
-  --tw-bg-opacity: 1; 
-  border: 10px solid rgb rgb(219 234 254 / var(--tw-bg-opacity));
+#reports-list{ 
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity))
 }
 
 #reports-list::-webkit-scrollbar {
@@ -130,9 +129,11 @@ canvas.react-pdf__Page__canvas{
     padding: 5px;
   }
 }
-
-
-
+ 
+/* .report-list{
+  height: 500px;
+  width: 400px;
+} */
 .popup {
   transform: translateY(-100%);
   opacity: 0;
@@ -437,6 +438,9 @@ input.error {
   box-shadow: 0 0 0.5em red;
 }
 
+#inputss{
+  margin-top: 36px;
+}
 /***************************************** BUTTON LOADER *****************************************/
 
 .button-85 { 

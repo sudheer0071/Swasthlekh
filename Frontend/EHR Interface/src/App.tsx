@@ -21,7 +21,7 @@ function App() {
   // const [isbackendDown, setIsbackDown] = useRecoilState(backendDown); 
   return (
     <div>
-      {/* <PdfComp/> */}
+       <h1 className="flex justify-center text-slate-700 font-bold -mt-6">Swasthलेख</h1>
       <div> 
         
       </div>

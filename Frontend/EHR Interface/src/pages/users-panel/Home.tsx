@@ -1,8 +1,7 @@
-import { useNavigate } from "react-router-dom"
-import { Button } from "../../components/Button"
-import MySVG from "../../components/MySvg"
+import { useNavigate } from "react-router-dom" 
+import MySVG from "../../icons/MySvg"
 import { Reports } from "../../components/Reports"
-import { Upload } from "../../components/Upload"
+import { Upload } from "../../components/Upload"  
 
 export function Home(){ 
 
@@ -11,24 +10,21 @@ export function Home(){
   return <div>
     <div className="flex flex-col">
     <div id="navbar" className="flex justify-between">
-      <div className="flex w-14 -mt-10">
-       <MySVG/>
+      <div className="flex w-14 -mt-16 cursor-pointer">
+       <MySVG onclick={()=> navigate('/users/logs')} label={'Check logs'} ></MySVG>
       </div>
-      <div> 
-  <h1>Logo</h1>
+      <div>  
       </div>
       <div>
-      <div className="flex flex-col justify-center bg-slate-500 rounded-full h-12 w-12 p-4 mr-3 mt-1">
+      <div className="flex flex-col justify-center bg-slate-500 rounded-full h-12 w-12 p-4 mr-3">
         <div className="flex flex-col justify-center h-full text text-xl">
           {localStorage.getItem('firstname')?.charAt(0).toUpperCase()}
         </div>
       </div>
       </div>
-    </div>
-    <div id="new-features">
-      <div className="flex justify-center h-96 rounded-lg bg-gradient-to-br from-blue-300 to-black  shadow-lg">
-        <p className="m-auto">New Features</p> 
-      </div>
+    </div> 
+      <div id="upload" className="cursor-pointer w-full mt-10">
+        <Upload/> 
     </div>
      <div id="report-section">
       <div className="flex justify-center">
@@ -41,14 +37,7 @@ export function Home(){
        <div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
           <Reports token={localStorage.getItem('TOKEN')}/>
        </div>
-       <div id="upload" className="px-20 cursor-pointer mt-9">
-        <Upload/>
-        <div className=" mt-10">
-
-        <Button onclick={()=> navigate('/users/logs')} label={'Check logs'} loader={''} height={12}></Button>
-        <p className=" text-slate-400 font-medium">This is temporary button</p>
-        </div>
-       </div>
+     
      </div>
     </div>
   </div>
