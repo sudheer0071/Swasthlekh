@@ -9,14 +9,22 @@ import { actions } from "../pages/atom"
   // console.log(localStorage.getItem("TOKEN"));
   const [report, setReport] = useState<any>([]); 
   const [zero,setZero] = useState(false)
-  
+  const [popup, setPop] = useState('')
+  const [isOpen, setIsopen] = useState(false) 
+  const [found,setFound] = useState(false)
+  const [message,setMessage] = useState(false) 
  
   if (username) {
     console.log("inside usernamee");
   
       useEffect(() => {
         async function fetchData() {
+          setTimeout(() => {
+            
+          }, 2000);
           try {
+             setIsopen(true)
+            setPop('Ssearching')
             const res = await axios.post(
               `${BACKEND_URL}/api/v3/doctors/reports`,
               {username},
@@ -30,18 +38,46 @@ import { actions } from "../pages/atom"
             const allReports = res.data;
             console.log((allReports.files));
             if (allReports.message.includes("no")) {
+              setTimeout(() => {
+                setIsopen(false)
+                setPop('')
+              }, 2000);
+              setMessage(allReports.message)
+                setPop("User not found")
               setZero(true)
             }
-            console.log("date: " + res.data.files);
-            console.log("executed main fetch 1"); 
-            setReport(allReports.files)
+            
+            if (allReports.message.includes("associated")) {
+              setTimeout(() => {
+                setIsopen(false)
+                setPop('')
+              }, 2000);
+              setMessage(allReports.message)
+                setPop("No reports found")
+              setZero(true)
+              setFound(true)
+            }
+            
+            else{
+              setTimeout(() => { 
+                setIsopen(false)
+                setPop('')
+              }, 1000);
+              setTimeout(() => {
+                setPop(allReports.message)
+              }, 2000);
+              console.log("date: " + res.data.files);
+              console.log("executed main fetch 1"); 
+              setReport(allReports.files)
+            }
     
             // if (!initialRender.current && allReports.length > report.length) {
             //   setReport(allReports);
             // } else {
             //   initialRender.current = false;
             // }
-          } catch (error) {
+          } 
+          catch (error) {
             console.error('Error fetching reports:', error);
           }
         }
@@ -66,7 +102,14 @@ import { actions } from "../pages/atom"
               );
               const allReports = res.data
               console.log((allReports.files));
+
               if (allReports.message.includes("no")) {
+                setTimeout(() => {
+                  setIsopen(false)
+                  setPop('')
+                }, 2000);
+                setMessage(allReports.message)
+                  setPop("User not found")
                 setZero(true)
               }
               console.log("date: " + res.data.files);
@@ -80,17 +123,26 @@ import { actions } from "../pages/atom"
           fetchData();
     },[])
    
-  }  
- 
-
+  }   
+  
   console.log(report);
 
   return (
     <div>
+        <div className="flex justify-center">
+    <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+    </div>
          <div className="my-2">
         {/* <h3 className="text-slate-700">list of users</h3> */}
+
         {zero ? <div>
-          <h1 className="flex justify-center text-slate-600 mt-10">Add your reports </h1>
+         {found?(<div>
+           <h1 className="flex justify-center text-slate-600 mt-20 text-3xl"> {message}</h1>
+         </div>):
+         ( <div>
+           <h1 className="flex justify-center text-slate-600 mt-20 text-3xl"> {message}</h1>
+
+         </div>)}
         </div> : 
           report.map((report: any, index: any) => <Reps username={username} token={token} key={index} report={report} />)
         }
@@ -153,7 +205,25 @@ function Reps({report,token,username}:any){
   setContent(blog)
     window.open(`${blog}`,'_blank', 'noreferrer')
     }  
-
+async function analyze(filename:any) {
+  console.log("filename: "+filename);
+  
+  const res = await axios.post(
+    `${BACKEND_URL}/api/v3/users/analyze`,
+    {
+      userFile:filename,  
+  },
+    { 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+  );
+  console.log("inside analyze: ");
+  console.log(res.data.extracted);
+  
+}
   const navigate = useNavigate()
 
   return  <div id="reports" className="flex justify-between shadow-md shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400">
@@ -179,13 +249,18 @@ function Reps({report,token,username}:any){
 
   <div className="flex px-3">
   <Button height={11} loader={''} onclick={ ()=> {  
-    const filename = localStorage.setItem('analyze',report.filename)
-    console.log(filename);
+     localStorage.setItem('analyze',report.filename)
+    console.log("filename:    "+localStorage.getItem('analyze'));
     if (username) {
       setActions('Analyzed')
       localStorage.setItem('userName',username)
       navigate('/doctors/view?id='+token);
     }else{
+      localStorage.setItem('analyzee',report.filename)
+      localStorage.setItem('chat_token',token)
+      console.log("token 2: "+localStorage.getItem('chat_token'));
+      
+      analyze(localStorage.getItem('analyzee'))
       navigate('/users/view?id='+token);
     }
   }

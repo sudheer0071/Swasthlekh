@@ -21,14 +21,18 @@ export function View() {
   const [input, setInput] = useState('')
   const [popup, setPop] = useState('')
   const [isOpen, setIsopen] = useState(false) 
-  const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
+  // const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
   const [viewPdf,setViewpdf] = useState(true)   
   const[filename,setFilename] = useState('')
   const [content, setContent] = useState('')
-  const [action,setActions] = useRecoilState(actions)
+  const [action,setActions] = useRecoilState(actions) 
 
-  console.log(chatHistory,setFilename);
-  
+  const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
+  const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
+console.log(setActions);
+
+  console.log(setFilename);
+  console.log(setLatestBotMessageIndex)
   useEffect(() => {
     if (words.length == 0) {
       setTyperEffect(' ')
@@ -57,18 +61,27 @@ export function View() {
       setPop('Please type something first')
     }
     else{
-      const userMessage = input;
-  setChatHistory(prevChatHistory => [...prevChatHistory, { message: userMessage, sender: 'user' }]);
+      // const userMessage = input;
+  // setChatHistory(prevChatHistory => [...prevChatHistory, { message: userMessage, sender: 'user' }]);
       setIsopen(true)
       setPop('Generating response..')
-      const res = await axios.post('http://127.0.0.1:5000/chat', { message: input })
-      const message = res.data.response
+      const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/chat`, { username:localStorage.getItem('userName'), userFile:localStorage.getItem('analyze'), input },
+      {
+        headers: { 
+          'Authorization': 'Bearer ' + localStorage.getItem('docToken')
+        }
+      } 
+      )  
+      const message = res.data.message
       //  setTimeout(() => {
       //    setIsopen(false)
       //    setPop('')
       //   }, 2000);
-      
+      setMessages([...messages, { text: input, sender: 'user' }, { text:message, sender: 'bot' }]);
       console.log(message);
+      // setLatestBotMessageIndex(messages.length)
+      // console.log("latest bot message index: "+latestBotMessageIndex); 
+      
       setWords(message)
       setTyperEffect('') 
       setCurrentIndex(0)
@@ -103,28 +116,44 @@ export function View() {
     }
     viewdoc()
   },[filename])
-
   
 
   return <div className="text-slate-600">
     <div className="flex justify-center">
       <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-300 p-2 h-11' : ''}  text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
     </div>
-    <Heading text="This is view page"></Heading>
-    <div id="pdf-content" className="flex justify-center rounded-lg shadow-lg bg-slate-200 border w-full mt-8 text-white">
+    <div className="flex justify-center">
+    <Heading text="Analyze Reports"></Heading>
+    </div>
+    <div id="pdf-content" className="flex justify-center rounded-lg shadow-lg bg-slate-200 border w-full  text-white">
        {viewPdf?(
           <div>
            <PdfComp content={content} />
           <p> 
           </p>
         </div>
-       ):( 
-      <div className="flex shadow-xl rounded-lg bg-slate-400 p-2 w-full mx-7 mt-8 h-12">
-      <h3 className="flex font-semibold text-lg text-zinc-800">
-        {typereffect}
-      </h3>
-      </div>  
-       )}
+       ):(
+        <div className=" ">
+            <div id="messages" className="items-center mt-4 text-start text-xl font-medium">
+            {messages.map((message, index) => (
+      <div key={index} className={`message ${message.sender === 'user' ? 'shadow-sm shadow-slate-500 rounded-lg bg-slate-300 p-2 ml-auto  text-slate-500 mx-4 mt-3' : 'shadow-md shadow-slate-500 rounded-lg bg-slate-200 p-2 ml-auto text-slate-500 mx-4 mt-3'}`}>
+            {message.sender==='bot'&& index === latestBotMessageIndex ? (
+          <span className="bot-message">
+            {/* {typereffect} */}
+            <TyperEffect text={words}/>
+            </span>
+        ) : ( 
+              
+          message.text
+        )}
+      </div>
+    ))}
+  </div>
+          {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
+            <TyperEffect text={words}/>
+          </h3> */}
+        </div>
+      )}
     </div>
     
     <div id="inputss" className="flex justify-center mt-9 px-11">
@@ -140,8 +169,38 @@ export function View() {
       <div className="w-24 ml-2">
         <Button height={12} onclick={fetchResponse} loader={''} label={'Send'}></Button>
       </div>
-    </div>
-
-
+    </div> 
   </div>
+
+function TyperEffect({text}:any){
+   
+
+  useEffect(() => {
+    if (text.length == 0) {
+      setTyperEffect(' ')
+      return;
+    }
+    // let currentIndex = 0
+    const interval = setInterval(() => {
+      if (currentIndex < text.length) {
+        const nextword = text[currentIndex];
+        setTyperEffect((prev) => prev + "" + nextword)
+        setCurrentIndex((prev) => prev + 1)
+      } else {
+        clearInterval(interval)
+      }
+    }, 30);
+    return () => clearInterval(interval)
+  }, [words, currentIndex])
+
+
+    return <div className="flex border bg-slate-200 shadow-md">
+      <h3 className="flex font-semibold text-lg text-zinc-800">
+              {typereffect}
+            </h3>
+    </div>
+ }
+
 } 
+
+
