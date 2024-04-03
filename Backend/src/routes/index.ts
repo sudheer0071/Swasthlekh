@@ -12,6 +12,6 @@ router.get('/',(req:Request, res:Response)=>{
   res.send("backend is working fine for index.js route inside routes folders")
 })
 export {router}  
-
+ 
 
  
