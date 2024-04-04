@@ -34,7 +34,7 @@ export function Requests(){
           setPopup('')
           setloader('')
         }, 2000);
-        setPopup(' Refreshed')
+        setPopup('Refreshed')
         console.log(response);
         setRequest(response)   
       }
