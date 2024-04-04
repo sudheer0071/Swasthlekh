@@ -402,6 +402,7 @@ route.get('/logs', userAuth, async (req: Request, res:Response) => {
   }); 
    
   const dateOptions: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Kolkata',
     year: 'numeric',
     month: 'short',
     day: '2-digit',
@@ -611,13 +612,21 @@ console.log("username: "+user.username);
     date:true
    }
   })
+ 
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+};
 
-  if (access) {
-    
-  }
 const accessed = access.map((acces)=>({
   doctor:acces.doctor,
-  date:acces.date
+  date: new Date(acces.date).toLocaleString('en-US', dateOptions),
 }))
  
  console.log("accessed: "+accessed.length);
