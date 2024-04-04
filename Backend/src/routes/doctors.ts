@@ -237,7 +237,7 @@ console.log("already Created: "+alreadyExist);
        accessedFiles:{
          create:{
            actions,
-           date:new Date,
+           date:new Date(),
            filename
          },
        },
@@ -259,7 +259,7 @@ console.log("already Created: "+alreadyExist);
         accessedFiles: {
           create: {
             actions:actions,
-            date: new Date,
+            date: new Date(),
             filename
           },
         },
