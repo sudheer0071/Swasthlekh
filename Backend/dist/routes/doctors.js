@@ -50,6 +50,9 @@ const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("@langchain/openai");
 const memory_1 = require("langchain/vectorstores/memory");
 const retrieval_1 = require("langchain/chains/retrieval");
+const history_aware_retriever_1 = require("langchain/chains/history_aware_retriever");
+const prompts_2 = require("@langchain/core/prompts");
+const messages_1 = require("@langchain/core/messages");
 const documents_1 = require("@langchain/core/documents");
 // Import environment variables
 const dotenv = __importStar(require("dotenv"));
@@ -193,6 +196,7 @@ route1.post('/pdf', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 
     const doc = yield prisma.doctor.findUnique({
         where: { id: req.userId }
     });
+    console.log("docName: " + doc.username);
     const alreadyExist = yield prisma.logs.findUnique({
         where: {
             combinedLogs: {
@@ -233,22 +237,41 @@ route1.post('/pdf', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 
         });
     }
     else {
-        const newLog = yield prisma.logs.create({
-            data: {
-                userEmail: username,
-                doctorEmail: doc.username,
-                accessedFiles: {
-                    create: {
-                        actions: actions,
-                        date: new Date,
-                        filename
+        try {
+            const newLog = yield prisma.logs.create({
+                data: {
+                    userEmail: username,
+                    doctorEmail: doc.username,
+                    accessedFiles: {
+                        create: {
+                            actions: actions,
+                            date: new Date,
+                            filename
+                        },
                     },
                 },
-            },
-        });
-        console.log("new log: " + newLog);
+            });
+            console.log("new log: " + newLog);
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     // console.log("createing log... "+ logs);
+}));
+route1.post('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.body;
+    const doc = yield prisma.doctor.findUnique({
+        where: { id: req.userId }
+    });
+    const access = yield prisma.accessReport.create({
+        data: {
+            user: username,
+            doctor: doc.username,
+            date: new Date()
+        }
+    });
+    res.json({ message: "creating access", access: access });
 }));
 function listFilesByPrefix(prefix) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -274,7 +297,7 @@ function listFilesByPrefix(prefix) {
             for (let i = 0; i < pgnumber; i++) {
                 const PageResponse = jstring.responses[i];
                 const annotation = PageResponse.fullTextAnnotation;
-                console.log("annotations: " + annotation.text);
+                // console.log("annotations: "+annotation.text); 
                 data += annotation.text;
             }
         }));
@@ -349,12 +372,19 @@ route1.post('/chat', middleware_1.userAuth, (req, res) => __awaiter(void 0, void
   Context: {context}
 
   Question: {input}`]);
+    const retrieverPrompt = prompts_1.ChatPromptTemplate.fromMessages([
+        new prompts_2.MessagesPlaceholder("chat_history"),
+        ["user", "{input}"],
+        [
+            "user",
+            "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
+        ],
+    ]);
     // Create Chain
     const chain = yield (0, combine_documents_1.createStuffDocumentsChain)({
         llm: model,
         prompt,
     });
-    console.log("data: " + data);
     // const data = localStorage.getItem("ExtractedData")
     const doc = new documents_1.Document({
         pageContent: data
@@ -369,15 +399,28 @@ route1.post('/chat', middleware_1.userAuth, (req, res) => __awaiter(void 0, void
     const vectorstore = yield memory_1.MemoryVectorStore.fromDocuments(splitDocs, embeddings);
     // Create a retriever from vector store
     const retriever = vectorstore.asRetriever({ k: 5 });
+    const retrieverChain = yield (0, history_aware_retriever_1.createHistoryAwareRetriever)({
+        llm: model,
+        retriever,
+        rephrasePrompt: retrieverPrompt,
+    });
+    const chatHistory = [];
+    function add_history(response) {
+        new messages_1.HumanMessage(response.input),
+            new messages_1.AIMessage(response.answer);
+    }
+    ;
     // Create a retrieval chain
     const retrievalChain = yield (0, retrieval_1.createRetrievalChain)({
         combineDocsChain: chain,
         retriever,
     });
     const response = yield retrievalChain.invoke({
+        chat_history: chatHistory,
         input
     });
-    console.log("AI BOLTA HAI KI: ", response);
+    //  console.log("AI BOLTA HAI KI: ",response)  
+    add_history(response);
     res.json({ message: response.answer });
     // export {prefix} 
 }));
