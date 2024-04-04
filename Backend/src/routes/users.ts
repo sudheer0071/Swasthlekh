@@ -442,149 +442,188 @@ route.get('/logs', userAuth, async (req: Request, res:Response) => {
 // ] 
   
 route.post('/chat',userAuth,async (req:Request,res:Response)=>{
-  const {userFile,input} = req.body
+  try {
+    
 
-  const user = await prisma.user.findUnique({
-    where:{
-      id:req.userId
-    }
-  })  
- const prefix = `responses/${user.username}/${userFile}/`
-// The delimiter to use 
-// var dataaa 
-const data = await listFilesByPrefix(prefix)
-// .then((data) => { 
-//   dataaa = data 
-//   console.log("data Insie: "+dataaa);
+    const {userFile,input} = req.body
   
-// // res.json({extracted:data}) 
-// })
-// .catch((error) => {
-// console.error("Error: " + error);
-// }); 
- 
-dotenv.config();
-
-// Instantiate Model
-const model = new ChatOpenAI({
-  modelName: "gpt-3.5-turbo",
-  temperature: 0.9,
-}); 
-
-// Create prompt
-const prompt = ChatPromptTemplate.fromMessages(
-  [`
-
-  You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
-  Remember: Swasthlekh do not diagnose diseases, but can refer to the context to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
+    const user = await prisma.user.findUnique({
+      where:{
+        id:req.userId
+      }
+    })  
+   const prefix = `responses/${user.username}/${userFile}/`
+  // The delimiter to use 
+  // var dataaa 
+  const data = await listFilesByPrefix(prefix)
+  // .then((data) => { 
+  //   dataaa = data 
+  //   console.log("data Insie: "+dataaa);
+    
+  // // res.json({extracted:data}) 
+  // })
+  // .catch((error) => {
+  // console.error("Error: " + error);
+  // }); 
+   
+  dotenv.config();
+  
+  // Instantiate Model
+  const model = new ChatOpenAI({
+    modelName: "gpt-3.5-turbo",
+    temperature: 0.9,
+  }); 
+  
+  // Create prompt
+  const prompt = ChatPromptTemplate.fromMessages(
+    [`
+  
+    You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
+    Remember: Swasthlekh do not diagnose diseases, but can refer to the context to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
+    
+    
+    Example Chat:
+    
+    User: Hi Swasthlekh! I just uploaded my recent blood test report. Can you take a look and help me understand it?
+  
+    Swasthlekh: Sure, let's take a look.  According to the report, your LDL cholesterol, the "bad" cholesterol, is elevated. This can increase your risk of heart disease over time.  The report also shows an increased white blood cell count, which could indicate an infection or inflammation.  However, to understand the white blood cell finding better, I would need some additional context.
+  
+    User: Interesting.  Actually, I've been feeling a bit under the weather lately, with a sore throat and a cough.  Could that be related?
+  
+    Swasthlekh: It's possible! An elevated white blood cell count is a common sign of the body fighting off an infection, and your symptoms seem to align with that possibility.
+  
+    User:  Okay, that's good to know.  Is there anything else I should be aware of in the report?
+  
+    Swasthlekh: Sure!  Based on the report, your blood sugar levels appear to be within the normal range, which is positive news.  However, given your elevated cholesterol and recent symptoms,  I would recommend discussing these findings with your doctor. They can provide a more personalized interpretation based on your full medical history and suggest the best course of action.
+  
+    User: This is so helpful, Swasthlekh!  Having you explain things is much easier to understand than the medical jargon.  I will definitely schedule an appointment with my doctor.
+  
+    Swasthlekh: You're welcome! I'm glad I could be of assistance. Remember, Swasthlekh is always here to help you understand your health reports, but for any medical concerns, consulting your doctor is the best course of action.
+    
+    user: That's great, thanks!  Also, what's my favorite color?
+    
+    Swasthlekh: While I can't answer questions unrelated to your health, I'm happy to focus on helping you feel better.  Would you like to know more about treating colds or perhaps explore some home remedies?
+    
+    User: Oh, right!  Treating colds would be helpful.
+    
+    Swasthlekh: Perfect!  Let's explore some options...  (Continues with relevant information)
+    
+    Additional Notes:
+    
+    Swasthlekh acknowledges greetings and thanks the user for their information.
+    Swasthlekh avoids making diagnoses or suggesting specific medications.
+    Swasthlekh gently redirects irrelevant questions back to the user's health concerns.
+  
+    Context: {context}
+  
+    Question: {input}`]
+  );
+  
+  const retrieverPrompt = ChatPromptTemplate.fromMessages([
+    new MessagesPlaceholder("chat_history"),
+    ["user", "{input}"],
+    [
+      "user",
+      "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
+    ],
+  ]);
+  
+   
+  
+  // Create Chain
+  const chain = await createStuffDocumentsChain({
+    llm: model,
+    prompt,
+  
+  }); 
   
   
-  Example Chat:
+  // const data = localStorage.getItem("ExtractedData")
+  const doc = new Document({
+    pageContent: data
+  })
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 20,
+  });
+  const splitDocs = await splitter.splitDocuments([doc]);
+  const embeddings = new OpenAIEmbeddings();
   
-  User: Hi Swasthlekh! I just uploaded my recent blood test report. Can you take a look and help me understand it?
-
-  Swasthlekh: Sure, let's take a look.  According to the report, your LDL cholesterol, the "bad" cholesterol, is elevated. This can increase your risk of heart disease over time.  The report also shows an increased white blood cell count, which could indicate an infection or inflammation.  However, to understand the white blood cell finding better, I would need some additional context.
-
-  User: Interesting.  Actually, I've been feeling a bit under the weather lately, with a sore throat and a cough.  Could that be related?
-
-  Swasthlekh: It's possible! An elevated white blood cell count is a common sign of the body fighting off an infection, and your symptoms seem to align with that possibility.
-
-  User:  Okay, that's good to know.  Is there anything else I should be aware of in the report?
-
-  Swasthlekh: Sure!  Based on the report, your blood sugar levels appear to be within the normal range, which is positive news.  However, given your elevated cholesterol and recent symptoms,  I would recommend discussing these findings with your doctor. They can provide a more personalized interpretation based on your full medical history and suggest the best course of action.
-
-  User: This is so helpful, Swasthlekh!  Having you explain things is much easier to understand than the medical jargon.  I will definitely schedule an appointment with my doctor.
-
-  Swasthlekh: You're welcome! I'm glad I could be of assistance. Remember, Swasthlekh is always here to help you understand your health reports, but for any medical concerns, consulting your doctor is the best course of action.
+  // Create Vector Store
+  const vectorstore = await MemoryVectorStore.fromDocuments(
+    splitDocs,
+    embeddings,
+   );
+   
+   // Create a retriever from vector store
+   const retriever = vectorstore.asRetriever({ k: 5 });
   
-  user: That's great, thanks!  Also, what's my favorite color?
+   const retrieverChain = await createHistoryAwareRetriever({
+    llm: model,
+    retriever,
+    rephrasePrompt:retrieverPrompt,
+  });
   
-  Swasthlekh: While I can't answer questions unrelated to your health, I'm happy to focus on helping you feel better.  Would you like to know more about treating colds or perhaps explore some home remedies?
+  const chatHistory:any = [];
   
-  User: Oh, right!  Treating colds would be helpful.
+  function add_history(response:any){
+    new HumanMessage(response.input),
+    new AIMessage(response.answer)
+  };
   
-  Swasthlekh: Perfect!  Let's explore some options...  (Continues with relevant information)
   
-  Additional Notes:
+   // Create a retrieval chain
+   const retrievalChain = await createRetrievalChain({
+     combineDocsChain: chain,
+     retriever,
+   });
   
-  Swasthlekh acknowledges greetings and thanks the user for their information.
-  Swasthlekh avoids making diagnoses or suggesting specific medications.
-  Swasthlekh gently redirects irrelevant questions back to the user's health concerns.
-
-  Context: {context}
-
-  Question: {input}`]
-);
-
-const retrieverPrompt = ChatPromptTemplate.fromMessages([
-  new MessagesPlaceholder("chat_history"),
-  ["user", "{input}"],
-  [
-    "user",
-    "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
-  ],
-]);
-
- 
-
-// Create Chain
-const chain = await createStuffDocumentsChain({
-  llm: model,
-  prompt,
-
-}); 
-
-
-// const data = localStorage.getItem("ExtractedData")
-const doc = new Document({
-  pageContent: data
-})
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 10000,
-  chunkOverlap: 20,
-});
-const splitDocs = await splitter.splitDocuments([doc]);
-const embeddings = new OpenAIEmbeddings();
-
-// Create Vector Store
-const vectorstore = await MemoryVectorStore.fromDocuments(
-  splitDocs,
-  embeddings,
- );
- 
- // Create a retriever from vector store
- const retriever = vectorstore.asRetriever({ k: 5 });
-
- const retrieverChain = await createHistoryAwareRetriever({
-  llm: model,
-  retriever,
-  rephrasePrompt:retrieverPrompt,
-});
-
-const chatHistory:any = [];
-
-function add_history(response:any){
-  new HumanMessage(response.input),
-  new AIMessage(response.answer)
-};
-
-
- // Create a retrieval chain
- const retrievalChain = await createRetrievalChain({
-   combineDocsChain: chain,
-   retriever,
- });
-
- const response = await retrievalChain.invoke({
-  chat_history: chatHistory,
-   input
- }); 
-//  console.log("AI BOLTA HAI KI: ",response)  
-add_history(response)
-console.log(response.answer);
-
- res.json({message:response.answer})
+   const response = await retrievalChain.invoke({
+    chat_history: chatHistory,
+     input
+   }); 
+  //  console.log("AI BOLTA HAI KI: ",response)  
+  add_history(response)
+  console.log(response.answer);
+  
+   res.json({message:response.answer})
+  } catch (error) {
+    console.log(error);
+    
+    res.json({message:'Bot is down'})
+  }
 // export {prefix} 
 })  
 
-export { route, secret }  
+route.get('/access',userAuth ,async (req:Request,res:Response)=>{ 
+  
+  const user = await prisma.user.findUnique({
+   where:{id:req.userId}
+  })
+console.log("username: "+user.username);
+ 
+  const access = await prisma.accessReport.findMany({
+   where:{
+     user:user.username, 
+   },
+   select:{
+    doctor:true,
+    date:true
+   }
+  })
+
+  if (access) {
+    
+  }
+const accessed = access.map((acces)=>({
+  doctor:acces.doctor,
+  date:acces.date
+}))
+ 
+ console.log("accessed: "+accessed.length);
+ 
+res.json({message:"creating access",access:accessed})
+})
+
+
+export { route, secret }   

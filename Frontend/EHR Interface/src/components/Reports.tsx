@@ -212,26 +212,26 @@ function Reps({report,token,username}:any){
     console.log("Executed main fetch 2");
   setContent(blog)
     window.open(`${blog}`,'_blank', 'noreferrer')
-    }  
-async function analyze(filename:any) {
-  console.log("filename: "+filename);
+  } 
+// async function analyze(filename:any) {
+//   console.log("filename: "+filename);
   
-  const res = await axios.post(
-    `${BACKEND_URL}/api/v3/users/analdyze`,
-    {
-      userFile:filename,  
-  },
-    { 
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    }
-  );
-  console.log("inside analyze: ");
-  console.log(res.data.extracted);
+//   const res = await axios.post(
+//     `${BACKEND_URL}/api/v3/users/analdyze`,
+//     {
+//       userFile:filename,  
+//   },
+//     { 
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer ' + token
+//       }
+//     }
+//   );
+//   console.log("inside analyze: ");
+//   console.log(res.data.extracted);
   
-}
+// }
   const navigate = useNavigate()
 
   return  <div id="reports" className="flex justify-between shadow-md shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400">
@@ -247,6 +247,8 @@ async function analyze(filename:any) {
  </div>
 </div> 
  <div className="flex justify-center h-full mr-2 ml-4">
+ 
+
   <Button height={11} loader={''} onclick={()=> {
 
     localStorage.setItem('viewFile',report.filename)

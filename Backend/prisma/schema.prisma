@@ -54,7 +54,6 @@ model Logs {
   @@unique(name:"combinedLogs",[doctorEmail,userEmail])
 }
 
-
 model AccessedFiles {
   id       Int      @id @default(autoincrement())
   actions  String
@@ -62,4 +61,11 @@ model AccessedFiles {
   filename String
   log      Logs     @relation(fields: [logId], references: [id])
   logId    String
+}
+
+model AccessReport{
+  id      String @id   @default(cuid())
+  user    String 
+  doctor  String 
+  date    DateTime
 }

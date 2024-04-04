@@ -5,12 +5,12 @@ import { Signup } from './Signup'
 // import { SendMoney } from './pages/SendMony' 
 // import {  useState } from 'react'
 // import { backendDown, navState } from '../atom'
-// import { useRecoilState } from 'recoil' 
-
+// import { useRecoilState } from 'recoil'  
 import { Home } from './Home';
 import { View } from './View'; 
 import { Upload } from '../../components/Upload';
 import { Logs } from './Logs'
+import { Requests } from './Requests';
 
 
 function Users() {
@@ -27,6 +27,7 @@ function Users() {
           {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
           <Route path='/mainpage' element={<Upload />}></Route> 
           <Route path='/logs' element={<Logs />}></Route> 
+          <Route path='/requests' element={<Requests />}></Route> 
           <Route path='/view' element={<View />}></Route> 
           <Route path='/home' element={<Home />}></Route> 
           <Route path='/signup' element={<Signup />}></Route> 

@@ -7,10 +7,10 @@ import { useRecoilState } from "recoil"
 import { wordss, typereffectt, currentindex } from '../atom'; 
 import { pdfjs } from 'react-pdf';
 import { PdfComp } from "../../components/PdfComp"
-import { BACKEND_URL, FLASK_URL } from "../config"
+import { BACKEND_URL } from "../config"
 
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
-import { MainContainer, ChatContainer, MessageList,Message,MessageInput,TypingIndicator} from '@chatscope/chat-ui-kit-react'
+// import { MainContainer, ChatContainer, MessageList,Message,MessageInput,TypingIndicator} from '@chatscope/chat-ui-kit-react'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -218,41 +218,41 @@ export function View() {
 } 
 
 
-function Chat(){
-  const [typing,setTyping] = useState(false)
- const [messages, setMessages] = useState([
-  {
-    message:'hi i am chatGPT!',
-    sender:'ChatGPT'
-  } 
- ])
+// function Chat(){
+//   const [typing,setTyping] = useState(false)
+//  const [messages, setMessages] = useState([
+//   {
+//     message:'hi i am chatGPT!',
+//     sender:'ChatGPT'
+//   } 
+//  ])
 
- const handleSend = async(message:any)=>{
-   const newMessage = {
-    message:message,
-    sender:"user",
-    // direction:"Outgoing"
-   }
-   const newMessages = [...messages,newMessage]
-   setMessages(newMessages)
-   setTyping(true)
- }
+//  const handleSend = async(message:any)=>{
+//    const newMessage = {
+//     message:message,
+//     sender:"user",
+//     // direction:"Outgoing"
+//    }
+//    const newMessages = [...messages,newMessage]
+//    setMessages(newMessages)
+//    setTyping(true)
+//  }
 
- async function processMessages(chatMessages:any) {
-    // chatMessages { sender :"user" or "ChatGpt", message:}
-    // apiMessage { sender :"user" or "ChatGpt", message:}
- }
+//  async function processMessages(chatMessages:any) {
+//     // chatMessages { sender :"user" or "ChatGpt", message:}
+//     // apiMessage { sender :"user" or "ChatGpt", message:}
+//  }
 
- return   <div className=" h-96">
-    <MainContainer>
-      <ChatContainer>
-        <MessageList typingIndicator={typing?<TypingIndicator content="ChatGPT is typing"/>:null}> 
-            {messages.map((message:any,i:any)=>(
-              <Message key={i} model={message}/>
-            ))}
-        </MessageList>
-        <MessageInput placeholder="Type message here" onSend={handleSend} />
-      </ChatContainer>
-    </MainContainer>
-  </div> 
-} 
+//  return   <div className=" h-96">
+//     <MainContainer>
+//       <ChatContainer>
+//         <MessageList typingIndicator={typing?<TypingIndicator content="ChatGPT is typing"/>:null}> 
+//             {messages.map((message:any,i:any)=>(
+//               <Message key={i} model={message}/>
+//             ))}
+//         </MessageList>
+//         <MessageInput placeholder="Type message here" onSend={handleSend} />
+//       </ChatContainer>
+//     </MainContainer>
+//   </div> 
+// } 

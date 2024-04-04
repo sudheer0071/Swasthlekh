@@ -251,26 +251,48 @@ console.log("already Created: "+alreadyExist);
    });
  }
  else{
-  const newLog = await prisma.logs.create({
-    data: {
-      userEmail: username,
-      doctorEmail: doc.username,
-      accessedFiles: {
-        create: {
-          actions:actions,
-          date: new Date,
-          filename
+  try {
+    const newLog = await prisma.logs.create({
+      data: {
+        userEmail: username,
+        doctorEmail: doc.username,
+        accessedFiles: {
+          create: {
+            actions:actions,
+            date: new Date,
+            filename
+          },
         },
       },
-    },
-  });
-  console.log("new log: "+newLog);
+    }); 
+    console.log("new log: "+newLog);
+  } catch (error) {
+    console.log(error);
+    
+  }
   
  }
 
   // console.log("createing log... "+ logs);
   
 });
+
+route1.post('/access',userAuth ,async (req:Request,res:Response)=>{
+   const {username} = req.body
+   
+   const doc = await prisma.doctor.findUnique({
+    where:{id:req.userId}
+   })
+
+   const access = await prisma.accessReport.create({
+    data:{
+      user:username,
+      doctor:doc.username,
+      date: new Date()
+    }
+   })
+ res.json({message:"creating access",access:access})
+})
 
 async function listFilesByPrefix(prefix:any) {
   const storage = new Storage();
@@ -400,7 +422,7 @@ const chain = await createStuffDocumentsChain({
   prompt,
 
 }); 
-
+ 
 
 // const data = localStorage.getItem("ExtractedData")
 const doc = new Document({
@@ -446,6 +468,7 @@ function add_history(response:any){
   chat_history: chatHistory,
    input
  });
+
 //  console.log("AI BOLTA HAI KI: ",response)  
 add_history(response)
  
