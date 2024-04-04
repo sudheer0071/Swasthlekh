@@ -1,5 +1,4 @@
-import { useState } from "react"
-import MySVG from "../../icons/MySvg"
+import { useState } from "react" 
 import { Reports } from "../../components/Reports" 
 import { Button } from "../../components/Button"
 import { InputBox } from "../../components/InputBox"
@@ -74,7 +73,7 @@ export function Home(){
       </div> ):
       
        (<div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-        {search?<Reports token={localStorage.getItem('docToken')} username={input}/>:<h1 className="flex justify-center mt-10 text-4xl"> Search for user here</h1>}
+        {search?<Reports token={localStorage.getItem('docToken')} username={input}/>:<h1 className="flex justify-center mt-24 text-4xl text-slate-500"> Search for user here</h1>}
      {/* <Access username={input} date={"asd"}  ></Access> */}
 
           
@@ -86,7 +85,7 @@ export function Home(){
   </div>
 }
 
-function Access({username,date}:any){
+function Access({username}:any){
 
   const [popup, setPop] = useState('')
   const [isOpen, setIsopen] = useState(false) 
