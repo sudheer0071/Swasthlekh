@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import MySVG from "../../icons/MySvg"
 import { Reports } from "../../components/Reports"
 import { Upload } from "../../components/Upload"  
-
+import { Button } from "../../components/Button" 
 export function Home(){ 
 
   const navigate = useNavigate()
@@ -37,7 +37,7 @@ export function Home(){
        <div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" >
           <Reports token={localStorage.getItem('TOKEN')}/>
        </div>
-     
+      <Button height={12} loader={''} label={"View Requests"} onclick={()=>{navigate('/users/requests')}}></Button>
      </div>
     </div>
   </div>
