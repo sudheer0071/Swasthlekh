@@ -75,9 +75,7 @@ export function Home(){
        (<div id="reports-list" className=" p-4 bg-slate-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
         {search?<Reports token={localStorage.getItem('docToken')} username={input}/>:<h1 className="flex justify-center mt-24 text-4xl text-slate-500"> Search for user here</h1>}
      {/* <Access username={input} date={"asd"}  ></Access> */}
-
-          
-       
+ 
     </div> )}
         
      </div>
