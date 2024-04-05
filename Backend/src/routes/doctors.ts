@@ -472,7 +472,7 @@ function add_history(response:any){
 //  console.log("AI BOLTA HAI KI: ",response)  
 add_history(response)
  
- res.json({message:response.answer})
+ res.json({message:"response"})
 // export {prefix} 
 })  
 

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 export function Requests(){ 
   const [popup, setPopup] = useState("")
   const [isOpen, setIsopen] = useState(false)
-  const [loader,setloader] = useState('')
+  const [loader,setloader] = useState('') 
  const navigate = useNavigate()
   const [request,setRequest] = useState([])  
       const fetchLogs = async()=>{
@@ -32,7 +32,7 @@ export function Requests(){
         setTimeout(() => {
           setIsopen(false)
           setPopup('')
-          setloader('')
+          setloader('') 
         }, 2000);
         setPopup('Refreshed')
         console.log(response);
@@ -83,9 +83,11 @@ export function Requests(){
     </h1>
       </div>
   </div>):(<div id="reports-list" className=" p-4 bg-gray-300 rounded-lg shadow-lg h-80 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-        {request.map((doctor:any, key:any)=>(
-              <Doctors key={key} doctor={doctor.doctor} date={doctor.date}></Doctors>    
-        ))}
+ 
+   {request.map((doctor:any, key:any)=>(
+                <Doctors key={key} doctor={doctor.doctor} date={doctor.date}></Doctors>    
+          ))} 
+        
   </div>)}
   
 </div>
@@ -114,20 +116,26 @@ export function Requests(){
 
 function Doctors({doctor, date}:any){
   const [popup, setPopup] = useState("")
-  
+  const [grandted,setGranted] = useState(false) 
   const [isOpen, setIsopen] = useState(false)
   // const [loader,setloader] = useState('')
 
   const grantAccess = ()=>{
     setTimeout(() => {
       setIsopen(false)
-      setPopup('')
+      setPopup('Access Granted')
+      setGranted(true)
     }, 3000);
     setIsopen(true)
     setPopup('Granting Access...')
   }
 
-  return  <div id="reports" className="flex justify-between shadow-md shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400"> 
+  return  <div>
+    {grandted?(<div className="flex justify-between shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400">
+     
+    </div>):
+    (<div>
+  <div id="reports" className="flex justify-between shadow-md shadow-slate-500 rounded-md mt-2 bg-slate-300 group hover:bg-slate-400"> 
     <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center ml-96 w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div> 
   <div className="flex -ml-9 mt-2 "> 
@@ -154,4 +162,6 @@ function Doctors({doctor, date}:any){
     }} label={"Grant Access"}></Button> 
  </div>
 </div>
+    </div>)}
+  </div>
 }
