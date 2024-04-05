@@ -223,7 +223,7 @@ route1.post('/pdf', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 
                 accessedFiles: {
                     create: {
                         actions,
-                        date: new Date,
+                        date: new Date(),
                         filename
                     },
                 },
@@ -245,7 +245,7 @@ route1.post('/pdf', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 
                     accessedFiles: {
                         create: {
                             actions: actions,
-                            date: new Date,
+                            date: new Date(),
                             filename
                         },
                     },
@@ -421,7 +421,7 @@ route1.post('/chat', middleware_1.userAuth, (req, res) => __awaiter(void 0, void
     });
     //  console.log("AI BOLTA HAI KI: ",response)  
     add_history(response);
-    res.json({ message: response.answer });
+    res.json({ message: "response" });
     // export {prefix} 
 }));
 //# sourceMappingURL=doctors.js.map

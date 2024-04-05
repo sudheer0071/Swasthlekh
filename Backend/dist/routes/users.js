@@ -369,6 +369,7 @@ route.get('/logs', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0
         }
     });
     const dateOptions = {
+        timeZone: 'Asia/Kolkata',
         year: 'numeric',
         month: 'short',
         day: '2-digit',
@@ -542,11 +543,19 @@ route.get('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, void
             date: true
         }
     });
-    if (access) {
-    }
+    const dateOptions = {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    };
     const accessed = access.map((acces) => ({
         doctor: acces.doctor,
-        date: acces.date
+        date: new Date(acces.date).toLocaleString('en-US', dateOptions),
     }));
     console.log("accessed: " + accessed.length);
     res.json({ message: "creating access", access: accessed });
