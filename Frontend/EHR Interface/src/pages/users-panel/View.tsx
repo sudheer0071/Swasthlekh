@@ -53,6 +53,7 @@ export function View() {
   //   return () => clearInterval(interval)
   // }, [words, currentIndex])
 
+ 
   const fetchResponse = async () => {
     if (input=='') {
       setTimeout(() => {
@@ -77,7 +78,7 @@ export function View() {
                   }
                 } 
               ); 
-      const message = res.data.message
+      const message = res.data.message 
       // const message = res.data.response
       //  setTimeout(() => {
       //    setIsopen(false)
@@ -119,6 +120,7 @@ export function View() {
   },[filename])
 
 
+
   return (
     <div >
     <div className="text-slate-600 overflow-hidden">
@@ -144,15 +146,34 @@ export function View() {
               <TyperEffect text={words}/>
               </span>
           ) : ( 
-                
-            message.text
+            message.text.split('\n').map((line, index) => (
+              <p key={index}>
+                {line.split(' ').map((word, wordIndex) => {
+                  const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
+                  const match = word.match(urlRegex);
+                  if (match) {
+                    return (
+                      <span key={`${index}-${wordIndex}`}>
+                        {match[1]}
+                        <a href={match[2]} target="_blank" rel="noopener noreferrer">
+                          {match[2]}
+                        </a>
+                        {match[3]}{' '}
+                      </span>
+                    );
+                  } else {
+                    return <span key={`${index}-${wordIndex}`}>{word} </span>;
+                  }
+                })}
+              </p>
+            ))
           )}
         </div>
       ))}
     </div>
-            <h3 className="flex font-semibold text-left text-lg text-zinc-800">
+            {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
               <TyperEffect text={words}/>
-            </h3>
+            </h3> */}
           </div>
         )}
       </div>
