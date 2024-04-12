@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(cuid())
+  username  String  @unique
+  password  String
+  firstname String?
+  lastname  String?
+  files     File[]
+  logs      Logs[]
+}
+
+model Doctor {
+  id        String  @id @default(cuid())
+  username  String  @unique
+  password  String
+  firstname String?
+  lastname  String?
+  Logs      Logs[]
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  filename  String   @unique
+  mimettype String
+  encoding  String
+  data      Bytes
+  date      DateTime
+  time      DateTime
+  users     User     @relation(fields: [userId], references: [id])
+}
+
+model Logs {
+  id        String          @id @default(cuid())
+  accessedFiles     AccessedFiles[]
+  User      User?           @relation(fields: [userEmail], references: [username])
+  userEmail String
+  doctor    Doctor          @relation(fields: [doctorEmail], references: [username])
+  doctorEmail  String       
+  @@unique(name:"combinedLogs",[doctorEmail,userEmail])
+}
+
+model AccessedFiles {
+  id       Int      @id @default(autoincrement())
+  actions  String
+  date     DateTime
+  filename String
+  log      Logs     @relation(fields: [logId], references: [id])
+  logId    String
+}
+
+model AccessReport{
+  id      String @id   @default(cuid())
+  user    String 
+  doctor  String  
+  date    DateTime
+}
