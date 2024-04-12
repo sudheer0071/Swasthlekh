@@ -1,0 +1,21 @@
+name = "ehr-backend-cloudflare-test"
+compatibility_date = "2023-12-01"
+
+# [vars]
+# DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMjA0NGM1NTUtOWM2NC00MGY2LTlkMDMtMjViMjJlNTNjZThhIiwidGVuYW50X2lkIjoiNWExYzJkMWIwMTRkMzUzMzFkZDg2OGIyOWQ1ODhlY2U0YmVhMGJlMGNjM2I5MzRkZDBhNTllMTkwMzJhYTYwMiIsImludGVybmFsX3NlY3JldCI6IjI5ZjA4M2ZkLTEyMTEtNGZkMi1hMDQ3LTVlYjdlYmZlN2E5YyJ9.7VJ-3XxHeKc56uyrr8y4DUqqNsQg3oMc3E2j8-75xnw"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
