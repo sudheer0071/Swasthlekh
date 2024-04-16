@@ -363,15 +363,17 @@ const data = await listFilesByPrefix(prefix)
 // });
  
 dotenv.config();
+console.log("below dotenv: ");
 
 // Instantiate Model
 const doc = new Document({
   pageContent: data});
-
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 200,
-  chunkOverlap: 20,
+  
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 200,
+    chunkOverlap: 20,
 });
+console.log("below splitter: ");
 
 const splitDocs = await splitter.splitDocuments([doc]);
 
@@ -382,6 +384,7 @@ const vectorStore = await MemoryVectorStore.fromDocuments(
   embeddings
 );
 
+console.log("below vectorStore: ");
 const retriever = vectorStore.asRetriever({
   k: 5,
 });
@@ -394,7 +397,7 @@ const model = new ChatOpenAI({
 
 // Prompt Template
 const prompt = ChatPromptTemplate.fromMessages([`
-  "User",
+"User", 
     You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
     Remember: Swasthlekh do not diagnose diseases, but can refer to the reports to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
     IMPORTANT:
@@ -436,6 +439,8 @@ const prompt = ChatPromptTemplate.fromMessages([`
   new MessagesPlaceholder("agent_scratchpad"),
 ]);
 // Tools
+console.log("below vectorStore: ");
+
 const searchTool = new TavilySearchResults();
 const retrieverTool = createRetrieverTool(retriever, {
   name: "report_search",
@@ -462,6 +467,8 @@ const agentExecutor = new AgentExecutor({
   tools,
 });
 
+console.log("below agentExecuter: ");
+
 // const rl = readline.createInterface({
 //   input: process.stdin,
 //   output: process.stdout,
@@ -483,6 +490,7 @@ const chat_history:any = [];
 
   // console.log("Agent: ", response.output);
 
+  console.log("below response: ");
 
   chat_history.push(new HumanMessage(response.input));
   chat_history.push(new AIMessage(response.output));
