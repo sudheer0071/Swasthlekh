@@ -44,13 +44,13 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const stream_1 = require("stream");
 const openai_1 = require("@langchain/openai");
-const combine_documents_1 = require("langchain/chains/combine_documents");
 const prompts_1 = require("@langchain/core/prompts");
+const agents_1 = require("langchain/agents");
+const tavily_search_1 = require("@langchain/community/tools/tavily_search");
+const retriever_1 = require("langchain/tools/retriever");
 const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("@langchain/openai");
 const memory_1 = require("langchain/vectorstores/memory");
-const retrieval_1 = require("langchain/chains/retrieval");
-const history_aware_retriever_1 = require("langchain/chains/history_aware_retriever");
 const prompts_2 = require("@langchain/core/prompts");
 const messages_1 = require("@langchain/core/messages");
 const documents_1 = require("@langchain/core/documents");
@@ -114,7 +114,7 @@ route1.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
 route1.post('/reports', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username } = req.body;
-        console.log("patients id: " + username.username);
+        console.log("patients id: " + username);
         const response = yield prisma.user.findUnique({
             where: { username },
             include: {
@@ -264,14 +264,19 @@ route1.post('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, vo
     const doc = yield prisma.doctor.findUnique({
         where: { id: req.userId }
     });
-    const access = yield prisma.accessReport.create({
-        data: {
-            user: username,
-            doctor: doc.username,
-            date: new Date()
-        }
-    });
-    res.json({ message: "creating access", access: access });
+    try {
+        const access = yield prisma.accessReport.create({
+            data: {
+                user: username,
+                doctor: doc.username,
+                date: new Date()
+            }
+        });
+        res.json({ message: "creating access", access: access });
+    }
+    catch (error) {
+        console.log("error happened: " + error);
+    }
 }));
 function listFilesByPrefix(prefix) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -306,122 +311,136 @@ function listFilesByPrefix(prefix) {
     });
 }
 route1.post('/chat', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, userFile, input } = req.body;
-    // const user = await prisma.user.findUnique({
-    //   where:{
-    //     id:req.userId
-    //   }
-    // })  
-    const prefix = `responses/${username}/${userFile}/`;
-    // The delimiter to use 
-    // var dataaa 
-    const data = yield listFilesByPrefix(prefix);
-    // .then((data) => { 
-    //   dataaa = data 
-    //   console.log("data Insie: "+dataaa);
-    // // res.json({extracted:data}) 
-    // })
-    // .catch((error) => {
-    // console.error("Error: " + error);
-    // });
-    dotenv.config();
-    // Instantiate Model
-    const model = new openai_1.ChatOpenAI({
-        modelName: "gpt-3.5-turbo-1106",
-        temperature: 0.9,
-    });
-    // Create prompt
-    const prompt = prompts_1.ChatPromptTemplate.fromMessages([`
-
-  You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
-  Remember: Swasthlekh do not diagnose diseases, but can refer to the context to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
+    try {
+        const { username, userFile, input } = req.body;
+        // const user = await prisma.user.findUnique({
+        //   where:{
+        //     id:req.userId
+        //   }
+        // })  
+        const prefix = `responses/${username}/${userFile}/`;
+        // The delimiter to use 
+        // var dataaa 
+        const data = yield listFilesByPrefix(prefix);
+        // .then((data) => { 
+        //   dataaa = data 
+        //   console.log("data Insie: "+dataaa);
+        // // res.json({extracted:data}) 
+        // })
+        // .catch((error) => {
+        // console.error("Error: " + error);
+        // });
+        dotenv.config();
+        console.log("below dotenv: ");
+        // Instantiate Model
+        const doc = new documents_1.Document({
+            pageContent: data
+        });
+        const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
+            chunkSize: 200,
+            chunkOverlap: 20,
+        });
+        console.log("below splitter: ");
+        const splitDocs = yield splitter.splitDocuments([doc]);
+        const embeddings = new openai_2.OpenAIEmbeddings();
+        const vectorStore = yield memory_1.MemoryVectorStore.fromDocuments(splitDocs, embeddings);
+        console.log("below vectorStore: ");
+        const retriever = vectorStore.asRetriever({
+            k: 5,
+        });
+        // Instantiate the model
+        const model = new openai_1.ChatOpenAI({
+            modelName: "gpt-3.5-turbo-1106",
+            temperature: 0.7,
+        });
+        // Prompt Template
+        const prompt = prompts_1.ChatPromptTemplate.fromMessages([`
+"User", 
+    You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
+    Remember: Swasthlekh do not diagnose diseases, but can refer to the reports to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
+    IMPORTANT:
+    
+    Swasthlekh acknowledges greetings and thanks the user for their information,
+    Swasthlekh avoids making diagnoses or suggesting specific medications,
+    Swasthlekh gently redirects irrelevant questions back to the user's health concerns.
+    
+   Refer the following "Example Chat" - Dont directly use this in converstion,
+    
+    User: Hi Swasthlekh! My name is raju, I just uploaded my recent report. Can you take a look and help me understand it?
   
+    Swasthlekh: Sure raju, let's take a look.  According to the report, your LDL cholesterol, the "bad" cholesterol, is elevated. This can increase your risk of heart disease over time.  The report also shows an increased white blood cell count, which could indicate an infection or inflammation.  However, to understand the white blood cell finding better, I would need some additional context.
   
-  Example Chat:
+    User: Interesting.  Actually, I've been feeling a bit under the weather lately, with a sore throat and a cough.  Could that be related?
   
-  User: Hi Swasthlekh! I just uploaded my recent blood test report. Can you take a look and help me understand it?
-
-  Swasthlekh: Sure, let's take a look.  According to the report, your LDL cholesterol, the "bad" cholesterol, is elevated. This can increase your risk of heart disease over time.  The report also shows an increased white blood cell count, which could indicate an infection or inflammation.  However, to understand the white blood cell finding better, I would need some additional context.
-
-  User: Interesting.  Actually, I've been feeling a bit under the weather lately, with a sore throat and a cough.  Could that be related?
-
-  Swasthlekh: It's possible! An elevated white blood cell count is a common sign of the body fighting off an infection, and your symptoms seem to align with that possibility.
-
-  User:  Okay, that's good to know.  Is there anything else I should be aware of in the report?
-
-  Swasthlekh: Sure!  Based on the report, your blood sugar levels appear to be within the normal range, which is positive news.  However, given your elevated cholesterol and recent symptoms,  I would recommend discussing these findings with your doctor. They can provide a more personalized interpretation based on your full medical history and suggest the best course of action.
-
-  User: This is so helpful, Swasthlekh!  Having you explain things is much easier to understand than the medical jargon.  I will definitely schedule an appointment with my doctor.
-
-  Swasthlekh: You're welcome! I'm glad I could be of assistance. Remember, Swasthlekh is always here to help you understand your health reports, but for any medical concerns, consulting your doctor is the best course of action.
+    Swasthlekh: It's possible! An elevated white blood cell count is a common sign of the body fighting off an infection, and your symptoms seem to align with that possibility.
   
-  user: That's great, thanks!  Also, what's my favorite color?
+    User:  Okay, that's good to know.  Is there anything else I should be aware of in the report?
   
-  Swasthlekh: While I can't answer questions unrelated to your health, I'm happy to focus on helping you feel better.  Would you like to know more about treating colds or perhaps explore some home remedies?
+    Swasthlekh: Sure!  Based on the report, your blood sugar levels appear to be within the normal range, which is positive news.  However, given your elevated cholesterol and recent symptoms,  I would recommend discussing these findings with your doctor. They can provide a more personalized interpretation based on your full medical history and suggest the best course of action.
   
-  User: Oh, right!  Treating colds would be helpful.
+    User: This is so helpful, Swasthlekh!  Having you explain things is much easier to understand than the medical jargon.  I will definitely schedule an appointment with my doctor.
   
-  Swasthlekh: Perfect!  Let's explore some options...  (Continues with relevant information)
+    Swasthlekh: You're welcome raju! I'm glad I could be of assistance. Remember, Swasthlekh is always here to help you understand your health reports, but for any medical concerns, consulting your doctor is the best course of action.
+    
+    user: That's great, thanks!  Also, what's my favorite color?
+    
+    Swasthlekh: While I can't answer questions unrelated to your health, I'm happy to focus on helping you feel better.  Would you like to know more about treating colds or perhaps explore some home remedies?
+    
+    User: Oh, right!  Treating colds would be helpful.
+    
+    Swasthlekh: Perfect!  Let's explore some options...  (Continues with relevant information)
+    
   
-  Additional Notes:
-  
-  Swasthlekh acknowledges greetings and thanks the user for their information.
-  Swasthlekh avoids making diagnoses or suggesting specific medications.
-  Swasthlekh gently redirects irrelevant questions back to the user's health concerns.
-
-  Context: {context}
-
-  Question: {input}`]);
-    const retrieverPrompt = prompts_1.ChatPromptTemplate.fromMessages([
-        new prompts_2.MessagesPlaceholder("chat_history"),
-        ["user", "{input}"],
-        [
-            "user",
-            "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
-        ],
-    ]);
-    // Create Chain
-    const chain = yield (0, combine_documents_1.createStuffDocumentsChain)({
-        llm: model,
-        prompt,
-    });
-    // const data = localStorage.getItem("ExtractedData")
-    const doc = new documents_1.Document({
-        pageContent: data
-    });
-    const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
-        chunkSize: 10000,
-        chunkOverlap: 20,
-    });
-    const splitDocs = yield splitter.splitDocuments([doc]);
-    const embeddings = new openai_2.OpenAIEmbeddings();
-    // Create Vector Store
-    const vectorstore = yield memory_1.MemoryVectorStore.fromDocuments(splitDocs, embeddings);
-    // Create a retriever from vector store
-    const retriever = vectorstore.asRetriever({ k: 5 });
-    const retrieverChain = yield (0, history_aware_retriever_1.createHistoryAwareRetriever)({
-        llm: model,
-        retriever,
-        rephrasePrompt: retrieverPrompt,
-    });
-    const chatHistory = [];
-    function add_history(response) {
-        new messages_1.HumanMessage(response.input),
-            new messages_1.AIMessage(response.answer);
+  `,
+            new prompts_2.MessagesPlaceholder("chat_history"),
+            ("{input}"),
+            new prompts_2.MessagesPlaceholder("agent_scratchpad"),
+        ]);
+        // Tools
+        console.log("below vectorStore: ");
+        const searchTool = new tavily_search_1.TavilySearchResults();
+        const retrieverTool = (0, retriever_1.createRetrieverTool)(retriever, {
+            name: "report_search",
+            description: "use this when user asks the first query",
+        });
+        const tools = [searchTool, retrieverTool];
+        const agent = yield (0, agents_1.createOpenAIFunctionsAgent)({
+            llm: model,
+            tools,
+            prompt,
+        });
+        // Create the executor
+        const agentExecutor = new agents_1.AgentExecutor({
+            agent,
+            tools,
+        });
+        console.log("below agentExecuter: ");
+        // const rl = readline.createInterface({
+        //   input: process.stdin,
+        //   output: process.stdout,
+        // });
+        const chat_history = [];
+        // function askQuestion() {
+        //   rl.question("User: ", async (input) => {
+        //     if (input.toLowerCase() === "exit") {
+        //       rl.close();
+        //       return;
+        //     } 
+        const response = yield agentExecutor.invoke({
+            input: input, //userinput
+            chat_history: chat_history,
+        });
+        // console.log("Agent: ", response.output);
+        console.log("below response: ");
+        chat_history.push(new messages_1.HumanMessage(response.input));
+        chat_history.push(new messages_1.AIMessage(response.output));
+        console.log("response: " + response.output);
+        res.json({ message: response.output });
     }
-    ;
-    // Create a retrieval chain
-    const retrievalChain = yield (0, retrieval_1.createRetrievalChain)({
-        combineDocsChain: chain,
-        retriever,
-    });
-    const response = yield retrievalChain.invoke({
-        chat_history: chatHistory,
-        input
-    });
-    //  console.log("AI BOLTA HAI KI: ",response)  
-    add_history(response);
-    res.json({ message: "response" });
+    catch (error) {
+        console.log(error);
+        res.json({ message: 'Bot is down' });
+    }
     // export {prefix} 
 }));
 //# sourceMappingURL=doctors.js.map
