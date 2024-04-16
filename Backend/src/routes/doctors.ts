@@ -141,7 +141,7 @@ route1.post('/reports', userAuth, async (req: Request, res) => {
   } catch (error) {
     res.json({ message: "No resports associated with username: " + req.body })
   }
-})
+}) 
  
 route1.post('/pdf', userAuth, async (req: Request, res: Response) => {
   const { filename, username,actions } = req.body;

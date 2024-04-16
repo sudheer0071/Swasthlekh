@@ -29,10 +29,10 @@ export function View() {
 
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
-// console.log(setActions);
+console.log(setActions);
 
-//   console.log(setFilename);
-//   console.log(setLatestBotMessageIndex)
+  console.log(setFilename);
+  console.log(setLatestBotMessageIndex)
   useEffect(() => {
     if (words.length == 0) {
       setTyperEffect(' ')
