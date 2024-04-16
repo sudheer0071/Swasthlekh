@@ -29,10 +29,10 @@ export function View() {
 
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
-console.log(setActions);
+// console.log(setActions);
 
-  console.log(setFilename);
-  console.log(setLatestBotMessageIndex)
+//   console.log(setFilename);
+//   console.log(setLatestBotMessageIndex)
   useEffect(() => {
     if (words.length == 0) {
       setTyperEffect(' ')
@@ -73,6 +73,8 @@ console.log(setActions);
       } 
       )  
       const message = res.data.message
+      console.log("bot resposne: "+message);
+      
       //  setTimeout(() => {
       //    setIsopen(false)
       //    setPop('')
@@ -137,34 +139,36 @@ console.log(setActions);
             <div id="messages" className="items-center mt-4 text-start text-xl font-medium">
             {messages.map((message, index) => (
       <div key={index} className={`message ${message.sender === 'user' ? 'shadow-sm shadow-slate-500 rounded-lg bg-slate-300 p-2 ml-auto  text-slate-500 mx-4 mt-3' : 'shadow-md shadow-slate-500 rounded-lg bg-slate-200 p-2 ml-auto text-slate-500 mx-4 mt-3'}`}>
-            {message.sender==='bot'&& index === latestBotMessageIndex ? (
-          <span className="bot-message">
-            {/* {typereffect} */}
-            <TyperEffect text={words}/>
-            </span>
-        ) : ( 
-          message.text.split('\n').map((line, index) => (
-            <p key={index}>
-              {line.split(' ').map((word, wordIndex) => {
-                const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
-                const match = word.match(urlRegex);
-                if (match) {
-                  return (
-                    <span key={`${index}-${wordIndex}`}>
-                      {match[1]}
-                      <a href={match[2]} target="_blank" rel="noopener noreferrer">
-                        {match[2]}
-                      </a>
-                      {match[3]}{' '}
-                    </span>
-                  );
-                } else {
-                  return <span key={`${index}-${wordIndex}`}>{word} </span>;
-                }
-              })}
-            </p>
-          ))
-        )}
+             {message.sender==='bot'&& index === latestBotMessageIndex ? (
+            <span className="bot-message">
+              {typereffect}
+              <TyperEffect text={words}/>
+              </span>
+          ) : ( 
+            message.text.split('\n').map((line, index) => (
+              <p key={index}>
+                {line.split(' ').map((word, wordIndex) => {
+                    const mainWord = word.split(')')
+                    const words = mainWord[0]
+                    const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
+                    const match = words.match(urlRegex);
+                  if (match) {
+                    return (
+                      <span key={`${index}-${wordIndex}`}>
+                        {match[1]}
+                        <a href={match[2]} target="_blank" rel="noopener noreferrer">
+                          {match[2]}
+                        </a>
+                        {match[3]}{' '}
+                      </span>
+                    );
+                  } else {
+                    return <span key={`${index}-${wordIndex}`}>{word} </span>;
+                  }
+                })}
+              </p>
+            ))
+          )}
       </div>
     ))}
   </div>
