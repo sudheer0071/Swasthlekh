@@ -486,6 +486,8 @@ const chat_history:any = [];
 
   chat_history.push(new HumanMessage(response.input));
   chat_history.push(new AIMessage(response.output));
+  console.log("response: "+response.output);
+  
    res.json({message:response.output})
   } catch (error) {
     console.log(error);
