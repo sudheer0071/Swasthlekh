@@ -212,9 +212,7 @@ route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Res
       return res.json({ message: "File already exist" })
     }
 
-    else {
-
- 
+    else { 
       console.log("creating... ");
 
       const resposne = await prisma.file.create({

@@ -137,10 +137,10 @@ export function View() {
           </div>
         ) : (
           <div className=" ">
-              <div id="messages" className="items-center mt-4 text-start text-xl font-medium">
-              {messages.map((message, index) => (
-        <div key={index} className={`message ${message.sender === 'user' ? 'shadow-sm shadow-slate-500 rounded-lg bg-slate-300 p-2 ml-auto  text-slate-500 mx-4 mt-3' : 'shadow-md shadow-slate-500 rounded-lg bg-slate-200 p-2 ml-auto text-slate-500 mx-4 mt-3'}`}>
-              {message.sender==='bot'&& index === latestBotMessageIndex ? (
+            <div id="messages" className="items-center mt-4 text-start text-xl font-medium">
+            {messages.map((message, index) => (
+      <div key={index} className={`message ${message.sender === 'user' ? 'shadow-sm shadow-slate-500 rounded-lg bg-slate-300 p-2 ml-auto  text-slate-500 mx-4 mt-3' : 'shadow-md shadow-slate-500 rounded-lg bg-slate-200 p-2 ml-auto text-slate-500 mx-4 mt-3'}`}>
+             {message.sender==='bot'&& index === latestBotMessageIndex ? (
             <span className="bot-message">
               {typereffect}
               <TyperEffect text={words}/>
@@ -149,8 +149,10 @@ export function View() {
             message.text.split('\n').map((line, index) => (
               <p key={index}>
                 {line.split(' ').map((word, wordIndex) => {
-                  const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
-                  const match = word.match(urlRegex);
+                    const mainWord = word.split(')')
+                    const words = mainWord[0]
+                    const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
+                    const match = words.match(urlRegex);
                   if (match) {
                     return (
                       <span key={`${index}-${wordIndex}`}>
@@ -168,15 +170,15 @@ export function View() {
               </p>
             ))
           )}
-        </div>
-      ))}
-    </div>
-            {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
-              <TyperEffect text={words}/>
-            </h3> */}
-          </div>
-        )}
       </div>
+    ))}
+  </div>
+          {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
+            <TyperEffect text={words}/>
+          </h3> */}
+        </div>
+        )}
+      </div> 
   
       <div id="inputss" className="flex justify-center mt-10">
         <div className=" ml-7 w-full ">
