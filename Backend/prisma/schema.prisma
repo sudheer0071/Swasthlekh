@@ -69,3 +69,10 @@ model AccessReport{
   doctor  String  
   date    DateTime
 }
+
+model Hospital{
+  id  String @id @default(uuid())
+  name String
+  branch  String
+  
+}
