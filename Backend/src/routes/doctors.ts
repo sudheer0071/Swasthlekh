@@ -438,6 +438,7 @@ const prompt = ChatPromptTemplate.fromMessages([`
    ("{input}"),
   new MessagesPlaceholder("agent_scratchpad"),
 ]);
+
 // Tools
 console.log("below vectorStore: ");
 
