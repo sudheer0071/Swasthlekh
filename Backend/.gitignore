@@ -1,5 +1,5 @@
 node_modules
-winter-flare-414016-a7dd7ec7508f.json
 # Keep environment variables out of version control
+winter-flare-414016-a7dd7ec7508f.json
 .env
 .vercel
