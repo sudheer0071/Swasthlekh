@@ -121,6 +121,8 @@ route.post('/signin', async (req: Request, res: Response) => {
     res.json({ message: "Fetching details...", token: token, firstname: user.firstname })
 
   } catch (error) {
+    console.log(error);
+    
     return res.json({ message: "Backend is down", Error: error })
   }
 })
@@ -183,14 +185,14 @@ console.log("prefix: "+prefix);
     const jstring = JSON.parse(contents.toString())
     const pgnumber = jstring.responses.length;
 
-    for (let i = 0; i < pgnumber; i++) {
+    for (let i = 0; i < pgnumber; i++) { 
       const PageResponse = jstring.responses[i];
       const annotation = PageResponse.fullTextAnnotation;  
       data += annotation.text;
     }
   }); 
   await Promise.all(promises); 
-  return data;
+  return data; 
 }
 
 route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Response) => {

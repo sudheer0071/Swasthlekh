@@ -21,7 +21,7 @@ export function  Signin(){
 
   const navigate = useNavigate()
   
-  console.log(logged,setEmtpyemail,setEmtpypass);
+  // console.log(logged,setEmtpyemail,setEmtpypass);
   
 
   return <div className="bg-gray-500 h-screen flex justify-center">
@@ -52,7 +52,7 @@ export function  Signin(){
           username, password
        })
        const json = res.data.message
-          console.log("inside signin");
+          console.log("inside signin 1");
           if (json.includes('details')) {
             setTimeout(() => { 
               setIsopen(false) 

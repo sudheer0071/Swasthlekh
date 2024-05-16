@@ -126,6 +126,7 @@ route.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.json({ message: "Fetching details...", token: token, firstname: user.firstname });
     }
     catch (error) {
+        console.log(error);
         return res.json({ message: "Backend is down", Error: error });
     }
 }));
