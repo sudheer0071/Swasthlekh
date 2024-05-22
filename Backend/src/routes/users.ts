@@ -644,5 +644,21 @@ const accessed = access.map((acces)=>({
 res.json({message:"creating access",access:accessed})
 })
 
-
+route.delete('/access',userAuth, async (req:Request, res:Response)=>{
+  const user = await prisma.user.findUnique({
+    where:{id:req.userId}
+   })
+  const deleteEntry = await prisma.accessReport.deleteMany({
+     where:{ user:user.username}
+  })
+console.log(deleteEntry);
+const createAcess = await prisma.allowedAcess.create({
+  data:{
+    user:user.username,
+    doctor:req.body.doctor
+  }
+})
+ res.json({message:"Access granted", deleted:deleteEntry})
+}) 
+ 
 export { route, secret }   

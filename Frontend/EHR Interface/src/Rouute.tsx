@@ -21,7 +21,7 @@ export function Rouute(){
   };   
 
   return  <div>  
-      <div className="flex justify-center mt-16">   
+      {/* <div className="flex justify-center mt-16">   
 <div className="flex flex-col justify-center w-full mr-4"> 
     <h1 className=" flex justify-center text-slate-700 font-semibold text-4xl "> I am a Patient</h1>
     <div id="reports-list" className="report-list p-4 mt-10 bg-slate bg-slate-300 rounded-lg shadow-2xl h-96 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" > 
@@ -117,6 +117,9 @@ export function Rouute(){
          <div className="flex">
 
          </div>
-      </div>
+      </div> */}
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1175 263" fill="black" className="abs hero-backgroundImage top right primary-3"><path d="M470 96.1505C285.24 111.849 142.033 74.7745 0 0H1175V263C862.527 210.142 1128.96 40.1598 470 96.1505Z" fill="#831a4a"></path></svg>
+
   </div>
 }

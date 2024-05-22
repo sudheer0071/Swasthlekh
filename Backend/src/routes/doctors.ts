@@ -104,7 +104,7 @@ route1.post('/signin', async (req: Request, res: Response) => {
   console.log(exist);
 
   const token = jwt.sign({ userId: user.id }, secret)
-  res.json({ message: "Fetching details...", token: token, firstname: user.firstname })
+  res.json({ message: "Fetching details...", token: token, firstname:user.firstname,lastname:user.lastname })
 })
 
 route1.post('/reports', userAuth, async (req: Request, res) => {
@@ -289,6 +289,17 @@ route1.post('/access',userAuth ,async (req:Request,res:Response)=>{
     where:{id:req.userId}
    })
 try {
+  const alreadyExist = await prisma.accessReport.findUnique({
+    where:{
+     combinedAccess:{
+      doctor:doc.username,
+      user:username
+     }
+    } 
+  })
+  if (alreadyExist) {
+    return res.json({message:'Request already sent'})
+  }
   const access = await prisma.accessReport.create({
    data:{
      user:username,
@@ -302,7 +313,27 @@ res.json({message:"creating access",access:access})
   
 }
 })
+route1.post('/allow',userAuth,async(req:Request, res:Response)=>{
+  const {username} = req.body
+   console.log('inside allow');
+   
+   const doc = await prisma.doctor.findUnique({
+    where:{id:req.userId}
+   })
 
+   const allow = await prisma.allowedAcess.findFirst({
+    where:{
+      user:username,
+      doctor:doc.username
+    }
+   })
+
+   if (allow) {
+    return res.json({message:'allowed',allow})
+   }
+   res.json({message:"Doesn't allowed yet"})
+
+})
 async function listFilesByPrefix(prefix:any) {
   const storage = new Storage();
   var data = ''

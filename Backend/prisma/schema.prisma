@@ -24,12 +24,13 @@ model User {
 }
 
 model Doctor {
-  id        String  @id @default(cuid())
-  username  String  @unique
+  id        String     @id @default(cuid())
+  username  String     @unique
   password  String
   firstname String?
   lastname  String?
   Logs      Logs[]
+  Hospital  Hospital[]
 }
 
 model File {
@@ -45,13 +46,14 @@ model File {
 }
 
 model Logs {
-  id        String          @id @default(cuid())
-  accessedFiles     AccessedFiles[]
-  User      User?           @relation(fields: [userEmail], references: [username])
-  userEmail String
-  doctor    Doctor          @relation(fields: [doctorEmail], references: [username])
-  doctorEmail  String       
-  @@unique(name:"combinedLogs",[doctorEmail,userEmail])
+  id            String          @id @default(cuid())
+  accessedFiles AccessedFiles[]
+  User          User?           @relation(fields: [userEmail], references: [username])
+  userEmail     String
+  doctor        Doctor          @relation(fields: [doctorEmail], references: [username])
+  doctorEmail   String
+
+  @@unique(name: "combinedLogs", [doctorEmail, userEmail])
 }
 
 model AccessedFiles {
@@ -63,16 +65,25 @@ model AccessedFiles {
   logId    String
 }
 
-model AccessReport{
-  id      String @id   @default(cuid())
-  user    String 
-  doctor  String  
-  date    DateTime
+model AccessReport {
+  id     String   @id @default(cuid())
+  user   String
+  doctor String
+  date   DateTime
+  
+  @@unique(name: "combinedAccess" ,[user,doctor])
 }
 
-model Hospital{
-  id  String @id @default(uuid())
-  name String
-  branch  String
-  
+model AllowedAcess{
+  id    String @id @default(cuid())
+  user    String
+  doctor String
+}
+
+model Hospital {
+  id       String @id @default(uuid())
+  name     String
+  branch   String
+  doctors  Doctor @relation(fields: [doctorId], references: [id])
+  doctorId String
 }
