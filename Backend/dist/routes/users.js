@@ -560,4 +560,20 @@ route.get('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, void
     console.log("accessed: " + accessed.length);
     res.json({ message: "creating access", access: accessed });
 }));
+route.delete('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield prisma.user.findUnique({
+        where: { id: req.userId }
+    });
+    const deleteEntry = yield prisma.accessReport.deleteMany({
+        where: { user: user.username }
+    });
+    console.log(deleteEntry);
+    const createAcess = yield prisma.allowedAcess.create({
+        data: {
+            user: user.username,
+            doctor: req.body.doctor
+        }
+    });
+    res.json({ message: "Access granted", deleted: deleteEntry });
+}));
 //# sourceMappingURL=users.js.map

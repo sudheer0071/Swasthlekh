@@ -109,7 +109,7 @@ route1.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     console.log(exist);
     const token = jwt.sign({ userId: user.id }, secret);
-    res.json({ message: "Fetching details...", token: token, firstname: user.firstname });
+    res.json({ message: "Fetching details...", token: token, firstname: user.firstname, lastname: user.lastname });
 }));
 route1.post('/reports', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -265,6 +265,17 @@ route1.post('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, vo
         where: { id: req.userId }
     });
     try {
+        const alreadyExist = yield prisma.accessReport.findUnique({
+            where: {
+                combinedAccess: {
+                    doctor: doc.username,
+                    user: username
+                }
+            }
+        });
+        if (alreadyExist) {
+            return res.json({ message: 'Request already sent' });
+        }
         const access = yield prisma.accessReport.create({
             data: {
                 user: username,
@@ -277,6 +288,23 @@ route1.post('/access', middleware_1.userAuth, (req, res) => __awaiter(void 0, vo
     catch (error) {
         console.log("error happened: " + error);
     }
+}));
+route1.post('/allow', middleware_1.userAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.body;
+    console.log('inside allow');
+    const doc = yield prisma.doctor.findUnique({
+        where: { id: req.userId }
+    });
+    const allow = yield prisma.allowedAcess.findFirst({
+        where: {
+            user: username,
+            doctor: doc.username
+        }
+    });
+    if (allow) {
+        return res.json({ message: 'allowed', allow });
+    }
+    res.json({ message: "Doesn't allowed yet" });
 }));
 function listFilesByPrefix(prefix) {
     return __awaiter(this, void 0, void 0, function* () {
