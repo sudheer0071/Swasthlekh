@@ -13,7 +13,7 @@ declare module 'express' {
    
    const auth = req.headers.authorization 
    try {
-  console.log(auth);
+  console.log("auth "+auth);
   if (auth!=null) { 
     const token = auth.split(' ')[1]
     if (!auth || !auth.startsWith('Bearer ')) {

@@ -45,9 +45,11 @@ model File {
   users     User     @relation(fields: [userId], references: [id])
 }
 
+
 model Logs {
   id            String          @id @default(cuid())
   accessedFiles AccessedFiles[]
+  date          DateTime
   User          User?           @relation(fields: [userEmail], references: [username])
   userEmail     String
   doctor        Doctor          @relation(fields: [doctorEmail], references: [username])
@@ -70,6 +72,7 @@ model AccessReport {
   user   String
   doctor String
   date   DateTime
+  grant  Boolean?
   
   @@unique(name: "combinedAccess" ,[user,doctor])
 }
@@ -87,3 +90,4 @@ model Hospital {
   doctors  Doctor @relation(fields: [doctorId], references: [id])
   doctorId String
 }
+ 

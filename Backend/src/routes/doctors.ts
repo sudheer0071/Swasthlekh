@@ -229,6 +229,7 @@ console.log("already Created: "+alreadyExist);
    const logs = await prisma.logs.upsert({
      create:{
        userEmail:username,
+       date: new Date(),
        doctorEmail:req.userId,
        accessedFiles:{
          create:{
@@ -256,11 +257,12 @@ console.log("already Created: "+alreadyExist);
    });
  }
  else{
-  try {
+  try { 
     const newLog = await prisma.logs.create({
       data: {
         userEmail: username,
         doctorEmail: doc.username,
+        date: new Date(),
         accessedFiles: {
           create: {
             actions:actions,
@@ -284,7 +286,7 @@ console.log("already Created: "+alreadyExist);
 
 route1.post('/access',userAuth ,async (req:Request,res:Response)=>{
    const {username} = req.body
-   
+    
    const doc = await prisma.doctor.findUnique({
     where:{id:req.userId}
    })
@@ -294,20 +296,37 @@ try {
      combinedAccess:{
       doctor:doc.username,
       user:username
-     }
-    } 
+     }, 
+     grant:false
+    }
   })
-  if (alreadyExist) {
-    return res.json({message:'Request already sent'})
+  const granted = await prisma.accessReport.findUnique({
+    where:{
+     combinedAccess:{
+      doctor:doc.username,
+      user:username
+     }, 
+     grant:true
+    }
+  })
+  console.log(alreadyExist);
+  if (alreadyExist) { 
+    return res.json({message:'Already requested'})
+  } 
+  if (granted) {
+    return res.json({message:'request granted'})
   }
-  const access = await prisma.accessReport.create({
-   data:{
-     user:username,
-     doctor:doc.username,
-     date: new Date()
-   }
-  })
-res.json({message:"creating access",access:access})
+  else{
+    const access = await prisma.accessReport.create({
+     data:{
+       user:username,
+       doctor:doc.username,
+       date: new Date(),
+       grant:false
+     }
+    })
+    res.json({message:"creating access",access:access})
+  }
 } catch (error) {
   console.log("error happened: "+ error);
   
@@ -536,6 +555,108 @@ const chat_history:any = [];
   }
 // export {prefix} 
 })  
+
+route1.post('/find',userAuth, async(req:Request, res:Response)=>{
+  const find = await prisma.user.findFirst({
+    where:{
+      username:req.body.username
+    }
+  })
+  console.log(req.body.username);
   
+  if (find) {
+    console.log("found");
+    return res.json({message:"Patient found! "})
+  }
+  console.log("not found");
+  res.json({message:"Patient not found"})
+})
+ 
+route1.get('/findRequest',userAuth,async(req:Request, res:Response)=>{
+  const doc = await prisma.doctor.findUnique({
+    where:{id:req.userId}
+   })
+   console.log("inside find request");
+   
+   const request = await prisma.accessReport.findMany({
+    where:{ 
+      doctor:doc.username, 
+    },select:{
+      user:true,
+      date:true,
+      grant:true
+    }
+   })
+
+   const dateOptions: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+};
+ const requests = request.map((rqst)=>({
+  user:rqst.user,
+  grant:rqst.grant,
+  date:new Date(rqst.date).toLocaleString('en-US', dateOptions),
+ }))
+  console.log(request);
+  
+   if (request.length!=0) {
+    return res.json({message:'showing requests',request:requests})
+   }
+   res.json({message:'no requests'}) 
+})
+
+route1.get('/viewed',userAuth,async(req:Request,res:Response)=>{
+  const doc = await prisma.doctor.findUnique({
+    where:{id:req.userId}
+   })
+
+   const viewed = await prisma.logs.findMany({
+    where:{
+      doctorEmail:doc.username
+    },
+    select:{
+      userEmail:true,
+      date:true,
+      accessedFiles:{
+        select:{
+          actions:true,
+          date:true,
+          filename:true
+        }
+      }
+    }
+   })
+
+   const dateOptions: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+};
+
+  const all_logs = viewed.map((log)=>({
+    user:log.userEmail,
+    date: new Date(log.date).toLocaleString('en-US', dateOptions),
+    accessedFiles:log.accessedFiles.map((file)=>({
+      actions:file.actions,
+      date: new Date(file.date).toLocaleString('en-US', dateOptions),
+      filename:file.filename
+    }))
+  }))
+
+   console.log(all_logs);
+   res.json({viewed:all_logs})
+   
+})  
 
 export { route1 }

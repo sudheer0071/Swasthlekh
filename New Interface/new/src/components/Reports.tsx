@@ -146,10 +146,35 @@ export function Reports({ token, username }: any) {
         </div> :
           <div>
             {username ? (
-              <div className="username flex justify-center bg-slate-300 rounded-lg shadow-md h-9 fixed text-slate-600 text-2xl font-medium">
-                Showing reports associated with username: <div className=" text-slate-500 font-bold">"{username}"</div>
+              <div className=" flex justify-center font-medium text-lg navba border-b-2">
+                Showing reports associated with username: <div className=" text-slate-500 font-bold ml-4">"{username}"</div>
               </div>) : ''}
+              <div className=" p-2 flex justify-between">
+                  <div className=" flex">
+                    <div className=" font-bold w-36">
+                      File Name
+                    </div>
+                  </div>
+                  <div className=" rounded-full items-center flex">
+                    <div className=" font-bold ml-3">
+                      Type
+                    </div>
+                  </div>
+                  <div className=" flex flex-col">
+                    <div className=" font-bold -ml-14">
+                      Uploaded Date and Time
+                    </div>
+                  </div>
+                  <div className=" flex px-2">
+                    <div>
+                    </div>
+                    <div className=" ml-7">
+                    </div>
+                  </div>
+                </div>
+                <div className=" bg-custom border-2 rounded-md">
             {report.map((report: any, index: any) => <UploadCard username={username} token={token} key={index} report={report} />)}
+                </div>
           </div>
         }
       </div>

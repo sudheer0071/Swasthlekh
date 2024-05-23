@@ -602,7 +602,7 @@ const chat_history:any = [];
     console.log(error);
     
     res.json({message:'Bot is down'})
-  }
+  } 
 // export {prefix} 
 })  
 
@@ -615,7 +615,7 @@ console.log("username: "+user.username);
  
   const access = await prisma.accessReport.findMany({
    where:{
-     user:user.username, 
+     user:user.username, grant:false
    },
    select:{
     doctor:true,
@@ -644,21 +644,30 @@ const accessed = access.map((acces)=>({
 res.json({message:"creating access",access:accessed})
 })
 
-route.delete('/access',userAuth, async (req:Request, res:Response)=>{
+route.post('/access',userAuth, async (req:Request, res:Response)=>{
+   console.log("inside access");
+   
   const user = await prisma.user.findUnique({
     where:{id:req.userId}
    })
-  const deleteEntry = await prisma.accessReport.deleteMany({
-     where:{ user:user.username}
+  const grant = await prisma.accessReport.update({
+     where:{ combinedAccess:{
+      user:user.username,
+      doctor:req.body.doctor
+     }
+    },
+     data:{
+      grant:true
+     }
   })
-console.log(deleteEntry);
+console.log(grant.grant);
 const createAcess = await prisma.allowedAcess.create({
   data:{
     user:user.username,
     doctor:req.body.doctor
   }
 })
- res.json({message:"Access granted", deleted:deleteEntry})
+ res.json({message:"Access granted", grant:grant.grant})
 }) 
  
 export { route, secret }   

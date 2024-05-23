@@ -193,21 +193,24 @@ export const RequestCard = ({ doctor, date }: any) => {
   localStorage.setItem('doctorId',doctor)
   const [popup, setPopup] = useState("")
   const [grandted,setGranted] = useState(false) 
-  const [isOpen, setIsopen] = useState(false)
+  const [isOpen, setIsopen] = useState(false) 
   // const [loader,setloader] = useState('')
 
   const grantAccess = async()=>{
- const response = await axios.delete(
-  `${BACKEND_URL}/api/v3/users/access`, 
-  { data:{
+  console.log("inside grant");
+  console.log(localStorage.getItem('TOKEN'));
+  
+ const response = await axios.post( 
+  `${BACKEND_URL}/api/v3/users/access`, {
     doctor
   },
+  { 
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('TOKEN')
     }
   }
-);
+);  
     setTimeout(() => {
       setIsopen(false)
       setPopup(response.data.message)
@@ -220,8 +223,7 @@ export const RequestCard = ({ doctor, date }: any) => {
   return <div>
    {grandted?(<div className="flex px-4 justify-between border-b-2 rounded-md mt-2 text-lg font-medium" >Dr. {(doctor.charAt(0).toUpperCase()+ doctor.slice(1)).split('@')[0]} has now access to reports
     </div>):
-    (<div>
-       <div className=" grid grid-cols-3 border-b-2 p-2 justify-between">
+    (<div>{<div className=" grid grid-cols-3 border-b-2 p-2 justify-between">
        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center ml-96 w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div> 
     <div className=" flex">
@@ -267,7 +269,8 @@ export const RequestCard = ({ doctor, date }: any) => {
         </div>
       </div>
     </div> */}
-  </div>
+  </div>}
+       
   </div>)}
    
   </div>
