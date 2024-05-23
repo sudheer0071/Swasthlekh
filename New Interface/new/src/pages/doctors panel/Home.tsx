@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react" 
+import {  useState } from "react" 
 import { Reports } from "../../components/Reports" 
 import { Button } from "../../components/Button"
 import { InputBox } from "../../components/InputBox"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
-import {Accessibility, LucideAccessibility, LucideBriefcaseMedical, LucideHospital, Search, User } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-// import { BACKEND_URL } from "../config"
-// import axios from "axios"
+import {  LucideBriefcaseMedical, LucideHospital, Search, User } from "lucide-react"  
 
 
 export function Home(){ 
@@ -164,7 +161,7 @@ function Access(){
   const [isOpen, setIsopen] = useState(false) 
 
   const username = localStorage?.getItem('searchedUser')
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const grantAccess = async ()=>{
     console.log("sending request..");

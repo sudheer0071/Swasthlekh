@@ -320,9 +320,20 @@ route.post('/reports', userAuth, async (req: Request, res) => {
       return res.json({ message: "You have no reports" })
     }
   
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+  };
+   
     const files = response.files.map((file) => ({
       filename: file.filename,
-      date: new Date(file.date).toString()// Assuming file.date is a Date object
+      date: new Date(file.date).toLocaleString('en-US', dateOptions),// Assuming file.date is a Date object
     }));
     console.log(files);
 

@@ -95,7 +95,7 @@ export function Pasts() {
 function Users({ user,date, accessedFiles }: any) {
   return <div>
     <div className=" text-lg font-medium py-3">
-      Files accessed of patient with username: <div className=" inline-block text-orange-800">{user}</div>
+      Files that you accessed of patient with username: <div className=" inline-block text-orange-800">"{user}" on </div><div className=" inline-block ml-2 text-orange-600"> "{date}"</div>
     </div>
     <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
       <div className=" p-2 grid grid-cols-4 justify-between">
