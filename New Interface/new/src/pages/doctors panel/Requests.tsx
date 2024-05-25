@@ -1,15 +1,22 @@
-import {  CheckCircle2, Clock, Share,  User, } from "lucide-react"
-import { useEffect, useState } from "react"
-import { Button } from "../../components/Button"
+import {  CheckCircle2, Clock,LucideHistory, Share,  User, } from "lucide-react"
+import { useEffect, useState } from "react" 
 import axios from "axios"
 import { BACKEND_URL } from "../config" 
+import { useNavigate } from "react-router-dom"
+import { useRecoilState } from "recoil"
+import { home, requestt } from "../atom"
 
 export const Requests = ()=>{
   const [request, setRequest] = useState(true)
   const [popup, setPop] = useState('')
   const [isOpen, setIsopen] = useState(false) 
-  const [data,setData] = useState([])
-
+  const [data,setData] = useState([]) 
+  const [side, setSide] = useRecoilState(requestt)
+   setSide(true)
+  const [hom,setHom] = useRecoilState(home)
+  setHom(false)
+  console.log(side,hom);
+  
   const fetchRequests = async()=>{
     console.log(localStorage.getItem('docToken'));
     
@@ -49,12 +56,17 @@ export const Requests = ()=>{
     fetchRequests()
   },[])
 
-  return <div>
-     <div className=" flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ''} flex justify-center  text-center w-80 shadow-lg bg-green-500 text-white rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
+  return <div className="">
+     <div className=" flex justify-center text-black">
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200 text-black'} flex justify-center  text-center w-80 shadow-lg rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
-    <div className=" text-4xl font-semibold -mt-36 px-3">
+    <div className="flex items-center text-4xl font-semibold -mt-36 px-3">
+      <div>
+        <LucideHistory size={44}/>
+      </div>
+      <div className=" ml-3">
       Recently requested patients
+      </div>
     </div>
     <div>
     <div className=' px-7'>
@@ -66,14 +78,16 @@ export const Requests = ()=>{
   <div className="  text-lg font-medium  0 ">
      status
   </div>
-  <div className="  text-lg font-medium mr-10 ">
+  <div className="  text-lg font-medium mr-7 ">
      Date
   </div>
   <div className=" mr-10">
     Activity
   </div>
       </div>
+      <div>
       {data.map((dat:any,index:any)=> <AllRequests data = {dat} key={index} /> )}
+      </div>
     </div>:
     <div> 
       <div  className=" flex justify-center -mt-24">
@@ -86,7 +100,8 @@ export const Requests = ()=>{
 }
 
 const AllRequests = ({data}:any)=>{
-  return <div>
+  const navigate = useNavigate()
+  return <div className="">
    <div id="reports" className={`flex justify-between  border-2 shadow-slate-500 rounded-md mt-2 px-5 bg-white`}>  
 
 <div className="mt-1 font-medium ">
@@ -98,13 +113,16 @@ const AllRequests = ({data}:any)=>{
    <div className=" ml-3 -mt-3"> 
      {/* {username?username?.charAt(0).toUpperCase()+ username.slice(1):''}  */} 
      {data.user}
+     <div className=" font-extralight">
+      {data.grant?'':'Requet on hold'}
+     </div>
    </div>
  </div> 
  <div className=" ml-16 text-md font-thin -mt-4">
    {/* {allowText}  */} 
  </div>
 </div> 
-<div className=" flex justify-center items-center "> 
+<div className=" flex justify-center items-center mr-16 "> 
  {data.grant?<div className="flex">
   <div> 
   <CheckCircle2/>
@@ -116,7 +134,7 @@ const AllRequests = ({data}:any)=>{
     </div>
     {/* <Reports token={localStorage.getItem('docToken')} username={data.user}/> */}
   </div>
- </div>:<div className=" flex">
+ </div>:<div className=" ml-3 flex">
   <div>
   <Clock/>
   </div>
@@ -135,14 +153,19 @@ const AllRequests = ({data}:any)=>{
      </div>
   </div>
 </div>
-<div className="flex justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-95 h-full mr-2 ml-4"> 
- 
- <Button height={11} loader={''} onclick={()=> { 
-   // grantAccess() 
+{data.grant?<div className="flex justify-center items-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-95 p-3 h-full mr-2 ml-4">
+<button onClick={()=> { 
+  //  grantAccess() 
+  localStorage.setItem('currentUser',data.user)
+  navigate('/doctors/viewReports')
    // window.open(`${content}`,'_blank', 'noreferrer')
-   }} label={"Request Access?"}></Button>
-
-</div>
+   }} className={`btn transition-colors duration-700 inline-flex items-center px-7 py-3 -mr-4 mt-3 mb-2 text-sm font-medium text-center text-white rounded-lg cursor-pointer  hover:bg-pink-500 dark:focus:ring-blue-300'}`}>View</button>
+</div>:<div className="flex justify-center items-center p-3 h-full mr-2 ml-4">
+  <button onClick={()=> { 
+  //  grantAccess()  
+   // window.open(`${content}`,'_blank', 'noreferrer')
+   }} className={` transition-none transition-colors duration-700 inline-flex items-center px-7 py-3 -mr-4 mt-3 mb-2 text-sm font-medium text-center text-white rounded-lg  bg-[#ee8f8a] hover:bg-none cursor-not-allowed dark:focus:ring-blue-300'}`}>View</button>
+  </div>} 
 </div>
   </div>
 } 

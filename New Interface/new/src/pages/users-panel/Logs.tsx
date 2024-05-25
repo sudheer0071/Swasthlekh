@@ -2,6 +2,8 @@ import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { useEffect, useState } from "react"  
 import { ClipboardMinus, RefreshCcw } from "lucide-react"
+import { useRecoilState } from "recoil"
+import {  log } from "../atom"
 
 
 export function Logs() {
@@ -9,8 +11,10 @@ export function Logs() {
   const [isOpen, setIsopen] = useState(false)
   const [loader, setloader] = useState('') 
   const [logs, setLogs] = useState([])
+  const [side, setSide] = useRecoilState(log)
+   setSide(true)
   const fetchLogs = async () => {
-    console.log(loader);
+    console.log(loader,side);
     
     console.log("function called");
     setloader('refresh')
@@ -45,7 +49,7 @@ export function Logs() {
   return <div>
     <div className="flex flex-col p-3 -mt-20">
       <div className="flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
+        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
         </div>
       </div>
       <div className=" flex justify-between">
@@ -66,7 +70,7 @@ export function Logs() {
       </div>
       <div className=" mt-1">
         {logs.length == 0 ? (<div>
-          <div id="reports-listt" className=" p-4 rounded-lg shadow-lg h-80  " >
+          <div id="reports-listt" className=" p-4 rounded-lg h-80  " >
             <h1 className="flex justify-center mt-20 text-4xl">
 
               You have zero logs
@@ -86,7 +90,7 @@ export function Logs() {
 
       </div>
       <div className=" flex justify-center">
-    <div className=" fixed -z-50 bottom-0 flex justify-center">
+    <div className= {`fixed -z-50 bottom-0 ${logs.length!=0?' opacity-70':''} flex justify-center`}>
       <img width={390} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Consent-amico.png" alt="" />
     </div>
 </div>

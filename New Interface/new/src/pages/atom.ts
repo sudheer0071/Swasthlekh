@@ -43,7 +43,17 @@ export const actions = atom({
   default:''
 })
 
-export const cursor = atom({
-  key:'cursor',
+export const home = atom({
+  key:'home',
+  default:false
+})
+
+export const log = atom({
+  key:'log',
+  default:false
+})
+
+export const requestt = atom({
+  key:'request',
   default:false
 })

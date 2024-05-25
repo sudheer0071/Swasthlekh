@@ -27,7 +27,7 @@ export function View() {
   // const [chatHistory, setChatHistory] = useState<{ message: string; sender: string }[]>([]);
   const [viewPdf,setViewpdf] = useState(true)   
   const[filename,setFilename] = useState('')
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState('') 
   
   // const[avatar, setAvatar] = useState('')
 console.log(words,typereffect,currentIndex,setFilename);
@@ -127,13 +127,13 @@ console.log(words,typereffect,currentIndex,setFilename);
   return (
     <div >
     <div className="text-slate-600 overflow-hidden -mt-32 px-5 ">
-      <div className="flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ''}  text-center w-80 shadow-lg bg-green-500 text-white rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+      <div className="flex justify-center text-black">
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200 text-black'}  text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
       </div>
       <div className=" z-10 -mt-5">
       <Heading text="Analyze your Reports in single click"></Heading>
       </div>
-      {<div id="pdf-content" className="z-20 rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
+      {<div id="pdf-content" className="z-20 rounded-lg mt-7 shadow-sm px=6 border-2 w-full bg-slate-50" >
         {viewPdf ? (
           <div className=" bg-custom ">
           <div>
@@ -147,7 +147,7 @@ console.log(words,typereffect,currentIndex,setFilename);
             <div id="messages" className="items-center px-4 mt-4 text-start text-xl font-medium">
               
             {messages.map((message, index) => (
-      <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black font-normal mx-4 mt-3 border-b-2 '}`}>
+      <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
              { message.sender=='bot'&&index === latestBotMessageIndex ? ( 
             <span className="bot-message">
               {/* {typereffect} 
@@ -155,12 +155,13 @@ console.log(words,typereffect,currentIndex,setFilename);
               </span>
           ) : ( 
             message.text.split('\n').map((line, index) => (<div className="flex">
-              <div className=" items-center text-center bg-slate-300 rounded-full size-10 text-xl ">
+            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('firstname')?.charAt(0).toUpperCase())} </div>}  
+            {/* <div className= {`items-center text-center ${white?' bg-slate-300':''} rounded-full size-10 text-xl`} >
       <div className=' flex justify-center mt-1'> 
-    {message.sender=='bot'?(<div className=" mt-1"><Bot/></div>):(localStorage.getItem('firstname')?.charAt(0).toUpperCase())}
-    {/* {avatar} */}
+    {message.sender=='bot'?index==1?(<div className=" mt-1 m-3"><Bot/></div>):'':(localStorage.getItem('firstname')?.charAt(0).toUpperCase())}
+    {avatar}
       </div>
-      </div>
+      </div> */}
               <div className=" ml-3 mt-1 items-center">
               <p key={index}>
                 {line.split(' ').map((word, wordIndex) => {
@@ -170,7 +171,7 @@ console.log(words,typereffect,currentIndex,setFilename);
                     const match = words.match(urlRegex);
                   if (match) {
                     return (
-                      <span key={`${index}-${wordIndex}`}>
+                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
                         {match[1]}
                         <a href={match[2]} target="_blank" rel="noopener noreferrer">
                           {match[2]}

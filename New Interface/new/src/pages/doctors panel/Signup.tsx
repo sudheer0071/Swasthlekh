@@ -26,8 +26,8 @@ export function Signup() {
  console.log(logged);
  
   return <div className=" overflow-hidden">
-    <div className=" flex justify-center">
-      <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already') || popup.includes('email') || popup.includes('more') ? 'bg-red-400 p-2 h-16' : ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
+    <div className=" flex justify-center text-black">
+      <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('already') || popup.includes('email') || popup.includes('more') ? 'bg-red-400 p-2 h-16' : ' bg-orange-200 text-black'} flex justify-center text-center w-80 shadow-lg rounded-lg font-medium -ml-4 text-lg fixed top-4 h-11 p-1`}>{popup}
       </div>
     </div>
     <div className="-mr-10 lg:ml-96">

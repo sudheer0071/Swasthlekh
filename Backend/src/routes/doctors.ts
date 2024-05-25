@@ -290,6 +290,7 @@ route1.post('/access',userAuth ,async (req:Request,res:Response)=>{
    const doc = await prisma.doctor.findUnique({
     where:{id:req.userId}
    })
+  //  const userExist()
 try {
   const alreadyExist = await prisma.accessReport.findUnique({
     where:{

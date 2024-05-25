@@ -130,7 +130,7 @@ import { actions } from "../pages/atom"
   return (
     <div>
         <div className="flex justify-center">
-    <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+    <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ''} flex justify-center text-center w-80 shadow-lg bg-orange-200 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
     </div>
          <div className="my-2">
         {/* <h3 className="text-slate-700">list of users</h3> */}

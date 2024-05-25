@@ -122,8 +122,8 @@ export function Rouute() {
         <div id="TOP ELEMENT" className="element px-0 lg:px-24">
           <div className=" flex-none md:flex px-7 py-4">
             <div className="">
-              <div className=" flex font-serif font-light text-4xl md:text-5xl lg:text-6xl max-w-lg lg:max-w-xl">
-                The new way to interact with doctors
+              <div className=" flex font-serif font-light text-4xl md:text-5xl lg:text-6xl max-w-lg lg:max-w-xl ">
+              Caring Today for a Healthier Tomorrow
               </div>
               <div className=" mt-7 text-lg max-w-lg">
                 Enhancing the ease of
@@ -148,10 +148,10 @@ export function Rouute() {
             <div>
               <div className=" mt-5 md:mt-12 flex py-10">
                 <HorizontalScroll>
-                <FeatureCard image="https://cdn.sanity.io/images/8qqycr4y/production/51f163982fc7b5fb785c05cfd4d8fee39602140d-1008x672.png?fm=webp" title="Gynecology" content=" Sexual and reproductive health that's more comfortable and less judgmental. From routine Paps and surgeries to difficult-to-diagnose hormonal disorders, we deliver the highest quality gynecological care" />
-                <FeatureCard image="https://cdn.sanity.io/images/8qqycr4y/production/dc62152001ca1a428f798eab786d8d794d6b1fd6-1008x672.png?w=504&h=336&fit=crop&fm=webp" title="Primary Care" content="There is no need to have a separate primary care provider! We treat your acute care needs, support chronic condition management, and facilitate referrals to top specialists when needed." />
-                <FeatureCard image="https://cdn.sanity.io/images/8qqycr4y/production/fd268ec3a7b48d78d1fc16a261a0b6155ec2450f-1008x672.png?w=504&h=336&fit=crop&fm=webp" title="Mental Health" content="Caring for the whole you includes your mental health because, let's face it, your mind, body, and emotions are all connected. And at Tia, we also know that healing is best done with the support of others. We offer a variety of methods to help you reconnect and feel like your whole self again." />
-                <FeatureCard image="https://cdn.sanity.io/images/8qqycr4y/production/51f163982fc7b5fb785c05cfd4d8fee39602140d-1008x672.png?fm=webp" title="Gynecology" content=" Sexual and reproductive health that's more comfortable and less judgmental. From routine Paps and surgeries to difficult-to-diagnose hormonal disorders, we deliver the highest quality gynecological care" />
+                <FeatureCard image="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Secure%20Server-cuate.png" title="Secure Storage of Medical Records" content=" Our platform ensures that patients' medical records are securely stored and managed, providing a reliable repository for all essential health information." />
+                <FeatureCard image="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Authentication-rafiki.png" title="Access Control" content="Patients will have the ability to grant and revoke access to their medical records as needed, ensuring their privacy and control over their personal health data." />
+                <FeatureCard image="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Chat%20bot-pana.png" title="Internet-Connected Chat System" content=" Our chat system helps patients understand their medical reports and offers subtle suggestions based on verified online resources to aid in recovery. This feature is designed to support patients without diagnosing conditions, enhancing their engagement and understanding of their healthcare journey." />
+                <FeatureCard image="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Sandy_Tech-25_Single-04.jpg" title="Audit Log System" content="A detailed audit log will track who accessed medical records and when, ensuring transparency and accountability in the management of health information." />
                 </HorizontalScroll>
               </div>
               <div className=" ml-4 text-7xl">
@@ -172,14 +172,14 @@ export function Rouute() {
                 <img src="https://cdn.sanity.io/images/8qqycr4y/production/b00cf120c34a1d75d78d15579a54e0673b447d95-940x600.png?fm=webp" alt="" />
               </div>
               <div className=" ml-0 sm:ml-40 md:ml-0 -mt-20 md:-mt-0">
-                <div className=" text-4xl md:text-5xl mt-20">
-                  Yes, we take insurance
+                <div className=" text-3xl md:text-4xl mt-20">
+                  Digitally secure your reports and <div className=" font-mono text-pink-800">stay connected !</div> 
                 </div>
                 <div className=" text-lg mt-6">
-                  Swasthlekh accepts the insurance plans in India.
+                  Swasthlekh elevates care through connected Records
                 </div>
                 <div>
-                  <button className=" bg-transparent border-2 hover:text-gray-500 border-gray-800 rounded-full mt-4 px-10 py-4 text-md font-bold   text-black">Learn about insurance </button>
+                  <button onClick={()=>{navigate('/user/portal/signup')}} className=" bg-transparent border-2 hover:text-gray-500 border-gray-800 rounded-full mt-4 px-10 py-4 text-md font-bold   text-black">Start Now! </button>
                 </div>
 
               </div>
@@ -196,9 +196,9 @@ export function Rouute() {
               At Swasthlekh, we do things differently
             </div> 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center">
-            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/1255da34b1384a03bda60fb493eefb5018db5941-600x600.png?fm=webp" title="Tailored to the whole you" content=" We believe that no two patients are the same. From prevention to root-cause diagnosis to lifestyle-centric treatment, our care is tailored to you. Our collaborative Care Team will help guide and support your decision-making."/>
-            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/d19a5f3d175233253efd723e3683d6070bd313d4-600x600.png?fm=webp" title="Virtual and in-person" content=" We offer appointments virtually and in-person so you get care from providers you trust no matter where you are. Get the same quality of Tia care, whether it's from the comfort of your home or in one of our clinics."/>
-            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/869477818cd154cc0d579b406361986d4fd1b0c7-600x600.png?fm=webp" title="Accessible and affordable" content=" Become a Tia member and get perks that go beyond a typical doctor's office — unlimited messaging with your Care Team, flexible appointment times, community workshops, and more."/>
+            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/1255da34b1384a03bda60fb493eefb5018db5941-600x600.png?fm=webp" title="Tailored to the whole you" content=" Our platform is designed with the patient in mind, ensuring a user-friendly interface that makes it easy for patients to manage and access their medical records. Patients can securely store, share, and revoke access to their health information as needed."/>
+            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/d19a5f3d175233253efd723e3683d6070bd313d4-600x600.png?fm=webp" title="Virtual and in-person" content=" The application supports both virtual and in-person interactions, providing flexibility for healthcare providers and patients. Whether accessing records during a telehealth consultation or in a hospital setting, the platform ensures seamless integration and accessibility."/>
+            <Card image="https://cdn.sanity.io/images/8qqycr4y/production/869477818cd154cc0d579b406361986d4fd1b0c7-600x600.png?fm=webp" title="Accessible and affordable" content=" Ensuring that the platform is accessible to all users is a top priority. Our application includes features such as multilingual support, compatibility with various devices, and user-friendly navigation to cater to a diverse patient population."/>
             </div>
           </div>
         </div>
@@ -226,13 +226,13 @@ export function Rouute() {
               </div>
             </div>
           </div>
-            <div className="s">
+            <div className="s z-20">
               <svg className="block" viewBox="0 0 1280 72" fill="none"><path d="M1280 71L1280 4.70043C662 104.425 463.035 -25.6055 0 4.70034V71C0 71 146.362 72.4279 385.419 71C624.476 69.5721 803.659 71 990.381 71H1280Z" fill="#ecdccd"></path></svg>
             </div>
             </div>
           </div>
         </div>
-        <div id="SIXTH ELEMENT" className="element px-0 lg:px-24">
+        {/* <div id="SIXTH ELEMENT" className="element px-0 lg:px-24">
           <div className=" flex flex-col px-7 py-4 mt-10">
             <div className=" text-4xl md:text-5xl">
             Our Collaborative Care model
@@ -247,15 +247,15 @@ export function Rouute() {
               <img src="https://cdn.sanity.io/images/8qqycr4y/production/281fb4b8f15ac0d8aab0e54cfa991205d7e33367-4800x2968.png?w=2400&h=1484&fit=crop&fm=webp" alt="" />
             </div>
           </div>
-        </div> 
+        </div>  */}
         <div id="EIGHTH ELEMENT">
         <div className=" flex flex-col mt-10">
             <div className=" ">
-            <div className="sd">
-            <svg className="block" viewBox="0 0 1280 30" fill="none"><path d="M0 13.8806V30L640 30L1280 30V0C1280 0 1084.58 13.8806 914.643 13.8806C744.709 13.8806 533.792 0 363.858 0C193.924 0 0 13.8806 0 13.8806Z" fill="#282725"></path></svg>
+            <div className="sd -mt-36">
+            <svg className="block" viewBox="0 0 1280 30" fill="none"><path d="M0 13.8806V30L640 30L1280 30V0C1280 0 1084.58 13.8806 914.643 13.8806C744.709 13.8806 533.792 0 363.858 0C193.924 0 0 13.8806 0 13.8806Z" fill="#28d2725"></path></svg>
             </div>
             <div className="third_element bg-stone-800 flex flex-col px-10 lg:px-48 py-10"> 
-             <div className=" flex-none md:flex rounded-lg text-white border-2 border-white">
+             <div className=" flex-none md:flex rounded-lg text-white mt-14 border-2 border-white">
               <div className=" flex"> 
                 <img className=" w-full lg:max-w-lg rounded-lg" src="https://cdn.sanity.io/images/8qqycr4y/production/d1208f3b0b7fd73eb563c90fc0c0212f38b1e091-1220x814.png?fm=webp" alt="" /> 
                 <div className=" -ml-9 hidden md:flex">

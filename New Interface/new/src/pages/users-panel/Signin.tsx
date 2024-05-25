@@ -25,8 +25,8 @@ export function Signin() {
 
 
   return <div className=" overflow-hidden">
-    <div className=" flex justify-center">
-      <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('exist') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-16' : ''} flex justify-center text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+    <div className=" flex justify-center text-black">
+      <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('exist') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-16' : ' bg-orange-200 text-black'} flex justify-center text-center w-96 shadow-lg rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
     </div>
     <div className=" -mr-10 lg:ml-96">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1175 263" fill="black" className="abs hero-backgroundImage top right primary-3"><path d="M470 96.1505C285.24 111.849 142.033 74.7745 0 0H1175V263C862.527 210.142 1128.96 40.1598 470 96.1505Z" fill="#831a4a"></path></svg>

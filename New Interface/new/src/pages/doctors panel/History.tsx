@@ -2,15 +2,19 @@ import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { useEffect, useState } from "react"  
 import { ClipboardMinus, RefreshCcw } from "lucide-react"
+import { useRecoilState } from "recoil"
+import { log } from "../atom"
 
 
-export function Pasts() {
+export function History() {
   const [popup, setPopup] = useState("")
   const [isOpen, setIsopen] = useState(false)
   const [loader, setloader] = useState('') 
   const [logs, setLogs] = useState([])
+  const [side, setSide] = useRecoilState(log)
+   setSide(true)
   const fetchLogs = async () => {
-    console.log(loader);
+    console.log(loader,+side);
     
     console.log("function called");
     setloader('refresh')
@@ -42,7 +46,7 @@ export function Pasts() {
   return <div>
     <div className="flex flex-col p-3 -mt-20">
       <div className="flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
+        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
         </div>
       </div>
       <div className=" flex justify-between">
@@ -66,7 +70,7 @@ export function Pasts() {
           <div id="reports-listt" className=" p-4 rounded-lg shadow-lg h-80  " >
             <h1 className="flex justify-center mt-20 text-4xl">
 
-              You have zero logs
+              You have no history of any patient
             </h1>
           </div>
         </div>) : (
@@ -83,7 +87,7 @@ export function Pasts() {
 
       </div>
       <div className=" flex justify-center">
-    <div className=" fixed -z-50 bottom-0 flex justify-center">
+    <div className={`fixed -z-50 bottom-0 flex justify-center ${logs.length!=0?'opacity-55':''} `}>
       <img width={390} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Consent-amico.png" alt="" />
     </div>
 </div>
@@ -95,7 +99,10 @@ export function Pasts() {
 function Users({ user,date, accessedFiles }: any) {
   return <div>
     <div className=" text-lg font-medium py-3">
-      Files that you accessed of patient with username: <div className=" inline-block text-orange-800">"{user}" on </div><div className=" inline-block ml-2 text-orange-600"> "{date}"</div>
+      Files that you accessed of patient with username: 
+      <div className=" inline-block bg-custom">
+      <div className=" font-mono text-xl inline-block text-orange-800">"{user}" </div> on <div className=" ml-1 inline-block text-orange-600 font-mono"> "{date}"</div>
+      </div>
     </div>
     <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
       <div className=" p-2 grid grid-cols-4 justify-between">

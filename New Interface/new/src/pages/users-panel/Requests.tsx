@@ -2,6 +2,8 @@ import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { useEffect, useState } from "react"   
 import { ClipboardMinus, RefreshCcw, SquareCheckBig, X } from "lucide-react"
+import { useRecoilState } from "recoil"
+import {  requestt } from "../atom"
  
 
 export function Requests(){ 
@@ -9,8 +11,10 @@ export function Requests(){
   const [isOpen, setIsopen] = useState(false)
   const [loader,setloader] = useState('')  
   const [request,setRequest] = useState([])  
+  const [side, setSide] = useRecoilState(requestt)
+   setSide(true)
       const fetchLogs = async()=>{
-        console.log("function called");
+        console.log("function called"+side);
         setloader('refresh')
         setIsopen(true)
         setPopup("Refreshing")
@@ -45,7 +49,7 @@ export function Requests(){
   return <div>
     <div className="flex flex-col p-4 -mt-20 ">
       <div className="flex justify-center">
-    <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
+    <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div>
       </div> 
       <div className=" flex justify-between">
@@ -66,7 +70,7 @@ export function Requests(){
       </div>
 <div>
   {request.length==0?(<div>
-    <div id="reports-listt" className=" p-4  rounded-lg shadow-lg h-80   scrollbar-track-gray-100" > 
+    <div id="reports-listt" className=" p-4  rounded-lg h-80   scrollbar-track-gray-100" > 
     <h1 className="flex justify-center mt-20  text-4xl">
       
         You have no requests
@@ -224,7 +228,7 @@ export const RequestCard = ({ doctor, date }: any) => {
    {grandted?(<div className="flex px-4 justify-between border-b-2 rounded-md mt-2 text-lg font-medium" >Dr. {(doctor.charAt(0).toUpperCase()+ doctor.slice(1)).split('@')[0]} has now access to reports
     </div>):
     (<div>{<div className=" grid grid-cols-3 border-b-2 p-2 justify-between">
-       <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center ml-96 w-96 shadow-lg bg-green-500 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
+       <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center ml-96 w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div> 
     <div className=" flex">
       <div>

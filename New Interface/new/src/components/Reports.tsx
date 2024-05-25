@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../pages/config"
 import { useRecoilState } from "recoil"
 import { actions } from "../pages/atom"
 import { BotMessageSquare, ClipboardMinus, Download } from "lucide-react"
-export function Reports({ token, username }: any) {
+export function Reports({ hide, white, token, username }: {hide?:boolean, white?:boolean, token:any, username?:any}) {
   // console.log(localStorage.getItem("TOKEN"));
   const [report, setReport] = useState<any>([]);
   const [zero, setZero] = useState(false)
@@ -34,8 +34,10 @@ export function Reports({ token, username }: any) {
                 'Authorization': 'Bearer ' + token
               }
             }
-          );
+          ); 
           const allReports = res.data;
+          console.log("all reports "+allReports.message);
+          
           console.log((allReports.files));
           if (allReports.message.includes("no")) {
             setTimeout(() => {
@@ -130,7 +132,7 @@ export function Reports({ token, username }: any) {
   return (
     <div>
       <div className="flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ' bg-orange-200 text-black'} flex justify-center text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
       </div>
       <div className="my-2">
         {/* <h3 className="text-slate-700">list of users</h3> */}
@@ -139,17 +141,19 @@ export function Reports({ token, username }: any) {
           {found ? (<div>
             <h1 className="flex justify-center text-slate-600 mt-20 text-3xl"> {message}</h1>
           </div>) :
-            (<div>
-              <h1 className="flex justify-center bg-orange-200 text-slate-600 mt-20 text-3xl"> {message}</h1>
-
+            (<div className=" ">
+              <h1 className="flex justify-center text-slate-600 text-3xl"> {message}</h1>
+            <div className=" flex justify-center -mt-9">
+              <img width={300} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/No%20data-amico.png" alt="" />
+            </div>
             </div>)}
         </div> :
           <div>
             {username ? (
-              <div className=" flex justify-center font-medium text-lg navba border-b-2">
+              <div className= {`${hide?'hidden':''} flex justify-center font-medium text-lg navba border-b-2`}>
                 Showing reports associated with username: <div className=" text-slate-500 font-bold ml-4">"{username}"</div>
               </div>) : ''}
-              <div className=" p-2 flex justify-between">
+              <div className=" -mt-2 p-2 flex justify-between">
                   <div className=" flex">
                     <div className=" font-bold w-36">
                       File Name
@@ -172,7 +176,7 @@ export function Reports({ token, username }: any) {
                     </div>
                   </div>
                 </div>
-                <div className=" bg-custom border-2 rounded-md">
+                <div className= {`${white?'bg-white':'bg-custom'} mt-3 border-2 rounded-md`}>
             {report.map((report: any, index: any) => <UploadCard username={username} token={token} key={index} report={report} />)}
                 </div>
           </div>

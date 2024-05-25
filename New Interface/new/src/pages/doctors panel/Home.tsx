@@ -5,6 +5,9 @@ import { InputBox } from "../../components/InputBox"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import {  LucideBriefcaseMedical, LucideHospital, Search, User } from "lucide-react"  
+import { useNavigate } from "react-router-dom"
+import { useRecoilState } from "recoil"
+import { home } from "../atom"
 
 
 export function Home(){ 
@@ -15,7 +18,10 @@ export function Home(){
   const [isOpen, setIsopen] = useState(false) 
   const [found, setFound] = useState(false)
   const [view, setView] = useState(false)
-
+  const [side, setSide] = useRecoilState(home)
+  setSide(true) 
+  console.log(side);
+  
   const findUser = async()=>{
     if (input=='') {
       setTimeout(() => {
@@ -45,6 +51,7 @@ export function Home(){
         setTimeout(() => {
           setIsopen(false)
           setPop("") 
+          checkGrant()
         }, 3000);
         setPop(response)
       }
@@ -85,7 +92,7 @@ export function Home(){
   return <div>
     <div className="flex flex-col px-7"> 
     <div className=" flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ''} flex justify-center  text-center w-80 shadow-lg bg-green-500 text-white rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' text-black bg-orange-200'} flex justify-center  text-center w-80 shadow-lg  rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
      <div id="report-section" > 
      <div className="flex justify-between">
@@ -119,15 +126,14 @@ export function Home(){
     <div className=" ml-7 w-full text-slate-700">
       <InputBox placeholder={' Type username...'} label={''} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') { 
-        findUser();
-        checkGrant()
+        findUser(); 
       }
     }} onChange={(e:any)=>{
       setInput(e.target.value)
     }} />
     </div>
     
-    <div onClick={()=>{findUser();checkGrant()}} className=" mt-7 -ml-10 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500">
+    <div onClick={()=>{findUser()}} className=" mt-7 -ml-10 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500">
       <Search size={28} /> 
     </div>
   </div>
@@ -138,8 +144,8 @@ export function Home(){
         <img width="288" src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Search-amico.png" alt="" />
         </div>} 
       </div> ): 
-       (<div id="reports-listt" className=" bg-white scrol-report border-2 overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md px-4">
-        {search?<Reports token={localStorage.getItem('docToken')} username={localStorage?.getItem('searchedUser')}/>:
+       (<div id="reports-listt" className=" scrol-report border-2 overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md px-4">
+        {search?<Reports white={false} token={localStorage.getItem('docToken')} username={localStorage?.getItem('searchedUser')}/>:
         <div className="flex justify-center text-4xl  "> 
         <div>
           <img width={280} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Usability%20testing-pana%20(1).png" alt="" />
@@ -158,8 +164,8 @@ function Access(){
   const [request, setRequest] = useState(true)
   const [allowText, setAllowText] = useState('')
   const [popup, setPop] = useState('')
-  const [isOpen, setIsopen] = useState(false) 
-
+  const [isOpen, setIsopen] = useState(false)  
+  const navigate = useNavigate()
   const username = localStorage?.getItem('searchedUser')
   // const navigate = useNavigate()
 
@@ -181,10 +187,12 @@ function Access(){
   console.log(response);
   console.log("access: "+res.data.access); 
  if (response.includes('Already')) {
-  setIsopen(true)
+   setIsopen(true) 
   setTimeout(() => {
     setIsopen(false)
     setRequest(false)
+    setSide(false)
+    navigate('/doctors/requests') 
     setPop('')
   }, 2000);
   setAllowText('Request on hold')
@@ -234,13 +242,15 @@ function Access(){
       setAllowText('Request on hold')
       setTimeout(() => {
         setRequest(false)
+        setSide(false)
+        navigate('/doctors/requests')
       }, 5000);
     }
   }
  
   return   <div className=" px-11">
-  <div className=" flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ''} flex justify-center text-center w-80 shadow-lg bg-green-500 text-white rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
+  <div className=" flex justify-center text-black">
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200'} flex justify-center text-center w-80 shadow-lg   rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
   <div className=''>
     {request?<div>

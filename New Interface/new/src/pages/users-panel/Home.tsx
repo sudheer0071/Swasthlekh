@@ -1,8 +1,12 @@
  
+import { useRecoilState } from "recoil";
 import { Reports } from "../../components/Reports"
 import { Upload } from "../../components/Upload"  
+import { home } from "../atom";
 export function Home() {
- console.log("inside home"); 
+  const [side, setSide] = useRecoilState(home)
+   setSide(true)
+ console.log("inside home"+side); 
   // const items = ['Overvieww', 'Log Book', 'shedule', 'invoce', 'settings']
 
   return <div>
@@ -50,7 +54,7 @@ export function Home() {
             <div className=" flex text-3xl font-bold">
               Hi {localStorage.getItem('firstname')?.toUpperCase()}
             </div>
-            <p>Lets track your reports</p>
+            <p className=" text-lg mt-3">Lets track your reports</p>
           </div>
           <div id="REPORT UPLOAD" className="border-b-2 p-3 rounded-md pl-10 transition duration-200 ease-in-out transform hover:bg-custom hover:text-black cursor-pointer hover:scale-100 -mt-10">
             <Upload />
@@ -60,30 +64,7 @@ export function Home() {
               All Reports
             </div>
             <div className=" mt-3">
-              <div>
-                <div className=" p-2 flex justify-between">
-                  <div className=" flex">
-                    <div className=" font-bold w-36">
-                      File Name
-                    </div>
-                  </div>
-                  <div className=" rounded-full items-center flex">
-                    <div className=" font-bold ml-3">
-                      Type
-                    </div>
-                  </div>
-                  <div className=" flex flex-col">
-                    <div className=" font-bold -ml-14">
-                      Uploaded Date and Time
-                    </div>
-                  </div>
-                  <div className=" flex px-2">
-                    <div>
-                    </div>
-                    <div className=" ml-7">
-                    </div>
-                  </div>
-                </div>
+              <div> 
               </div>
               <div className="scrol-report overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md border px-4 bg-white">
               <Reports token={localStorage.getItem('TOKEN')}/>

@@ -310,13 +310,15 @@ route.post('/reports', userAuth, async (req: Request, res) => {
         }
       }
     })
-    
+     
    
     if (response == null) {
       return res.json({ message: 'You have no files' })
     }
 
     if (response.files.length == 0) {
+      console.log("no reports");
+      
       return res.json({ message: "You have no reports" })
     }
   

@@ -60,7 +60,7 @@ export function Upload(){
     <div className=""> 
      <div className="flex justify-center">
       <div className=" fixed z-50 -mt-36">
-       <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist')?'bg-red-400 p-2 h-16': ''} flex justify-center text-center w-80 shadow-lg bg-green-500 rounded-lg font-medium ml-14 text-lg  top-3 p-2`}>{popup}{popup.includes('successfully')?<img className=" ml-3 p-1 w-9 h-10 rounded-full  bg-white" src={logo} />:''}</div>
+       <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist')?'bg-red-400 p-2 h-16': ' bg-orange-200 text-black'} flex justify-center text-center w-80 shadow-lg rounded-lg font-medium ml-14 text-lg  top-3 p-2`}>{popup}{popup.includes('successfully')?<img className=" ml-3 p-1 w-9 h-10 rounded-full  bg-white" src={logo} />:''}</div>
      </div>
       </div>
       

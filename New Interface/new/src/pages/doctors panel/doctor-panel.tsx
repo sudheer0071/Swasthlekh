@@ -10,7 +10,8 @@ import { View } from './View';
 import { Upload } from '../../components/Upload'; 
 import { SideBar } from '../../New-components/Sidebar';
 import { Requests } from './Requests';
-import { Pasts } from './Pasts';
+import { History } from './History';
+import { ViewReport } from './ViewReports';
 
 function Doctor() {
   // const [logged, setLogged] = useRecoilState(navState)
@@ -33,9 +34,10 @@ function Doctor() {
           {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
           <Route path='/mainpage' element={<Upload />}></Route> 
           <Route path='/view' element={<View />}></Route> 
+          <Route path='/viewReports' element={<ViewReport />}></Route> 
           <Route path='/home' element={<Home />}></Route>  
           <Route path='/requests' element={<Requests />}></Route>  
-          <Route path='/pasts' element={<Pasts />}></Route>  
+          <Route path='/history' element={<History />}></Route>  
           
           {/* <Route path='/dashboard' element={isbackendDown?<BackendDown/>:logged ? <Dashboard /> : <Navigate to='/signin' />}></Route> */}
         </Routes>   

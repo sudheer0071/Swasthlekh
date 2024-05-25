@@ -7,7 +7,7 @@ export const Card = ({image,title,content}:{image:string, title:string, content:
               <div className=" text-2xl md:text-3xl">
               {title}
               </div>
-              <div className=" mt-9">
+              <div className=" text-lg mt-9">
              {content}
               </div>
             </div>
