@@ -15,6 +15,8 @@ import Doctor from './pages/doctors panel/doctor-panel';
 import { Rouute } from './Rouute';  
 import { Portal } from './pages/users-panel/Portal';
 import { DoctorPortal } from './pages/doctors panel/Portal';
+import { Privacy } from './pages/Privacy';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 function App() {
@@ -28,15 +30,18 @@ function App() {
       </div> */}
        {/* <h1 className="flex justify-center text-slate-700 font-bold -mt-6">Swasthलेख</h1> */}
       <div className=''> 
+      <GoogleOAuthProvider clientId="1067021885493-tc9hs0n4dk0iln1fb04gmogrgorbd77k.apps.googleusercontent.com"> 
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Rouute/>} ></Route>
+          <Route path='/privacy-policy' element={<Privacy/>} ></Route> 
           <Route path='/user/portal//*' element={<Portal/>} ></Route>
           <Route path='/doctor/portal//*' element={<DoctorPortal/>} ></Route>
           <Route path="/users//*" element={<Users />} />
           <Route path="/doctors//*" element={<Doctor />} />
         </Routes>
       </BrowserRouter>
+          </GoogleOAuthProvider>
       </div>
     </div>
   );

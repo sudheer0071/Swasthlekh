@@ -22,7 +22,7 @@ function Doctor() {
     <div>
     <div className=' flex'> 
     <div>
-      <SideBar user='doc' name={localStorage.getItem('docFirstname')||''} /> 
+      <SideBar user='doc' name={localStorage.getItem('docFname')||''} email={localStorage.getItem('docEmail')||''} /> 
     </div>
           {/* <PdfComp/> */}   
           <div className=' flex-1'>  

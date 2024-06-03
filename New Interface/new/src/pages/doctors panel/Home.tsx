@@ -22,6 +22,9 @@ export function Home(){
   setSide(true) 
   console.log(side);
   
+  console.log(localStorage.getItem('lname'));
+  
+
   const findUser = async()=>{
     if (input=='') {
       setTimeout(() => {
@@ -114,7 +117,7 @@ export function Home(){
           <LucideBriefcaseMedical size={34}/>
         </div>
       <div className=" text-2xl font-medium"> 
-      Dr. {localStorage.getItem('docFirstname')} {localStorage.getItem('docLastname')} 
+      Dr. {localStorage.getItem('docFname')||''} {localStorage.getItem('docLname')=='undefined'?'':localStorage.getItem('docLname')} 
       </div>
       </div>
      </div>

@@ -112,7 +112,7 @@ export function Rouute() {
 </div> 
       </div> */}
     <div id="NEW INTERFACE">
-      <div className=" fixed w-full top-0 left-0 right-0">
+      <div className=" fixed w-full z-50 top-0 left-0 right-0">
         <NavBar />
       </div>
       <div className=" mt-24 ml-16 sm:md36 md:ml-96">
@@ -120,7 +120,7 @@ export function Rouute() {
       </div>
       <div id="MAIN_CONTENT" className="">
         <div id="TOP ELEMENT" className="element px-0 lg:px-24">
-          <div className=" flex-none md:flex px-7 py-4">
+          <div className=" flex-none justify-center md:flex px-7 py-4">
             <div className="">
               <div className=" flex font-serif font-light text-4xl md:text-5xl lg:text-6xl max-w-lg lg:max-w-xl ">
               Caring Today for a Healthier Tomorrow
@@ -160,13 +160,13 @@ export function Rouute() {
             </div>
           </div>
         </div>
-        <div id="THIRD ELEMENT" className="diff-element ">
+        <div id="THIRD ELEMENT" className="diff-element">
           <div className=" flex flex-col py-4 mt-10">
-            <div className=" ">
+            <div className="">
             <div className="sd">
               <svg className="block" viewBox="0 0 1280 72" fill="none"><path d="M1280 71L1280 4.70043C662 104.425 463.035 -25.6055 0 4.70034V71C0 71 146.362 72.4279 385.419 71C624.476 69.5721 803.659 71 990.381 71H1280Z" fill="#ecdccd"></path></svg>
             </div>
-            <div className="third_element flex-none md:flex md:justify-between  py-10 px-10 lg:px-40">
+            <div className="third_element flex-none md:flex md:justify-center  py-10 px-10 lg:px-40">
               
               <div className=" ml-0 sm:ml-40 md:ml-0 max-w-lg">
                 <img src="https://cdn.sanity.io/images/8qqycr4y/production/b00cf120c34a1d75d78d15579a54e0673b447d95-940x600.png?fm=webp" alt="" />
@@ -249,12 +249,13 @@ export function Rouute() {
           </div>
         </div>  */}
         <div id="EIGHTH ELEMENT">
-        <div className=" flex flex-col mt-10">
+        <div className=" flex flex-col lg:-mt-32 lg:scroll-mt-12 -mt-12 md:-mt-12">
             <div className=" ">
-            <div className="sd -mt-36">
+            <div className="sd">
             <svg className="block" viewBox="0 0 1280 30" fill="none"><path d="M0 13.8806V30L640 30L1280 30V0C1280 0 1084.58 13.8806 914.643 13.8806C744.709 13.8806 533.792 0 363.858 0C193.924 0 0 13.8806 0 13.8806Z" fill="#28d2725"></path></svg>
             </div>
-            <div className="third_element bg-stone-800 flex flex-col px-10 lg:px-48 py-10"> 
+            <div className=" flex justify-center bg-stone-800">
+            <div className="third_element bg-stone-800 mt-20 flex flex-col px-10 lg:px-48 py-10"> 
              <div className=" flex-none md:flex rounded-lg text-white mt-14 border-2 border-white">
               <div className=" flex"> 
                 <img className=" w-full lg:max-w-lg rounded-lg" src="https://cdn.sanity.io/images/8qqycr4y/production/d1208f3b0b7fd73eb563c90fc0c0212f38b1e091-1220x814.png?fm=webp" alt="" /> 
@@ -275,6 +276,7 @@ export function Rouute() {
               </div>
              </div>
           </div> 
+            </div>
             </div>
           </div>
         </div>

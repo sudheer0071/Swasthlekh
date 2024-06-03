@@ -58,7 +58,7 @@ route1.post('/signup', async (req, res) => {
   const alreadyExist = await prisma.doctor.findUnique({
     where: { username }
   })
-
+ 
   if (!zodVerfify.success) {
     console.log(zodVerfify);
     return res.json({ message: "make sure to add correct email" })
@@ -74,7 +74,7 @@ route1.post('/signup', async (req, res) => {
 
   const token = jwt.sign({ userId: user.id }, secret)
 
-  res.json({ message: "User created successfully", token: token })
+  res.json({ message: "User created successfully", token: token, username, firstname, lastname })
 })
 
 route1.post('/signin', async (req: Request, res: Response) => {
@@ -104,7 +104,7 @@ route1.post('/signin', async (req: Request, res: Response) => {
   console.log(exist);
 
   const token = jwt.sign({ userId: user.id }, secret)
-  res.json({ message: "Fetching details...", token: token, firstname:user.firstname,lastname:user.lastname })
+  res.json({ message: "Fetching details...", token: token,username, firstname:user.firstname,lastname:user.lastname })
 })
 
 route1.post('/reports', userAuth, async (req: Request, res) => {

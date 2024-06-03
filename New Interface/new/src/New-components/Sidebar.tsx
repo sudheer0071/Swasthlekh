@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import {  home, log, requestt } from '../pages/atom';
 
 
-export const SideBar = ({user,name}:{name:string,user:string})=>{ 
+export const SideBar = ({user,name,email}:{name:string,user:string,email:string})=>{ 
   const[settings, setSettings] = useState<boolean>(false)
 
   const [hom,setHom] = useRecoilState(home)
@@ -62,8 +62,8 @@ Settings
 </div>
   </div>
 </div>
-  <div className=" border-t-2 border-black flex flex-1 ml-4 bottom-2 px-6   fixed flex-col hover:bg-[#fcf4e9]">
-    <div className=" flex p-3">
+  <div className=" border-t-2 border-slate-500 flex flex-1 bottom-2 px-4 fixed flex-col hover:bg-[#fcf4e9]">
+    <div className=" flex py-3">
     <div className=" text-center bg-slate-300 rounded-full size-12 text-xl ">
       <div className=' flex justify-center mt-2'>
     {name.charAt(0).toUpperCase()} 
@@ -74,7 +74,7 @@ Settings
     {name.toUpperCase()}
     </div>
     <div className=" font-normal">
-      {name}@gmail.com
+      {email}
     </div>
     </div>
     </div>
