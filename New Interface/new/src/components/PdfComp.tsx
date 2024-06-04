@@ -3,15 +3,14 @@ import { Document, Page } from 'react-pdf';
 import { ZoomIn, ZoomOut } from 'lucide-react';
 
 function PdfComp({content}:any) {
-  const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [numPages, setNumPages] = useState<number>(); 
   const [scale, setScale] = useState<number>(1.0);
-  console.log(pageNumber);
+  // console.log(pageNumber);
   
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
-console.log(setPageNumber);
+// console.log(setPageNumber);
 
   function zoomIn() {
     setScale(scale + 0.1);

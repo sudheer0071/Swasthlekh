@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import {  home, log, requestt } from '../pages/atom';
 
 
-export const SideBar = ({user,name,email}:{name:string,user:string,email:string})=>{ 
+export const SideBar = ({user,name,email}:{name:string,user:string,email?:string})=>{ 
   const[settings, setSettings] = useState<boolean>(false)
 
   const [hom,setHom] = useRecoilState(home)

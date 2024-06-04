@@ -161,7 +161,9 @@ useEffect(()=>{
                       navigate('/users/home')
                     }, 3000);
                     localStorage.setItem("TOKEN", res.data.token)
-                    localStorage.setItem('firstname', firstname)
+                    localStorage.setItem('fname', res.data.firstname)
+                    localStorage.setItem('lname', res.data.lastname)
+                    localStorage.setItem('email', res.data.username)
                     setIsopen(true)
                     setPopup(json)
                     console.log(res.data.token);

@@ -163,7 +163,9 @@ useEffect(()=>{
                   setIsopen(true)
                   setPopup(json)
                   localStorage.setItem("TOKEN", res.data.token)
-                  localStorage.setItem("firstname", res.data.firstname)
+        localStorage.setItem('fname', res.data.firstname)
+        localStorage.setItem('lname', res.data.lastname)
+        localStorage.setItem('email', res.data.username)
                 }
 
                 else {
