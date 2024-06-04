@@ -8,6 +8,7 @@ import { pdfjs } from 'react-pdf';
 import { PdfComp } from "../../components/PdfComp"
 import { BACKEND_URL } from "../config"
 import { Bot, Send } from "lucide-react"
+import { useChatScroll } from "../../hooks/useChatScroll"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -31,7 +32,10 @@ export function View() {
 
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
-console.log(setActions);
+  
+  const ref = useChatScroll(messages)
+
+  console.log(setActions);
 
   console.log(setFilename);
   console.log(setLatestBotMessageIndex)
@@ -49,7 +53,7 @@ console.log(setActions);
       } else {
         clearInterval(interval)
       }
-    }, 50);
+    }, 10);
     return () => clearInterval(interval)
   }, [words, currentIndex])
 
@@ -83,7 +87,7 @@ console.log(setActions);
       //   }, 2000);
       setMessages([...messages, { text: input, sender: 'user' }, { text:message, sender: 'bot' }]);
       console.log(message);
-      // setLatestBotMessageIndex(messages.length)
+      setLatestBotMessageIndex(messages.length)
       // console.log("latest bot message index: "+latestBotMessageIndex); 
       
       setWords(message)
@@ -129,9 +133,9 @@ console.log(setActions);
         <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200 text-black'}  text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
       </div>
       <div className=" z-10 -mt-5">
-      <Heading text="Analyze your Reports in single click"></Heading>
+      <Heading text="Analyze Reports in single click"></Heading>
       </div>
-      {<div id="pdf-content" className="z-20 rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
+      {<div id="pdf-content" ref={ref} className="z-20 rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
         {viewPdf ? (
           <div className=" bg-custom ">
           <div>
@@ -142,24 +146,43 @@ console.log(setActions);
           </div>
         ) : (
           <div className="">
-            <div id="messages" className="items-center px-4 mt-4 text-start text-xl font-medium">
+            <div id="messages" ref={ref} className="items-center px-4 mt-4 text-start text-xl font-medium">
               
             {messages.map((message, index) => (
       <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
-             { message.sender=='bot'&&index === latestBotMessageIndex ? ( 
-            <span className="bot-message">
-              {/* {typereffect} 
-              <TyperEffect text={words}/> */}
+             { message.sender=='bot'&&index === latestBotMessageIndex+1 ? ( 
+            <span className="bot-message flex"> 
+            <div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div><div></div>
+            <div className=" ml-3"> 
+            {typereffect.split('\n').map((line, index)=> <p>
+                {line.split('/n').map((word, wordIndex) => {
+                    const mainWord = word.split(')')
+                    const words = mainWord[0]
+                    const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
+                    const match = words.match(urlRegex);
+                  if (match) {
+                    return (
+                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                        {match[1]}
+                        <a href={match[2]} target="_blank" rel="noopener noreferrer">
+                          {match[2]}
+                        </a>
+                        {match[3]}{' '}
+                      </span>
+                    );
+                  } else {
+                    return <span key={`${index}-${wordIndex}`}>{word} </span>;
+                  }
+                })}
+            </p>)}
+            </div>
+              {/*<TyperEffect text={words}/> */}
               </span>
-          ) : ( 
-            message.text.split('\n').map((line, index) => (<div className="flex">
-              {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('firstname')?.charAt(0).toUpperCase())} </div>}  
-              {/* <div className=" items-center text-center bg-slate-300 rounded-full size-10 text-xl ">
-      <div className=' flex justify-center mt-1'> 
-    {message.sender=='bot'?(<div className=" mt-1"><Bot/></div>):(localStorage.getItem('firstname')?.charAt(0).toUpperCase())}
-    {avatar}
-      </div>
-      </div> */}
+          ) : 
+          ( 
+            message.text.split('\n').map((line, index) => ( 
+            <div className="flex">
+              {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('docFname')?.charAt(0).toUpperCase())} </div>}   
               <div className=" ml-3 mt-1 items-center">
               <p key={index}>
                 {line.split(' ').map((word, wordIndex) => {
@@ -184,10 +207,14 @@ console.log(setActions);
               </p>
               </div>
             </div>
-            ))
-          )}
+            )
+          )
+          )
+          }
       </div>
-    ))}
+    ))
+    
+    }
   </div>
           {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
             <TyperEffect text={words}/>
@@ -227,35 +254,7 @@ console.log(setActions);
     {/* <Chat></Chat> */}
     </div>
   );
-  
-// function TyperEffect({text}:any){
-   
-
-//   useEffect(() => {
-//     if (text.length == 0) {
-//       setTyperEffect(' ')
-//       return;
-//     }
-//     // let currentIndex = 0
-//     const interval = setInterval(() => {
-//       if (currentIndex < text.length) {
-//         const nextword = text[currentIndex];
-//         setTyperEffect((prev) => prev + "" + nextword)
-//         setCurrentIndex((prev) => prev + 1)
-//       } else {
-//         clearInterval(interval)
-//       }
-//     }, 30);
-//     return () => clearInterval(interval)
-//   }, [words, currentIndex])
-
-
-//     return <div className="flex border bg-slate-200 shadow-md">
-//       <h3 className="flex font-semibold text-lg text-zinc-800">
-//               {typereffect}
-//             </h3>
-//     </div>
-//  }
+ 
 
 } 
 

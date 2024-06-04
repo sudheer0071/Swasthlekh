@@ -552,7 +552,7 @@ const chat_history:any = [];
   } catch (error) {
     console.log(error);
     
-    res.json({message:'Bot is down'})
+    res.json({message:'Right now we are facing technical problems in our ML Model, it will be fix as soon as possible until then please standby and explore the other features of swasthlekh.\n Thankyou'})
   }
 // export {prefix} 
 })  

@@ -31,7 +31,7 @@ export function View() {
   const [content, setContent] = useState('') 
   
   // const[avatar, setAvatar] = useState('')
-// console.log(words,typereffect,currentIndex,setFilename);
+console.log(setFilename);
 
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
@@ -149,18 +149,39 @@ export function View() {
             <div id="messages" className="items-center scroll-smooth focus:scroll-auto px4 mt-4 text-start text-xl font-medium ">
               
             {messages.map((message, index) => (
-      <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
+      <div key={index}  className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
              { message.sender=='bot'&&index === latestBotMessageIndex+1 ? ( 
             <span className="bot-message flex"> 
             <div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div><div></div>
             <div className=" ml-3">
-               {typereffect}
+            {typereffect.split('\n').map((line, index)=> <p>
+                {line.split('/n').map((word, wordIndex) => {
+                    const mainWord = word.split(')')
+                    const words = mainWord[0]
+                    const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
+                    const match = words.match(urlRegex);
+                  if (match) {
+                    return (
+                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                        {match[1]}
+                        <a href={match[2]} target="_blank" rel="noopener noreferrer">
+                          {match[2]}
+                        </a>
+                        {match[3]}{' '}
+                      </span>
+                    );
+                  } else {
+                    return <span key={`${index}-${wordIndex}`}>{word} </span>;
+                  }
+                })}
+            </p>)}
+            {/* {typereffect} */}
             </div>
               {/* <TyperEffect text={words}/>  */}
               </span>
           ) : ( 
             message.text.split('\n').map((line, index) => (<div className="flex">
-            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('firstname')?.charAt(0).toUpperCase())} </div>}  
+            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('fname')?.charAt(0).toUpperCase())} </div>}  
             {/* <div className= {`items-center text-center ${white?' bg-slate-300':''} rounded-full size-10 text-xl`} >
       <div className=' flex justify-center mt-1'> 
     {message.sender=='bot'?index==1?(<div className=" mt-1 m-3"><Bot/></div>):'':(localStorage.getItem('firstname')?.charAt(0).toUpperCase())}
