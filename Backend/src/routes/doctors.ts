@@ -58,7 +58,7 @@ route1.post('/signup', async (req, res) => {
   const alreadyExist = await prisma.doctor.findUnique({
     where: { username }
   })
-
+ 
   if (!zodVerfify.success) {
     console.log(zodVerfify);
     return res.json({ message: "make sure to add correct email" })
@@ -74,7 +74,7 @@ route1.post('/signup', async (req, res) => {
 
   const token = jwt.sign({ userId: user.id }, secret)
 
-  res.json({ message: "User created successfully", token: token })
+  res.json({ message: "User created successfully", token: token, username, firstname, lastname })
 })
 
 route1.post('/signin', async (req: Request, res: Response) => {
@@ -104,7 +104,7 @@ route1.post('/signin', async (req: Request, res: Response) => {
   console.log(exist);
 
   const token = jwt.sign({ userId: user.id }, secret)
-  res.json({ message: "Fetching details...", token: token, firstname:user.firstname,lastname:user.lastname })
+  res.json({ message: "Fetching details...", token: token,username, firstname:user.firstname,lastname:user.lastname })
 })
 
 route1.post('/reports', userAuth, async (req: Request, res) => {
@@ -542,7 +542,7 @@ const chat_history:any = [];
   } catch (error) {
     console.log(error);
     
-    res.json({message:'Bot is down'})
+    res.json({message:'Right now we are facing technical problems in our ML Model, it will be fix as soon as possible until then please standby and explore the other features of swasthlekh.\n Thankyou'})
   }
 // export {prefix} 
 })  

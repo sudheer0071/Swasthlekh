@@ -146,9 +146,9 @@ h1 {
 } 
 
 #pdf-content{
-  height: 520px; 
+  height: 550px; 
   overflow-y: scroll;  
-  border: 1px solid rgb(179, 174, 174)
+  border: 12px solid rgb(248 250 252 / var(--tw-bg-opacity))
 }
 
 #pdf-content::-webkit-scrollbar {

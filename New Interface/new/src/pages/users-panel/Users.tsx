@@ -33,7 +33,7 @@ console.log("localstorage: "+localStorage.getItem('sign'));
     <div>
     <div className=' flex'> 
     <div>
-      <SideBar user='' name={localStorage.getItem('firstname')||''} /> 
+      <SideBar user='' name={localStorage.getItem('fname')||''} email={localStorage.getItem('email')||''} /> 
     </div>
           {/* <PdfComp/> */}   
           <div className=' flex-1'>  

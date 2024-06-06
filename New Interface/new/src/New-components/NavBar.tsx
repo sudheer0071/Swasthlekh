@@ -27,7 +27,7 @@ export const NavBar = ()=>{
     return () =>{window.addEventListener('resize', handleResize)}
   },[])
 
-  return <div className=" flex justify-between p-5 text-white border-b-2 border-slate-200 bg-stone-800 ">
+  return <div className=" flex justify-between z-50 p-5 text-white border-b-2 border-slate-200 bg-stone-800 ">
     <div className=" flex justify-between">
       <div className=" font-bold font-mono text-4xl md:text-5xl ml-8 mt-3">
         <a href="/">

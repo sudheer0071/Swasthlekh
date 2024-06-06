@@ -3,7 +3,7 @@ import { signinSchema, signUpSchema } from '../zodAuth';
 import { PrismaClient } from '@prisma/client';
 import { userAuth } from '../middleware'; 
 import fs  from 'fs'
-import multer from 'multer'
+import multer from 'multer'  
 import { NextApiRequest } from 'next';
 import { Readable } from 'stream';
 import path from 'path';
@@ -12,8 +12,8 @@ import { ChatOpenAI } from "@langchain/openai";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-import { createOpenAIFunctionsAgent, AgentExecutor } from "langchain/agents";
-import {TavilySearchResults} from "@langchain/community/tools/tavily_search";
+import { createOpenAIFunctionsAgent, AgentExecutor } from "langchain/agents"; 
+import {TavilySearchResults} from "@langchain/community/tools/tavily_search"; 
 import { createRetrieverTool } from "langchain/tools/retriever";
 
 
@@ -40,6 +40,12 @@ process.env['GOOGLE_APPLICATION_CREDENTIALS'] = './winter-flare-414016-a7dd7ec75
 const storageClient = new Storage()
 const bucketname = 'swasthlekh_bucket'
 
+// IPSF STORAGE SETUP  
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+
+const accessKeyId = 'BA3A2A8B05E04A48F27C'
+const secretAccessKey = 'zSwGJbnd5yQ3934ZFsVqMTMbgESe7MiUddxet9To';
+const IPFS_bucketName = 'swasthlekh'; 
 
 const jwt = require('jsonwebtoken')
 const route: Router = express.Router()
@@ -84,7 +90,7 @@ route.post('/signup', async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, secret)
 
-    res.json({ message: "User created successfully", token: token })
+    res.json({ message: "User created successfully", token: token, username, firstname, lastname })
   } catch (error) {
     return res.json({ message: "Backend Route Error" })
   }
@@ -94,7 +100,8 @@ route.post('/signin', async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body
     const zodVerfify = signinSchema.safeParse(req.body)
-
+     console.log(req.body);
+     
     const exist = await prisma.user.findUnique({
       where: { username }
     })
@@ -118,7 +125,7 @@ route.post('/signin', async (req: Request, res: Response) => {
     console.log(exist);
 
     const token = jwt.sign({ userId: user.id }, secret)
-    res.json({ message: "Fetching details...", token: token, firstname: user.firstname })
+    res.json({ message: "Fetching details...", token: token, username, firstname:user.firstname, lastname:user.lastname})
 
   } catch (error) {
     console.log(error);
@@ -240,10 +247,43 @@ route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Res
       // const bucket = storageClient.bucket(bucketName);
       // const blob = bucket.file(filePath);
       // await blob.save(resposne.data, { contentType: 'application/pdf' });
-      res.json({ message: "Report is uploaded successfully! ", data: { filename: resposne.filename, data: resposne.data }})
-      console.log("userfile: "+resposne.filename);
- console.log("username: "+user.username);
- 
+
+
+      // uploading file to bucket in IPFS storage
+      const key = `${resposne.filename}`; //FILENAME
+
+const s3Client = new S3Client({
+  credentials: {
+    accessKeyId,
+    secretAccessKey,
+  },
+  endpoint: 'https://s3.filebase.com', 
+  region: 'us-east-1', 
+});
+
+
+const fileContent = resposne.data;
+console.log(fileContent);
+
+const putObjectCommand = new PutObjectCommand({
+  Bucket: IPFS_bucketName,
+  Key: key, 
+  Body: fileContent,
+  ContentType: 'application/pdf',
+  ACL: 'public-read',
+});
+
+
+(async () => {
+  try {
+    await s3Client.send(putObjectCommand);
+    console.log('File uploaded successfully to IPFS storage!');
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+})();
+
+
 // // The ID of your GCS bucket 
 const uploaded_file = `${user.username}/${resposne.filename}`
 const  source_file = `gs://${bucketName}/files/${uploaded_file}`;
@@ -276,7 +316,7 @@ const request = {
       outputConfig: outputConfig,
     },
   ],
-};
+}; 
 
 const [operation] = await client.asyncBatchAnnotateFiles(request);
 const [filesResponse] = await operation.promise();
@@ -287,9 +327,12 @@ const [filesResponse] = await operation.promise();
 //////////////////////////////////////
 // GETTING BACK THE EXTARCTED DATA///
 ////////////////////////////////////  
+return res.json({ message: "Report is uploaded successfully! ", data: { filename: resposne.filename, data: resposne.data }})
+ console.log("userfile: "+resposne.filename);
+console.log("username: "+user.username);
   }
   } catch (error) {
-    res.json({ message: "Error in uploading", Error: error })
+     res.json({ message: "Error in uploading", Error: error })
     console.log("user id: " + req.userId);
     console.log(error);
   }
@@ -586,7 +629,7 @@ const chat_history:any = [];
   } catch (error) {
     console.log(error);
     
-    res.json({message:'Bot is down'})
+    res.json({message:'Right now we are facing technical problems in our ML Model, it will be fix as soon as possible until then please standby and explore the other features of swasthlekh.\n Thankyou'})
   } 
 // export {prefix} 
 })  
