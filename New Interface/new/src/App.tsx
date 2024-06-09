@@ -16,13 +16,17 @@ import { Rouute } from './Rouute';
 import { Portal } from './pages/users-panel/Portal';
 import { DoctorPortal } from './pages/doctors panel/Portal';
 import { Privacy } from './pages/Privacy';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import { GoogleOAuthProvider } from '@react-oauth/google'; 
 
 function App() {
   // const [logged, setLogged] = useRecoilState(navState);
   // const [isloading, setIsloading] = useState(true);
   // const [isbackendDown, setIsbackDown] = useRecoilState(backendDown); 
+  const clientId = import.meta.env.VITE_CLIENT_ID
+  console.log("client id: ");
+  
+  console.log(clientId);
+  
   return (
     <div>
       {/* <div className='flex h-screen'>
@@ -30,7 +34,7 @@ function App() {
       </div> */}
        {/* <h1 className="flex justify-center text-slate-700 font-bold -mt-6">Swasthलेख</h1> */}
       <div className=''> 
-      <GoogleOAuthProvider clientId="1067021885493-tc9hs0n4dk0iln1fb04gmogrgorbd77k.apps.googleusercontent.com"> 
+      <GoogleOAuthProvider clientId={clientId}> 
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Rouute/>} ></Route>

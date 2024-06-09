@@ -4,10 +4,11 @@ import cors from 'cors';
 require('dotenv').config()
 const app:Express = express() 
  
-const PORT = process.env.PORT
-const hellop='sdf'
+const PORT = process.env.PORT 
+
 // yaad rehne wala error
 app.use(cors())
+
 app.use(express.json())
 app.use('/api/v3',router)
 
