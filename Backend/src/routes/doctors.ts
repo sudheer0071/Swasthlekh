@@ -78,7 +78,7 @@ route1.post('/signup', async (req, res) => {
 })
 
 route1.post('/signin', async (req: Request, res: Response) => {
-  const { username, password } = req.body
+  const { username,firstname, lastname, password } = req.body
   const zodVerfify = signinSchema.safeParse(req.body)
 
   const exist = await prisma.doctor.findUnique({
@@ -94,8 +94,18 @@ route1.post('/signin', async (req: Request, res: Response) => {
   }
 
   if (!exist) {
-    return res.json({ message: "User doesn't exist" })
+    if (!firstname&&!lastname) {
+      return res.json({ message: "User doesn't exist" })
+    }
+    const createUser = await prisma.doctor.create({
+      data:{ 
+        username, firstname, lastname, password
+      }
+    })
+    const token = jwt.sign({ userId: createUser.id }, secret)
+    return res.json({message:"Creating account...", token: token, username, firstname:createUser.firstname, lastname:createUser.lastname})
   }
+
 
   if (!user) {
     return res.json({ message: "Invalid Credentials" })

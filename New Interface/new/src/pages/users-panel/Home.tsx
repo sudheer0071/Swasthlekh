@@ -8,7 +8,9 @@ export function Home() {
    setSide(true)
  console.log("inside home"+side); 
   // const items = ['Overvieww', 'Log Book', 'shedule', 'invoce', 'settings']
-console.log(localStorage.getItem(''));
+  console.log('lname: ');
+  
+console.log(localStorage.getItem('lname'));
 
   return <div>
     {/* <div className="flex flex-col">
@@ -53,7 +55,7 @@ console.log(localStorage.getItem(''));
         <div className=" px-10">
           <div id="TOP BAR" className=" fixed top-0 mt-10">
             <div className=" flex text-3xl font-bold">
-              Hi {localStorage.getItem('fname')?.toUpperCase()}  {localStorage.getItem('lname')?.toUpperCase()}  
+              Hi {localStorage.getItem('fname')?.toUpperCase()}  {localStorage.getItem('lname')!='null'?localStorage.getItem('lname')?.toUpperCase():''}  
             </div>
             <p className=" text-lg mt-3">Lets track your reports</p>
           </div>

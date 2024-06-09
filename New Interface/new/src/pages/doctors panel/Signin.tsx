@@ -27,12 +27,61 @@ export function Signin() {
    
   type userProfile = { 
     email: string,
+    name:string,
     id: string
   }
 
   const [user, setUser] = useState({ access_token: '' });
-  const [profile, setProfile] = useState<userProfile>({ email:'',id:''});
+  const [profile, setProfile] = useState<userProfile>({ email:'',id:'',name:''});
 
+  const signin = async ()=>{
+    if (password==''||username=='') {  
+      setTimeout(() => { 
+        setPopup("")
+        setIsopen(false)
+       }, 3000);
+       setIsopen(true)
+       //********************************** will set shake inputs **********************************
+       // setEmtpyemail(true)
+       setPopup("Please enter all feilds")
+     }
+     else{  
+       setLoader('signin') 
+       const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/signin`,
+     {
+         username, password
+      })
+      const json = res.data.message
+         console.log("inside signin");
+         if (json.includes('details')) {
+           setTimeout(() => { 
+             setIsopen(false) 
+             setPassword("")
+             setUsername("")
+             setPopup('')
+             setLoader('')
+             setLogged(true)
+             navigate('/doctors/home')
+           }, 3000);
+           setIsopen(true)
+         setPopup(json)
+         localStorage.setItem("docToken", res.data.token)
+         localStorage.setItem('docFname', res.data.firstname)
+         localStorage.setItem('docLname', res.data.lastname)
+         localStorage.setItem('docEmail', res.data.username)
+         }
+
+         else{
+           setTimeout(() => { 
+             setIsopen(false)  
+             setLoader('')
+             setPopup('')
+           }, 2000);
+           setIsopen(true)
+         setPopup(json)
+         }
+       }
+  }
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => setUser(codeResponse),
@@ -47,7 +96,7 @@ export function Signin() {
     }
     else {
       const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/signin`,
-        { username: profile.email, password: profile.id
+        { username: profile.email, password: profile.id, firstname:profile.name.split(' ')[0], lastname:profile.name.split(' ')[1]
         })
 
       const response = res.data.message
@@ -128,57 +177,12 @@ useEffect(()=>{
    <SubHeading text={"Enter your information to access an account"}></SubHeading>
  
    <InputBox empty={emptyEmail} placeholder={"Enter Email"} value={username} onChange={(e:any)=>{setUsername(e.target.value)}}  label={"Email"}></InputBox>
-   <InputBox empty={emptyPass} password={true} placeholder={"Enter Password"} value={password} onChange={(e:any)=>{setPassword(e.target.value)}}  label={"Password"}></InputBox>
-   <Button height={12} onclick={async ()=>{
-     
-     if (password==''||username=='') {  
-       setTimeout(() => { 
-         setPopup("")
-         setIsopen(false)
-        }, 3000);
-        setIsopen(true)
-        //********************************** will set shake inputs **********************************
-        // setEmtpyemail(true)
-        setPopup("Please enter all feilds")
-      }
-      else{  
-        setLoader('signin') 
-        const res = await axios.post(`${BACKEND_URL}/api/v3/doctors/signin`,
-      {
-          username, password
-       })
-       const json = res.data.message
-          console.log("inside signin");
-          if (json.includes('details')) {
-            setTimeout(() => { 
-              setIsopen(false) 
-              setPassword("")
-              setUsername("")
-              setPopup('')
-              setLoader('')
-              setLogged(true)
-              navigate('/doctors/home')
-            }, 3000);
-            setIsopen(true)
-          setPopup(json)
-          localStorage.setItem("docToken", res.data.token)
-          localStorage.setItem('docFname', res.data.firstname)
-          localStorage.setItem('docLname', res.data.lastname)
-          localStorage.setItem('docEmail', res.data.username)
-          }
-
-          else{
-            setTimeout(() => { 
-              setIsopen(false)  
-              setLoader('')
-              setPopup('')
-            }, 2000);
-            setIsopen(true)
-          setPopup(json)
-          }
-        }
-     
-   }}label={"Sign in"} loader={loader}></Button>
+   <InputBox empty={emptyPass} password={true} placeholder={"Enter Password"} value={password} onChange={(e:any)=>{setPassword(e.target.value)}} onKeyPress={(e:React.KeyboardEvent<HTMLInputElement>)=>{
+    if (e.key=='Enter') {
+      signin()
+    }
+   }}  label={"Password"}></InputBox>
+   <Button height={12} onclick={signin} label={"Sign in"} loader={loader}></Button>
    <BottomWarn label={"No Accout?"} link={"/doctor/portal/signup"} linktext={"Sign up"}></BottomWarn>
    or
         <div className=" mt-2 flex justify-center"> 
@@ -189,7 +193,7 @@ useEffect(()=>{
           </svg>
           </div>
           <div className=" ml-3 -mt-1">
-          <button onClick={() => { login() }}>Sign Up with Google </button> 
+          <button onClick={() => { login() }}>Sign In with Google </button> 
           </div>
           </div>
             <br /> 

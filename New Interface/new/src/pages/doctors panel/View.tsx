@@ -135,7 +135,7 @@ export function View() {
       <div className=" z-10 -mt-5">
       <Heading text="Analyze Reports in single click"></Heading>
       </div>
-      {<div id="pdf-content" ref={ref} className="z-20 rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
+      {<div id="pdf-content" ref={ref} className="z-20 scroll-smooth focus:scroll-auto  rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
         {viewPdf ? (
           <div className=" bg-custom ">
           <div>
@@ -146,7 +146,7 @@ export function View() {
           </div>
         ) : (
           <div className="">
-            <div id="messages" ref={ref} className="items-center px-4 mt-4 text-start text-xl font-medium">
+            <div id="messages" className="items-center px-4 mt-4 text-start text-xl font-medium">
               
             {messages.map((message, index) => (
       <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>

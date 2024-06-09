@@ -98,7 +98,7 @@ route.post('/signup', async (req, res) => {
 
 route.post('/signin', async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body
+    const { username, firstname, lastname, password } = req.body
     const zodVerfify = signinSchema.safeParse(req.body)
      console.log(req.body);
      
@@ -115,7 +115,16 @@ route.post('/signin', async (req: Request, res: Response) => {
     }
 
     if (!exist) {
-      return res.json({ message: "User doesn't exist" })
+      if (!firstname&&!lastname) {
+        return res.json({ message: "User doesn't exist" })
+      }
+      const createUser = await prisma.user.create({
+        data:{ 
+          username, firstname, lastname, password
+        }
+      })
+      const token = jwt.sign({ userId: createUser.id }, secret)
+      return res.json({message:"Creating account...", token: token, username, firstname:createUser.firstname, lastname:createUser.lastname})
     }
 
     if (!user) {
@@ -130,7 +139,7 @@ route.post('/signin', async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     
-    return res.json({ message: "Backend is down", Error: error })
+    return res.json({ message: "Something went wrong", Error: error })
   }
 })
 

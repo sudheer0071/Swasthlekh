@@ -86,8 +86,7 @@ export function Signup() {
             }
           }) 
           console.log(res.data);
-            setProfile(res.data) 
-            console.log(profile);  
+            setProfile(res.data)  
       }
     } 
     getUser()
@@ -203,7 +202,7 @@ useEffect(()=>{
           </svg>
           </div>
           <div className=" ml-3 -mt-1">
-          <button onClick={() => { login() }}>Sign Up with Google </button> 
+          <button onClick={() => { login() }}>Sign In with Google </button> 
           </div>
           </div>
             <br /> 

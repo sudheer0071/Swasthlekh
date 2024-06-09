@@ -26,13 +26,74 @@ export function Signin() {
 
    
   type userProfile = { 
-    email: string,
+    email: string, 
+    name:string,
     id: string
   }
 
   const [user, setUser] = useState({ access_token: '' });
-  const [profile, setProfile] = useState<userProfile>({email:'',id:''});
+  const [profile, setProfile] = useState<userProfile>({email:'',id:'', name:''});
 
+  const signin = async()=>{
+    if (password == '' || username == '') {
+      setTimeout(() => {
+        setPopup("")
+        setIsopen(false)
+      }, 3000);
+      setIsopen(true)
+      //********************************** will set shake inputs **********************************
+      // setEmtpyemail(true)
+      setPopup("Please enter all feilds")
+    }
+    else {
+      setLoader('signin')
+      const res = await axios.post(`${BACKEND_URL}/api/v3/users/signin`,
+        {
+          username, password
+        })
+      const json = res.data.message
+      console.log("inside signin");
+      if (json.includes('Invalid')) {
+        setTimeout(() => {
+          setIsopen(false)
+          setPopup('')
+          setPassword('')
+          setLoader('')
+        }, (2000));
+        setIsopen(true)
+        setPopup(json)
+      }
+      else if (json.includes('details')) {
+        setTimeout(() => {
+          setIsopen(false)
+          setPassword("")
+          setUsername("")
+          setPopup('')
+          setLoader('')
+          setLogged(true)
+          console.log("localstorage: "+localStorage.getItem('sign'));
+          
+          navigate('/users/home')
+        }, 3000);
+        setIsopen(true)
+        setPopup(json)
+        localStorage.setItem("TOKEN", res.data.token)
+localStorage.setItem('fname', res.data.firstname)
+localStorage.setItem('lname', res.data.lastname)
+localStorage.setItem('email', res.data.username)
+      }
+
+      else {
+        setTimeout(() => {
+          setIsopen(false)
+          setLoader('')
+          setPopup('')
+        }, 2000);
+        setIsopen(true)
+        setPopup(json)
+      }
+    }
+  }
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => setUser(codeResponse),
@@ -47,7 +108,7 @@ export function Signin() {
     }
     else {
       const res = await axios.post(`${BACKEND_URL}/api/v3/users/signin`,
-        { username: profile.email, password: profile.id
+        { username: profile.email, password: profile.id, firstname:profile.name.split(' ')[0], lastname:profile.name.split(' ')[1]
         })
 
       const response = res.data.message
@@ -127,59 +188,13 @@ useEffect(()=>{
           <SubHeading text={"Enter your information to access an account"}></SubHeading>
 
           <InputBox empty={emptyEmail} placeholder={"Enter Email"} value={username} onChange={(e: any) => { setUsername(e.target.value) }} label={"Email"}></InputBox>
-          <InputBox empty={emptyPass} password={true} placeholder={"Enter Password"} value={password} onChange={(e: any) => { setPassword(e.target.value) }} label={"Password"}></InputBox>
+          <InputBox empty={emptyPass} password={true} placeholder={"Enter Password"} value={password} onChange={(e: any) => { setPassword(e.target.value) }} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>)=>{
+            if (e.key=='Enter') {
+              signin()
+            }
+          }} label={"Password"}></InputBox>
           <div className=" mt-4">
-            <Button height={12} onclick={async () => { 
-              if (password == '' || username == '') {
-                setTimeout(() => {
-                  setPopup("")
-                  setIsopen(false)
-                }, 3000);
-                setIsopen(true)
-                //********************************** will set shake inputs **********************************
-                // setEmtpyemail(true)
-                setPopup("Please enter all feilds")
-              }
-              else {
-                setLoader('signin')
-                const res = await axios.post(`${BACKEND_URL}/api/v3/users/signin`,
-                  {
-                    username, password
-                  })
-                const json = res.data.message
-                console.log("inside signin");
-                if (json.includes('details')) {
-                  setTimeout(() => {
-                    setIsopen(false)
-                    setPassword("")
-                    setUsername("")
-                    setPopup('')
-                    setLoader('')
-                    setLogged(true)
-                    console.log("localstorage: "+localStorage.getItem('sign'));
-                    
-                    navigate('/users/home')
-                  }, 3000);
-                  setIsopen(true)
-                  setPopup(json)
-                  localStorage.setItem("TOKEN", res.data.token)
-        localStorage.setItem('fname', res.data.firstname)
-        localStorage.setItem('lname', res.data.lastname)
-        localStorage.setItem('email', res.data.username)
-                }
-
-                else {
-                  setTimeout(() => {
-                    setIsopen(false)
-                    setLoader('')
-                    setPopup('')
-                  }, 2000);
-                  setIsopen(true)
-                  setPopup(json)
-                }
-              }
-
-            }} label={"Sign in"} loader={loader}></Button>
+            <Button height={12} onclick={signin} label={"Sign in"} loader={loader}></Button>
           </div>
           <BottomWarn label={"No Accout?"} link={"/user/portal/signup"} linktext={"Sign up"}></BottomWarn>
           or
@@ -191,7 +206,7 @@ useEffect(()=>{
           </svg>
           </div>
           <div className=" ml-3 -mt-1">
-          <button onClick={() => { login() }}>Sign Up with Google </button> 
+          <button onClick={() => { login() }}>Sign In with Google </button> 
           </div>
           </div>
             <br /> 
