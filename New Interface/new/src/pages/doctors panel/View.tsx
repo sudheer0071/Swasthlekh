@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react" 
-import { Heading } from "../../components/Heading"
-import { InputBox } from "../../components/InputBox"
+import { Heading } from "../../components/Heading" 
 import axios from "axios"
 import { useRecoilState } from "recoil"
 import { wordss, typereffectt, currentindex, actions } from '../atom'; 
@@ -9,6 +8,7 @@ import { PdfComp } from "../../components/PdfComp"
 import { BACKEND_URL } from "../config"
 import { Bot, Send } from "lucide-react"
 import { useChatScroll } from "../../hooks/useChatScroll"
+import { useMediaQuery } from "react-responsive"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
@@ -33,6 +33,9 @@ export function View() {
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
   
+  const mini = useMediaQuery({query:'(max-width:550px)'})
+
+
   const ref = useChatScroll(messages)
 
   console.log(setActions);
@@ -128,14 +131,15 @@ export function View() {
 
   return (
     <div >
-    <div className="text-slate-600 overflow-hidden -mt-32 px-5 ">
+    <div className="text-slate-600 overflow-hidden -mt-14 sm:-mt-14 md:-mt-20 lg:-mt-32 px-1 md:px-3 lg:px-5 ">
       <div className="flex justify-center text-black">
         <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200 text-black'}  text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
       </div>
-      <div className=" z-10 -mt-5">
-      <Heading text="Analyze Reports in single click"></Heading>
+      <div className=" z-10 mt-4 sm:mt-9 md:-mt-7 lg:-mt-7">
+      <Heading size={mini?1:4} text="Analyze your Reports in single click"></Heading>
       </div>
-      {<div id="pdf-content" ref={ref} className="z-20 scroll-smooth focus:scroll-auto  rounded-lg mt-7 shadow-sm px=6 border-2 w-full text-white bg-slate-50" >
+      
+      {<div id="pdf-content" ref={ref} className="heigh z-20 h-5/6 scroll-smooth focus:scroll-auto rounded-lg mt md:mt-6 lg:mt-7 shadow-sm px-0  bg-slate-50" >
         {viewPdf ? (
           <div className=" bg-custom ">
           <div>
@@ -146,14 +150,14 @@ export function View() {
           </div>
         ) : (
           <div className="">
-            <div id="messages" className="items-center px-4 mt-4 text-start text-xl font-medium">
+            <div id="messages" className="items-center scroll-smooth focus:scroll-auto px4 mt-4 text-start text-sm md:text-xl lg:text-xl font-medium ">
               
             {messages.map((message, index) => (
-      <div key={index} className={`message ${message.sender === 'user' ? ' rounded-lg  p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
+      <div key={index}  className={`message ${message.sender === 'user' ? ' rounded-lg p-1 md:p-2 lg:p-2 ml-auto text-black font-medium border-b-2 mx-4 mt-3' : ' rounded-lg   p-2 ml-auto text-black bg-orange-50 font-normal mx-4 mt-3 border-b-2 '}`}>
              { message.sender=='bot'&&index === latestBotMessageIndex+1 ? ( 
             <span className="bot-message flex"> 
-            <div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div><div></div>
-            <div className=" ml-3"> 
+            <div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-7 md:size-10 lg:size-10 text-xl`}> <div  className=' flex justify-center md:mt-1 lg:mt-1'></div><div className=" md:mt-1 lg:mt-1 md:m-2 lg:m-2"><Bot/></div> </div><div></div>
+            <div className=" ml-3">
             {typereffect.split('\n').map((line, index)=> <p>
                 {line.split('/n').map((word, wordIndex) => {
                     const mainWord = word.split(')')
@@ -174,15 +178,12 @@ export function View() {
                     return <span key={`${index}-${wordIndex}`}>{word} </span>;
                   }
                 })}
-            </p>)}
-            </div>
-              {/*<TyperEffect text={words}/> */}
+            </p>)} 
+            </div> 
               </span>
-          ) : 
-          ( 
-            message.text.split('\n').map((line, index) => ( 
-            <div className="flex">
-              {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-10 text-xl`}> <div  className=' flex justify-center mt-1'></div><div className=" mt-1 m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-10 text-xl`}> <div className=' flex justify-center mt-1'></div>{(localStorage.getItem('docFname')?.charAt(0).toUpperCase())} </div>}   
+          ) : ( 
+            message.text.split('\n').map((line, index) => (<div className="flex">
+            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-7 md:size-10 lg:size-10 text-xl`}> <div  className=' flex justify-center md:mt-1 lg:mt-1'></div><div className="   md:mt-1 lg:mt-1 md:m-2 lg:m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-7 md:size-10 lg:size-10 md:text-xl lg:text-xl`}> <div className=' flex justify-center mt-1 md:mt-1 lg:mt-1'></div>{(localStorage.getItem('fname')?.charAt(0).toUpperCase())} </div>}   
               <div className=" ml-3 mt-1 items-center">
               <p key={index}>
                 {line.split(' ').map((word, wordIndex) => {
@@ -207,23 +208,16 @@ export function View() {
               </p>
               </div>
             </div>
-            )
-          )
-          )
-          }
+            ))
+          )}
       </div>
-    ))
-    
-    }
-  </div>
-          {/* <h3 className="flex font-semibold text-left text-lg text-zinc-800">
-            <TyperEffect text={words}/>
-          </h3> */}
+    ))}
+  </div> 
         </div>
         )}
-      </div> }
-      <div id="in " className="flex justify-center px-10 mt-4">
-        <div className=" w-full ">
+      </div> } 
+        {/* <div id="in " className=" flex absolute bottom-0 justify-center lg:px-10  md:mt-4 lg:mt-4">
+        <div id="idd" className=" ">
           <InputBox
             placeholder={'Ask you query...'}
             label={''}
@@ -236,21 +230,30 @@ export function View() {
               setInput(e.target.value);
             }}
             value={input}
-          />
+          />  
         </div>
-        
         <div onClick={fetchResponse} className="  cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 mt-7 -ml-10">
-          <Send size={29} />
-          {/* <Button
-            height={12}
-            onclick={fetchResponse}
-            loader={''}
-            label={'Send'}
-          ></Button> */}
+          <Send size={29} /> 
         </div>
-      </div>
-  
+      </div>   */}
+     
+       <div className=" ">
+    <div className="fixed bottom- flex justify-between">
+      <input id="right" className="text-lg shadow-md px-2 border rounded h-12 font-medium border-slate-200 py-1 bg-white border-1 w-4/5 md:w-9/12 lg:w-9/12 fixed bottom-2  p-2 border-t"  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') {
+                fetchResponse();
+              }
+            }}
+            onChange={(e: any) => {
+              setInput(e.target.value);
+            }}
+            value={input} type="text" placeholder="Ask your Query" />
+    <div id="btn" onClick={fetchResponse} className=" fixed bottom-3 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 ">
+          <Send size={29} /> 
+        </div>
     </div>
+  </div>
+    </div>  
     {/* <Chat></Chat> */}
     </div>
   );

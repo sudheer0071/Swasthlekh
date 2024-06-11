@@ -93,40 +93,42 @@ export function Home(){
   }
 
   return <div>
-    <div className="flex flex-col px-7"> 
+    <div className="flex flex-col px-2 md:px-5 lg:px-7"> 
     <div className=" flex justify-center">
         <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' text-black bg-orange-200'} flex justify-center  text-center w-80 shadow-lg  rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
      <div id="report-section" > 
-     <div className="flex justify-between">
-     <div className="flex -mt-36">  
-     <div className=" ">
+     <div className="lg:flex justify-between">
+      <div>
+     <div className="flex -mt-7 sm:mt-8 md:mt-20 lg:-mt-36">  
+     <div className="   scale-50 md:scale-95 lg:scale-100">
       < LucideHospital size={55} />
      </div>
      <div className="p-3 ">
-       <div className=" text-4xl font-bold text-zinc-700">
+       <div className=" text-lg sm:text-2xl md:text-4xl lg:text-4xl font-bold text-zinc-700">
         Ayushman Healthcare
         </div>
-       <div className=" max-w-3xl mt-6 text-lg font-medium">
-        Here doctor can search for the patient and request access from the patient and when patient will grant te access for report then he'll able to view all the reports of that patient
-       </div>
      </div>
       </div>
-      <div className=" flex items-center">
-        <div className=" mr-5">
+       <div className=" max-w-3xl mt- md:mt-6 lg:mt-6 md:text-lg lg:text-lg font-medium">
+        Here doctor can search for the patient and request access from the patient and when patient will grant te access for report then he'll able to view all the reports of that patient
+       </div>
+      </div>
+      <div className="absolute right-4 flex items-center">
+        <div className=" scale-75 md:scale-95 lg:scale-100 mr-5">
           <LucideBriefcaseMedical size={34}/>
         </div>
-      <div className=" text-2xl font-medium"> 
+      <div className=" text-lg md:text-xl lg:text-2xl font-medium"> 
       Dr. {localStorage.getItem('docFname')||''} {localStorage.getItem('docLname')=='undefined' || localStorage.getItem('docLname')=='null'?'':localStorage.getItem('docLname')} 
       </div>
       </div>
      </div>
-     <div className=" text-3xl font-medium mt-4">
+     <div className=" text-xl md:text-2xl lg:text-4xl font-medium mt-10 md:mt-5 lg:mt-7">
       Search for the Patient and reports
      </div>
      <div className=" -mt-5">
-     <div id="inputss" className="flex justify-center mt-9 px-11"> 
-    <div className=" ml-7 w-full text-slate-700">
+     <div id="inputss" className="flex justify-center mt-2 md:mt-8 lg:mt-10 px-1 md:px-9 lg:px-11"> 
+    <div className=" md:ml-6 lg:ml-7 w-full text-slate-700">
       <InputBox placeholder={' Type username...'} label={''} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') { 
         findUser(); 
@@ -140,14 +142,14 @@ export function Home(){
       <Search size={28} /> 
     </div>
   </div>
-    <div className=" mt-5">
+    <div className=" -mt-0 md:mt-4 lg:mt-5">
     {access?
-     (<div id="reports-listt" className=" p-4 rounded-lg shadow-lg h-80 text-slate-800" >
+     (<div id="reports-listt" className=" md:p-3 lg:p-4 rounded-lg shadow-lg h-64 md:h-80 lg:h-80 text-slate-800" >
       {found?<Access></Access>:<div className=" flex justify-center">
         <img width="288" src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Search-amico.png" alt="" />
         </div>} 
       </div> ): 
-       (<div id="reports-listt" className=" scrol-report border-2 overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md px-4">
+       (<div id="reports-listt" className=" scrol-report border-2 overflow-x-hidden overflow-y-scroll h-64 md:h-80 lg:h-80 rounded-md shadow-md px-0 md:px-3 lg:px-4">
         {search?<Reports white={false} token={localStorage.getItem('docToken')} username={localStorage?.getItem('searchedUser')}/>:
         <div className="flex justify-center text-4xl  "> 
         <div>
@@ -251,23 +253,23 @@ function Access(){
     }
   }
  
-  return   <div className=" px-11">
+  return   <div className=" md:px-9 lg:px-11">
   <div className=" flex justify-center text-black">
         <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200'} flex justify-center text-center w-80 shadow-lg   rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
   <div className=''>
     {request?<div>
-  <div className=" text-lg ml-5 font-medium">
+  <div className=" text-lg ml-2 md:ml-4 lg:ml-5 font-medium">
     username
   </div>
-    <div id="reports" className={`flex justify-between  border-2 shadow-slate-500 rounded-md mt-2 px-5 bg-white`}>  
+    <div id="reports" className={`flex justify-between  border-2 shadow-slate-500 rounded-md mt-2 px-1 md:px-5 lg:px-5 bg-white`}>  
  <div className="mt-1 font-medium ">
 
   <div className="flex mt-3 text-slate-800 text-md items-center" >
-    <div className=" bg-slate-300 rounded-full p-2">
+    <div className=" scale-75 md:scale-100 lg:scale-100 bg-slate-300 rounded-full p-2">
 <User size={32}/>
     </div>
-    <div className=" ml-3"> 
+    <div className=" md:ml-3 lg:ml-3 text-sm md:text-base lg:text-base"> 
       {username?username?.charAt(0).toUpperCase()+ username.slice(1):''} 
     </div>
   </div> 
@@ -275,12 +277,12 @@ function Access(){
     {allowText} 
   </div>
 </div> 
- <div className="flex justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-95 h-full mr-2 ml-4"> 
+ <div className=" scale-75 md:scale-100 lg:scale-100 flex justify-center cursor-pointer md:transition lg:transition duration-200 ease-in-out transform md:hover:scale-95 lg:hover:scale-95 h-full md:mr-2 lg:mr-2 md:ml-4 lg:ml-4"> 
   
   <Button height={11} loader={''} onclick={()=> { 
     grantAccess()
     // window.open(`${content}`,'_blank', 'noreferrer')
-    }} label={view?'view':'Request access?'}></Button>
+    }} label={view?'view':'Request?'}></Button>
  
  </div>
 </div>

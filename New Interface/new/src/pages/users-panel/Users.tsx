@@ -24,10 +24,7 @@ function Users() {
 //   if (check=='sign') {
 //      SetSign(true)
 //   }
-// })
-console.log("iniside user");
-
-console.log("localstorage: "+localStorage.getItem('sign'));
+// }) 
 
   return (
     <div>
@@ -45,8 +42,7 @@ console.log("localstorage: "+localStorage.getItem('sign'));
           <a href="/" className=' '>
         Swasth<p className=" inline text-pink-500">लेख</p>
           </a>
-        </div>
-        <div className='  '>
+        </div> 
           <Routes> 
             {/* <Route path='/backendDown' element={<BackendDown/>}></Route> */}
             {/* <Route path='/' element={isbackendDown?<BackendDown/>:isloading?<Loader/>:<Navigate to='/signin' />}></Route> */}
@@ -56,8 +52,7 @@ console.log("localstorage: "+localStorage.getItem('sign'));
             <Route path='/view' element={<View />}></Route> 
             <Route path='/home' element={<Home />}></Route> 
             {/* <Route path='/dashboard' element={isbackendDown?<BackendDown/>:logged ? <Dashboard /> : <Navigate to='/signin' />}></Route> */}
-          </Routes>   
-        </div>
+          </Routes>    
             </div> 
     </div> 
     </div>

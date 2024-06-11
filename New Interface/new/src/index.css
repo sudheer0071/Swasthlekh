@@ -158,9 +158,7 @@
    font-size: 3.2em;
    line-height: 1.1;
  }
-
-
-
+ 
  .drag-and-drop {
    width: 400px;
    height: 400px;
@@ -178,19 +176,35 @@
  }
  
  
- #pdf-content {
-   
+ #pdf-content { 
    overflow-y: scroll;
    border: 12px solid rgb(248 250 252 / var(--tw-bg-opacity))
  }
  
+ #pdf-content::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+#pdf-content::-webkit-scrollbar-track {
+  background: transparent; /* Background of the scrollbar track */
+}
+
+#pdf-content::-webkit-scrollbar-thumb {
+  background-color: #ebd4a3; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Roundness of the scrollbar thumb */
+  border: 3px solid #f0f0f0; /* Padding around the scrollbar thumb */
+}
+
+#pdf-content::-webkit-scrollbar-thumb:hover {
+  background: #dfcca4; /* Color of the scrollbar thumb on hover */
+}
+
  #btn{
   right: 5%;
  }
 
  .heigh{
-  height: 79vh;
-  overflow-y: scroll;
+  height: 79vh; 
  }
 
  #reports-list {
@@ -267,7 +281,7 @@
  }
 
  #inputss {
-   margin-top: 36px;
+   /* margin-top: 36px; */
  }
 
  /***************************************** BUTTON LOADER *****************************************/

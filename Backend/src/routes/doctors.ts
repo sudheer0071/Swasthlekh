@@ -619,7 +619,7 @@ route1.get('/viewed',userAuth,async(req:Request,res:Response)=>{
 
    const viewed = await prisma.logs.findMany({
     where:{
-      doctorEmail:doc.username
+      doctorEmail:doc.username 
     },
     select:{
       userEmail:true,

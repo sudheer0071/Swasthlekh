@@ -60,8 +60,8 @@ export const Requests = ()=>{
      <div className=" flex justify-center text-black">
         <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('feilds') || popup.includes('Please') || popup.includes('not') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-11' : ' bg-orange-200 text-black'} flex justify-center  text-center w-80 shadow-lg rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>  
   </div>
-    <div className="flex items-center text-4xl font-semibold -mt-36 px-3">
-      <div>
+    <div className="flex items-center text-xl md:text-4xl lg:text-4xl font-semibold mt-3 md:mt-20 lg:-mt-36 px-3">
+      <div className=" scale-75 md:scale-100 lg:scale-100">
         <LucideHistory size={44}/>
       </div>
       <div className=" ml-3">
@@ -69,19 +69,19 @@ export const Requests = ()=>{
       </div>
     </div>
     <div>
-    <div className=' px-7'>
-    {request?<div className=" mt-24">
-      <div className=" flex justify-between text-lg ml-5 font-medium">
-  <div className=" ">
+    <div className=' px-1 md:px-6 lg:px-7'>
+    {request?<div className=" mt-8 md:mt-16 lg:mt-24">
+      <div className="  grid gri grid-cols-2 md:grid-cols-4 lg:grid-cols-4 justify-between text-lg  font-medium">
+  <div className=" text-center ">
     username
   </div>
-  <div className="  text-lg font-medium  0 ">
+  <div className=" hidden md:inline lg:inline  text-center text-lg font-medium  ">
      status
   </div>
-  <div className="  text-lg font-medium mr-7 ">
+  <div className=" hidden md:inline lg:inline text-center  text-lg font-medium   ">
      Date
   </div>
-  <div className=" mr-10">
+  <div className=" text-center ">
     Activity
   </div>
       </div>
@@ -102,30 +102,48 @@ export const Requests = ()=>{
 const AllRequests = ({data}:any)=>{
   const navigate = useNavigate()
   return <div className="">
-   <div id="reports" className={`flex justify-between  border-2 shadow-slate-500 rounded-md mt-2 px-5 bg-white`}>  
+   <div id="reports" className={` grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 justify-between  border-2 shadow-slate-500 rounded-md mt-2 px-1 md:px-5 lg:px-5 bg-white`}>  
 
 <div className="mt-1 font-medium ">
 
- <div className="flex mt-3 text-slate-800 text-md items-center" >
-   <div className=" bg-slate-300 rounded-full p-2">
+ <div className="flex mt-1 md:mt-3 lg:mt-3 text-slate-800 text-md items-center" >
+   <div className=" -mt-2 md:mt-0 lg:mt-0 scale-75 md:scale-100 lg:scale-100  bg-slate-300 rounded-full p-2">
 <User size={32}/>
    </div>
-   <div className=" ml-3 -mt-3"> 
+   <div className=" md:ml-3 lg:ml-3 lg:-mt-3"> 
      {/* {username?username?.charAt(0).toUpperCase()+ username.slice(1):''}  */} 
      {data.user}
      <div className=" font-extralight">
       {data.grant?'':'Requet on hold'}
      </div>
+     <div className=" font-normal -ml-10 mt-1 text-sm flex md:hidden lg:hidden justify-center items-center"> 
+ {data.grant?<div className="flex">
+  <div className=" scale-75"> 
+  <CheckCircle2 color="green"/>
+  </div>
+  <div className=" ml-1">
+    Granted  
+    {/* <Reports token={localStorage.getItem('docToken')} username={data.user}/> */}
+  </div>
+ </div>:<div className="-ml-16 flex">
+  <div className=" scale-75">
+  <Clock color="red"/>
+  </div>
+  <div className=" ml-1"> 
+    Pending
+  </div>
+  </div>}
+</div>
    </div>
  </div> 
  <div className=" ml-16 text-md font-thin -mt-4">
    {/* {allowText}  */} 
  </div>
 </div> 
-<div className=" flex justify-center items-center mr-16 "> 
+<div className="hidden md:flex lg:flex justify-center items-center"> 
  {data.grant?<div className="flex">
   <div> 
-  <CheckCircle2/>
+  <CheckCircle2 color="green"/>
   </div>
   <div className=" ml-3">
     Granted 
@@ -136,14 +154,14 @@ const AllRequests = ({data}:any)=>{
   </div>
  </div>:<div className=" ml-3 flex">
   <div>
-  <Clock/>
+  <Clock color="red"/>
   </div>
   <div className=" ml-3"> 
     Pending
   </div>
   </div>}
 </div>
-<div className=" flex justify-center items-center ">
+<div className="hidden md:flex lg:flex justify-center items-center ">
   <div className="">
   <div className=" font-medium">
     Requested on:
@@ -153,7 +171,7 @@ const AllRequests = ({data}:any)=>{
      </div>
   </div>
 </div>
-{data.grant?<div className="flex justify-center items-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-95 p-3 h-full mr-2 ml-4">
+{data.grant?<div className="  scale-75 md:scale-100 lg:scale-100  flex justify-center items-center cursor-pointer transition duration-200 ease-in-out transform md:hover:scale-95 lg:hover:scale-95 p-1 md:p-3 lg:p-3 h-full md:mr-2 lg:mr-2 md:ml-4 lg:ml-4">
 <button onClick={()=> { 
   //  grantAccess() 
   localStorage.setItem('currentUser',data.user)
@@ -164,7 +182,7 @@ const AllRequests = ({data}:any)=>{
   <button onClick={()=> { 
   //  grantAccess()  
    // window.open(`${content}`,'_blank', 'noreferrer')
-   }} className={` transition-none transition-colors duration-700 inline-flex items-center px-7 py-3 -mr-4 mt-3 mb-2 text-sm font-medium text-center text-white rounded-lg  bg-[#ee8f8a] hover:bg-none cursor-not-allowed dark:focus:ring-blue-300'}`}>View</button>
+   }} className={` scale-75 md:scale-100 lg:scale-100  transition-none transition-colors duration-700 inline-flex items-center px-7 py-3 -mr-4 mt-3 mb-2 text-sm font-medium text-center text-white rounded-lg  bg-[#ee8f8a] hover:bg-none cursor-not-allowed dark:focus:ring-blue-300'}`}>View</button>
   </div>} 
 </div>
   </div>

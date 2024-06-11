@@ -44,30 +44,32 @@ export function History() {
   }, [])
 
   return <div>
-    <div className="flex flex-col p-3 -mt-20">
+    <div className="flex flex-col p-3 md:p-4 lg:p-5 md:-mt-20 lg:-mt-20">
       <div className="flex justify-center">
         <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
         </div>
       </div>
-      <div className=" flex justify-between">
+      <div className=" fl ex justify-between">
         <div>
-          <div className=" text-4xl -mt-20 font-semibold">
+          <div className=" text-2xl -mt-2 md:text-4xl lg:text-4xl md:-mt-12 lg:-mt-20 font-semibold">
             Your History
           </div>
           <div className=" max-w-xl mt-6">
              History of past patients that you have accessed and view reports and time when you accessed.
           </div>
         </div>
-        <div onClick={fetchLogs} className="flex mt-16 mr-10 hover:bg-orange-100 p-2 rounded-md cursor-pointer">
-          <div className=" mr-3 text-lg font-medium">
+        <div onClick={fetchLogs} className=" -mt-5 md:mt-1 lg:mt-0 absolute right-2 md:right-8 lg:right-10 flex hover:bg-orange-100 p-2 rounded-md cursor-pointer">
+          <div className="  md:mr-2 lg:mr-3 md:text-lg lg:text-lg font-medium">
             Refresh
           </div>
+          <div className="  scale-75 md:scale-100 lg:scale-100 ">
           <RefreshCcw size={30} />
+          </div>
         </div>
       </div>
       <div className=" mt-1">
         {logs.length == 0 ? (<div>
-          <div id="reports-listt" className=" p-4 rounded-lg shadow-lg h-80  " >
+          <div id="reports-listt" className=" p-2 md:p-4 lg:p-4 rounded-lg shadow-lg h-64  md:h-80 lg:h-80  " >
             <h1 className="flex justify-center mt-20 text-4xl">
 
               You have no history of any patient
@@ -104,24 +106,24 @@ function Users({ user,date, accessedFiles }: any) {
       <div className=" font-mono text-xl inline-block text-orange-800">"{user}" </div> on <div className=" ml-1 inline-block text-orange-600 font-mono"> "{date}"</div>
       </div>
     </div>
-    <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
-      <div className=" p-2 grid grid-cols-4 justify-between">
+    <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-80 rounded-md shadow-md border py-3 px-1 md:px-4 lg:px-4 bg-white">
+      <div className=" ml-2 md:p-2 lg:p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 justify-between">
         <div className=" flex">
-          <div className=" font-bold w-36">
+          <div className="font-semibold md:font-bold lg:font-bold w-36">
             File Name
           </div>
         </div>
-        <div className=" rounded-full items-center flex">
+        <div className="hidden md:flex lg:flex  rounded-full items-center">
           <div className=" font-bold ml-3">
             Type
           </div>
         </div>
         <div className=" flex flex-col">
-          <div className=" font-bold">
-            Accessed Date and Time
+          <div className=" font-semibold md:font-bold lg:font-bold">
+            Accessed Date  
           </div>
         </div>
-        <div className=" font-bold flex flex-col">
+        <div className="hidden md:flex lg:flex  font-bold flex-col">
           <div>
             Actions
           </div>
@@ -133,7 +135,7 @@ function Users({ user,date, accessedFiles }: any) {
           </div>
         </div>
       </div>
-      <div id="reports-listt" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-60 rounded-md shadow-md border px-4 bg-white">
+      <div id="reports-listt" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-60 rounded-md shadow-md border mt-1 md:px-4 lg:px-4 bg-white">
         {accessedFiles.map((file: any) => (
           <Files filename={file.filename} date={file.date} actions={file.actions} />
         ))}
@@ -173,29 +175,29 @@ function Users({ user,date, accessedFiles }: any) {
 
 export const Files = ({ filename, date, actions }: any) => {
 
-  return <div className=" grid grid-cols-4 border-b-2 p-2 justify-between">
-    <div className=" flex">
-      <div>
+  return <div className=" grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 border-b-2 p-1 md:p-2  lg:p-2 justify-between">
+    <div className=" md:ml-0 lg:ml-0 flex">
+      <div className=" -mt-1 md:mt-0 lg:mt-0 scale-75 md:scale-100 lg:scale-100 ">
         <ClipboardMinus />
       </div>
-      <div className=" ml-2 font-mono ">
+      <div className=" text-sm md:text-base lg:text-base ml-2 font-mono ">
         {filename.split('.')[0]}
       </div>
     </div>
-    <div className=" rounded-full items-center flex">
+    <div className="hidden md:flex lg:flex  rounded-full items-center">
       <div className=" px-2 bg-orange-100 font-bold text-orange-800">
         PDF
       </div>
     </div>
     <div className=" flex flex-col">
-      <div className=" font-medium">
+      <div className="hidden md:inline lg:inline  font-medium">
         Viewed at
       </div>
-      <div className=" font-light">
+      <div className="text-sm md:text-base font-light">
         {date.split(' G')[0]}
       </div>
     </div>
-    <div className=" fles flex-col ml-3">
+    <div className="   hidden md:inline lg:inline fles flex-col ml-3">
       <div>
         {actions.length == 0 ? 'Viewed' : actions}
       </div>
