@@ -1,343 +1,353 @@
- 
-:root{
-  background-color: #fcf4e9
-} 
- 
-.x{
-  width: 150%;
-}
-
-.element{
-  padding-left: 100px;
-  padding-right: 100px;
-}
-
-.check{
-  position: relative;
-  left: -180px;
-}
-
-.last-element{
-  background-color: #831a4a;
-}
-
-.last{
-  margin-top: 40px;
-  cursor: pointer;
-}
-.last:hover{
-  text-decoration: rgb(58, 55, 55)
-}
-
-.line{
-  background-image: url(https://asktia.com/squiggle.png); 
-  background-repeat: repeat-x;
-  background-size: 100px;
-}
-.third_element{
-  background-color: #ecdccd; 
-  margin-top: -3px;
-  /* left: -160px;
-  width: 126%; */
-}
-
-.red svg{
-  z-index: -99;  
-}
-
-.navbar{
-  background-color: #ecdccd;
-}
-
-.sd{  
-  position: relative;
-  z-index: -1;
-  /* left: -160px;
-  width: 126%;  */
-} 
-.s{
-  position: relative;
-  margin-top: -3px;
-  z-index: -2;
-  /* left: -160px;
-  width: 126%;  */
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-}
-.review{
-  background-color: #831a4a;
-}
-
-.scroll{  
-  /* overflow-x: scroll; */
-  overflow-x: scroll;
-  /* transform: translate3d(0%, 10px, 10px); */
-}
-
- 
-/* Custom Scrollbar */
-.scroll::-webkit-scrollbar {
-  height: 12px; /* Adjust the height of the horizontal scrollbar */   
-}
-
-.scroll::-webkit-scrollbar-thumb {
-  background-color:  transparent; /* Color of the scrollbar thumb */
-  border-radius: 4px; /* Rounded corners for the scrollbar thumb */
-}
-
-.scroll::-webkit-scrollbar-thumb:hover {
-  background-color: transparent; /* Color when hovering over the scrollbar thumb */
-}
-
-.scroll::-webkit-scrollbar-track {
-  background: transparent; /* Background color of the scrollbar track */
-}
-
-/* scroll for reports */
-/* Custom Scrollbar */
-.scrol-report::-webkit-scrollbar {
-  height: 1px; /* Adjust the height of the horizontal scrollbar */   
-  width: 8px;
-}
-
-.scrol-report::-webkit-scrollbar-thumb {
-  background-color:  rgb(248, 226, 185); /* Color of the scrollbar thumb */
-  border-radius: 3px; /* Rounded corners for the scrollbar thumb */
-}
-
-.scro-reportl::-webkit-scrollbar-thumb:hover {
-  background-color: transparent; /* Color when hovering over the scrollbar thumb */
-}
-
-.scrol-report::-webkit-scrollbar-track {
-  background: transparent; /* Background color of the scrollbar track */
-}
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities; 
-.zoom-buttons {
-  position: fixed;
-  top: -12px;
-  right:-8%; 
-  transform: translateX(-50%);
-  z-index: 1; 
-  padding: 130px; 
-}
-
- 
- .username{
-  width: 78%;
-  margin-top: -24px;
-  z-index: 99;
-  left: 160px;
+ :root {
+   background-color: #fcf4e9
  }
 
-@media (max-width: 768px) {
-  .pdf {
-    padding: 5px;
-  }
-}
+ .x {
+   width: 150%;
+ }
+
+ .element {
+   padding-left: 100px;
+   padding-right: 100px;
+ }
+
+ .check {
+   position: relative;
+   left: -180px;
+ }
+
+ .last-element {
+   background-color: #831a4a;
+ }
+
+ .last {
+   margin-top: 40px;
+   cursor: pointer;
+ }
+
+ .last:hover {
+   text-decoration: rgb(58, 55, 55)
+ }
+
+ .line {
+   background-image: url(https://asktia.com/squiggle.png);
+   background-repeat: repeat-x;
+   background-size: 100px;
+ }
+
+ .third_element {
+   background-color: #ecdccd;
+   margin-top: -3px;
+   /* left: -160px;
+  width: 126%; */
+ }
+
+ .red svg {
+   z-index: -99;
+ }
+
+ .navbar {
+   background-color: #ecdccd;
+ }
+
+ .sd {
+   position: relative;
+   z-index: -1;
+   /* left: -160px;
+  width: 126%;  */
+ }
+
+ .s {
+   position: relative;
+   margin-top: -3px;
+   z-index: -2;
+   /* left: -160px;
+  width: 126%;  */
+   -webkit-transform: rotate(180deg);
+   transform: rotate(180deg);
+ }
+
+ .review {
+   background-color: #831a4a;
+ }
+
+ .scroll {
+   /* overflow-x: scroll; */
+   overflow-x: scroll;
+   /* transform: translate3d(0%, 10px, 10px); */
+ }
+
+
+ /* Custom Scrollbar */
+ .scroll::-webkit-scrollbar {
+   height: 12px;
+   /* Adjust the height of the horizontal scrollbar */
+ }
+
+ .scroll::-webkit-scrollbar-thumb {
+   background-color: transparent;
+   /* Color of the scrollbar thumb */
+   border-radius: 4px;
+   /* Rounded corners for the scrollbar thumb */
+ }
+
+ .scroll::-webkit-scrollbar-thumb:hover {
+   background-color: transparent;
+   /* Color when hovering over the scrollbar thumb */
+ }
+
+ .scroll::-webkit-scrollbar-track {
+   background: transparent;
+   /* Background color of the scrollbar track */
+ }
+
+ /* scroll for reports */
+ /* Custom Scrollbar */
+ .scrol-report::-webkit-scrollbar {
+   height: 1px;
+   /* Adjust the height of the horizontal scrollbar */
+   width: 8px;
+ }
+
+ .scrol-report::-webkit-scrollbar-thumb {
+   background-color: rgb(248, 226, 185);
+   /* Color of the scrollbar thumb */
+   border-radius: 3px;
+   /* Rounded corners for the scrollbar thumb */
+ }
+
+ .scro-reportl::-webkit-scrollbar-thumb:hover {
+   background-color: transparent;
+   /* Color when hovering over the scrollbar thumb */
+ }
+
+ .scrol-report::-webkit-scrollbar-track {
+   background: transparent;
+   /* Background color of the scrollbar track */
+ }
+
+
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+
+ .zoom-buttons {
+   position: fixed;
+   top: -12px;
+   right: -8%;
+   transform: translateX(-50%);
+   z-index: 1;
+   padding: 130px;
+ }
+
+
+ .username {
+   width: 78%;
+   margin-top: -24px;
+   z-index: 99;
+   left: 160px;
+ }
+
+ @media (max-width: 768px) {
+   .pdf {
+     padding: 5px;
+   }
+ }
+
+ h1 {
+   font-size: 3.2em;
+   line-height: 1.1;
+ }
+
+
+
+ .drag-and-drop {
+   width: 400px;
+   height: 400px;
+   border: 3px dashed grey;
+   border-radius: 15px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .drop-hint {
+   font-weight: 600;
+   color: grey;
+   font-size: 1.5rem;
+ }
  
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-} 
-
-#pdf-content{
-  height: 550px; 
-  overflow-y: scroll;  
-  border: 12px solid rgb(248 250 252 / var(--tw-bg-opacity))
-}
-
-#pdf-content::-webkit-scrollbar {
-  width: 10px;
-}
-
  
-.drag-and-drop {
-  width: 400px;
-  height: 400px;
-  border: 3px dashed grey;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.drop-hint {
-  font-weight: 600;
-  color: grey;
-  font-size: 1.5rem;
-} 
-
-#pdf-content::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 23px;
-}
-
-#pdf-content::-webkit-scrollbar-thumb {
-  background: #ecdccd ;
-  border-radius: 33px; 
-}
-
-#pdf-content::-webkit-scrollbar-thumb:hover {
-  background: #eee4c7;
-}
+ #pdf-content {
+   
+   overflow-y: scroll;
+   border: 12px solid rgb(248 250 252 / var(--tw-bg-opacity))
+ }
  
-#reports-list{ 
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity))
-}
+ #btn{
+  right: 5%;
+ }
 
-#reports-list::-webkit-scrollbar {
-  width: 10px;  
-}
+ .heigh{
+  height: 79vh;
+  overflow-y: scroll;
+ }
 
-#reports-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 23px;
-}
+ #reports-list {
+   --tw-bg-opacity: 1;
+   background-color: rgb(203 213 225 / var(--tw-bg-opacity))
+ }
 
-#reports-list::-webkit-scrollbar-thumb {
-  background: #abbfd3;
-  border-radius: 33px; 
-}
+ #reports-list::-webkit-scrollbar {
+   width: 10px;
+ }
 
-#reports-list::-webkit-scrollbar-thumb:hover {
-  background: #4a6179;
-}
+ #reports-list::-webkit-scrollbar-track {
+   background: #f1f1f1;
+   border-radius: 23px;
+ }
 
-canvas.react-pdf__Page__canvas{
-  margin-bottom: 50px; 
-}
+ #reports-list::-webkit-scrollbar-thumb {
+   background: #abbfd3;
+   border-radius: 33px;
+ }
 
-@media (max-width: 768px) {
-  .pdf {
-    padding: 5px;
-  }
-}
- 
-/* .report-list{
+ #reports-list::-webkit-scrollbar-thumb:hover {
+   background: #4a6179;
+ }
+
+ canvas.react-pdf__Page__canvas {
+   margin-bottom: 50px;
+ }
+
+ @media (max-width: 768px) {
+   .pdf {
+     padding: 5px;
+   }
+ }
+
+ /* .report-list{
   height: 500px;
   width: 400px;
 } */
-.popup {
-  transform: translateY(-100%);
-  opacity: 0;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
+ .popup {
+   transform: translateY(-100%);
+   opacity: 0;
+   transition: transform 0.5s ease, opacity 0.5s ease;
+ }
 
-.popup.active {
-  transform: translateY(0);
-  opacity: 1;
-}
- 
-.hideArrows::-webkit-inner-spin-button,
-.hideArrows::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+ .popup.active {
+   transform: translateY(0);
+   opacity: 1;
+ }
 
-.hideArrows {
-  -moz-appearance: textfield;
-}
+ .hideArrows::-webkit-inner-spin-button,
+ .hideArrows::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+ }
 
-.btn{
-  background-color:#f15d55; 
-}
+ .hideArrows {
+   -moz-appearance: textfield;
+ }
+
+ .btn {
+   background-color: #f15d55;
+ }
 
 
-/* ************************** MAIN LOADER ************************** */
+ /* ************************** MAIN LOADER ************************** */
 
- 
-/***************************************** Input Shake *****************************************/
-input.error {
-  -webkit-animation: shake 0.2s ease-in-out 0s 2;
-  animation: shake 0.2s ease-in-out 0s 2;
-  box-shadow: 0 0 0.5em red;
-}
 
-#inputss{
-  margin-top: 36px;
-}
-/***************************************** BUTTON LOADER *****************************************/
+ /***************************************** Input Shake *****************************************/
+ input.error {
+   -webkit-animation: shake 0.2s ease-in-out 0s 2;
+   animation: shake 0.2s ease-in-out 0s 2;
+   box-shadow: 0 0 0.5em red;
+ }
 
-.button-85 { 
-  position: absolute;   
-  height: 10px;
-}
+ #inputss {
+   margin-top: 36px;
+ }
 
-.lds-ellipsis div {
-  position: absolute; 
-  width: 13px; 
-  height: 13px;
-  border-radius: 50%;
-  background: #fff;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
+ /***************************************** BUTTON LOADER *****************************************/
 
-.lds-ellipsis div:nth-child(1) {
-  left: 8px;
-  animation: lds-ellipsis1 0.6s infinite;
-}
+ .button-85 {
+   position: absolute;
+   height: 10px;
+ }
 
-.lds-ellipsis div:nth-child(2) {
-  left: 8px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
+ .lds-ellipsis div {
+   position: absolute;
+   width: 13px;
+   height: 13px;
+   border-radius: 50%;
+   background: #fff;
+   animation-timing-function: cubic-bezier(0, 1, 1, 0);
+ }
 
-.lds-ellipsis div:nth-child(3) {
-  left: 32px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
+ .lds-ellipsis div:nth-child(1) {
+   left: 8px;
+   animation: lds-ellipsis1 0.6s infinite;
+ }
 
-.lds-ellipsis div:nth-child(4) {
-  left: 56px;
-  animation: lds-ellipsis3 0.6s infinite;
-}
+ .lds-ellipsis div:nth-child(2) {
+   left: 8px;
+   animation: lds-ellipsis2 0.6s infinite;
+ }
 
-@keyframes lds-ellipsis1 {
-  0% {
-    transform: scale(0);
-  }
+ .lds-ellipsis div:nth-child(3) {
+   left: 32px;
+   animation: lds-ellipsis2 0.6s infinite;
+ }
 
-  100% {
-    transform: scale(1);
-  }
-}
+ .lds-ellipsis div:nth-child(4) {
+   left: 56px;
+   animation: lds-ellipsis3 0.6s infinite;
+ }
 
-@keyframes lds-ellipsis3 {
-  0% {
-    transform: scale(1);
-  }
+ @keyframes lds-ellipsis1 {
+   0% {
+     transform: scale(0);
+   }
 
-  100% {
-    transform: scale(0);
-  }
-}
+   100% {
+     transform: scale(1);
+   }
+ }
 
-@keyframes lds-ellipsis2 {
-  0% {
-    transform: translate(0, 0);
-  }
+ @keyframes lds-ellipsis3 {
+   0% {
+     transform: scale(1);
+   }
 
-  100% {
-    transform: translate(24px, 0);
-  }
-}
- 
+   100% {
+     transform: scale(0);
+   }
+ }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+ @keyframes lds-ellipsis2 {
+   0% {
+     transform: translate(0, 0);
+   }
+
+   100% {
+     transform: translate(24px, 0);
+   }
+ }
+
+
+ @media (prefers-color-scheme: light) {
+   :root {
+     color: #213547;
+     background-color: #ffffff;
+   }
+
+   a:hover {
+     color: #747bff;
+   }
+
+   button {
+     background-color: #f9f9f9;
+   }
+ }

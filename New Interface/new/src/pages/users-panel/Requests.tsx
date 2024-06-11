@@ -47,37 +47,36 @@ export function Requests(){
     },[])
 
   return <div>
-    <div className="flex flex-col p-4 -mt-20 ">
+    <div className="flex flex-col p-4 lg:p-6 -mt-20 ">
       <div className="flex justify-center">
     <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div>
       </div> 
-      <div className=" flex justify-between">
-        <div className="">
-          <div className=" text-3xl -mt-10 font-semibold">
-            Requests
+      <div className="md:flex  lg:flex justify-between">
+        <div>
+          <div className=" text-3xl mt-24 sm:mt-32 md:mt-32 lg:-mt-10 font-semibold">
+          Requests
           </div>
-          <div className=" max-w-xl mt-5">
-            All requests that are made by doctor to view or analyze reports will be showed up here and you can grant and discard accordingly
+          <div className=" md:flex lg:flex justify-end">
+          <div className=" flex max-w-xl">
+          All requests that are made by doctor to view or analyze reports will be showed up here and you can grant and discard accordingly
           </div>
+        <div onClick={fetchLogs} className=" z-40 w-28 lg:w-40 ml-44 sm:ml-[343px] md:ml-[343px] lg:ml-96 flex mt-4 sm:mt-20 md:mt-10 lg:mt-16  hover:bg-orange-100 p-2 rounded-md cursor-pointer"> 
+          <div className=" font-medium mr-3">Refresh</div> <RefreshCcw size={30} />
         </div>
-        <div onClick={fetchLogs} className="flex mt-16 mr-10 hover:bg-orange-100 p-2 rounded-md cursor-pointer">
-          <div className=" mr-3 text-lg font-medium">
-            Refresh
-          </div>
-          <RefreshCcw size={30} />
         </div>
+          </div>
       </div>
 <div>
   {request.length==0?(<div>
     <div id="reports-listt" className=" p-4  rounded-lg h-80   scrollbar-track-gray-100" > 
-    <h1 className="flex justify-center mt-20  text-4xl">
+    <h1 className="flex justify-center  sm:-mt-10 md:mt-12 lg:mt-20 text-2xl sm:text-xl md:text-4xl lg:text-4xl">
       
         You have no requests
     </h1>
       </div>
   </div>):( <div>
-    <div>
+    <div> 
     <div className=" p-2 grid grid-cols-3 justify-between">
         <div className=" flex">
           <div className=" font-bold w-36">

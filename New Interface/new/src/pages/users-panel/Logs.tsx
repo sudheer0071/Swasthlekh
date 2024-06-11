@@ -47,39 +47,37 @@ export function Logs() {
   }, [])
 
   return <div>
-    <div className="flex flex-col p-3 -mt-20">
+    <div className="flex flex-col p-2 sm:p-3 md:p-3 lg:p-7 -mt-20">
       <div className="flex justify-center">
         <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
         </div>
       </div>
-      <div className=" flex justify-between">
+      <div className="md:flex  lg:flex justify-between">
         <div>
-          <div className=" text-3xl -mt-10 font-semibold">
-            Your Logs
+          <div className=" text-3xl mt-24 sm:mt-32 md:mt-32 lg:-mt-10 font-semibold">
+          Your Logs
           </div>
-          <div className=" max-w-xl">
-            Here you can access all logs, it is updated in real time and when any doctor view your report you will get notified.
+          <div className=" md:flex lg:flex justify-end">
+          <div className=" flex max-w-xl">
+          Here you can access all logs, it is updated in real time and when any doctor view your report you will get notified.
           </div>
+        <div onClick={fetchLogs} className="relative z-40 w-28 lg:w-40 ml-48 sm:ml-[343px] md:ml-[343px] lg:ml-96 flex mt-4 sm:mt-20 md:mt-10 lg:mt-16  hover:bg-orange-100 p-2 rounded-md cursor-pointer"> 
+          <div className=" font-medium mr-3">Refresh</div> <RefreshCcw size={30} />
         </div>
-        <div onClick={fetchLogs} className="flex mt-16 mr-10 hover:bg-orange-100 p-2 rounded-md cursor-pointer">
-          <div className=" mr-3 text-lg font-medium">
-            Refresh
-          </div>
-          <RefreshCcw size={30} />
         </div>
+          </div>
       </div>
       <div className=" mt-1">
         {logs.length == 0 ? (<div>
-          <div id="reports-listt" className=" p-4 rounded-lg h-80  " >
-            <h1 className="flex justify-center mt-20 text-4xl">
-
-              You have zero logs
-            </h1>
-          </div>
+          <div id="reports-listt" className=" p-4  rounded-lg h-80   scrollbar-track-gray-100" > 
+    <h1 className="flex justify-center  sm:-mt-10 md:mt-12 lg:mt-20 text-2xl sm:text-xl md:text-4xl lg:text-4xl">
+      
+        You have zero logs
+    </h1>
+      </div>
         </div>) : (
-          <div>
-
-            <div className=" ">
+          <div> 
+            <div className=" md:mt-10 lg:mt-0">
               {/* <LogCard/> */}
               {logs.map((doctor: any, key: any) => (
                 <Doctors key={key} doctor={doctor.doctor} accessedFiles={doctor.accessedFiles}></Doctors>
@@ -101,27 +99,30 @@ export function Logs() {
 
 function Doctors({ doctor, accessedFiles }: any) {
   return <div>
-    <div className=" text-lg font-medium py-3">
+    <div className=" w-44 md:w-full lg:w-full -z-10 -mt-14 text-lg font-medium py-3">
       Files accessed by Dr. {doctor}
     </div>
-    <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
-      <div className=" p-2 grid grid-cols-4 justify-between">
+    <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll  md:max-h-80 lg:max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
+      <div className=" p-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 justify-between">
         <div className=" flex">
-          <div className=" font-bold w-36">
+          <div className=" font-semibold lg:font-bold w-36">
             File Name
           </div>
         </div>
-        <div className=" rounded-full items-center flex">
-          <div className=" font-bold ml-3">
+        <div className=" rounded-full items-center hidden md:flex lg:flex">
+          <div className=" font-semibold lg:font-bold  ml-3">
             Type
           </div>
         </div>
         <div className=" flex flex-col">
-          <div className=" font-bold">
+          <div className=" hidden sm:inline md:inline lg:inline font-semibold lg:font-bold">
             Accessed Date and Time
           </div>
+          <div className="inline sm:hidden md:hidden lg:hidden ml-2 font-semibold lg:font-bold">
+            Accessed On
+          </div>
         </div>
-        <div className=" font-bold flex flex-col">
+        <div className=" ml-6 md:ml-3 lg:ml-0 font-semibold lg:font-bold flex flex-col">
           <div>
             Actions
           </div>
@@ -133,7 +134,7 @@ function Doctors({ doctor, accessedFiles }: any) {
           </div>
         </div>
       </div>
-      <div id="reports-listt" className="scrol-report overflow-x-hidden overflow-y-scroll max-h-60 rounded-md shadow-md border px-4 bg-white">
+      <div id="reports-listt" className="scrol-report overflow-x-hidden scroll-smooth overflow-y-scroll max-h-60 rounded-md shadow-md border px-4 bg-white">
         {accessedFiles.map((file: any) => (
           <LogCard filename={file.filename} date={file.date} actions={file.actions} />
         ))}
@@ -173,29 +174,29 @@ function Doctors({ doctor, accessedFiles }: any) {
 
 export const LogCard = ({ filename, date, actions }: any) => {
 
-  return <div className=" grid grid-cols-4 border-b-2 p-2 justify-between">
-    <div className=" flex">
-      <div>
+  return <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 border-b-2 p-1 lg:p-2 justify-between">
+    <div className=" -ml-6 sm:ml-0 md:ml-0 lg:ml-0 flex">
+      <div className=" scale-75 md:scale-90 lg:scale-100">
         <ClipboardMinus />
       </div>
-      <div className=" ml-2 font-mono ">
+      <div className=" ml-2 text-xs w-24 lg:text-base font-mono ">
         {filename.split('.')[0]}
       </div>
     </div>
-    <div className=" rounded-full items-center flex">
+    <div className=" rounded-full items-center hidden md:flex lg:flex">
       <div className=" px-2 bg-orange-100 font-bold text-orange-800">
         PDF
       </div>
     </div>
     <div className=" flex flex-col">
-      <div className=" font-medium">
+      <div className=" hidden lg:inline font-medium">
         Viewed at
       </div>
-      <div className=" font-light">
+      <div className=" w-20 md:w-full lg:w-full ml-4 md:ml-0 lg:ml-0 text-sm lg:text-base font-light">
         {date.split(' G')[0]}
       </div>
     </div>
-    <div className=" fles flex-col ml-3">
+    <div className=" text-sm lg:text-base fles flex-col ml-9 sm:ml-5 md:ml-3 lg:ml-3">
       <div>
         {actions.length == 0 ? 'Viewed' : actions}
       </div>

@@ -52,28 +52,34 @@ console.log(localStorage.getItem('lname'));
      </div>
     </div> */}
     <div className="">  
-        <div className=" px-10">
-          <div id="TOP BAR" className=" fixed top-0 mt-10">
+     
+        <div className=" px-2 sm:px-3 md:px-7 lg:px-10 lg:mt-0">
+          <div>
+            
+          <div id="TOP BAR" className="lg:absolute top-0 sm:mt-10 md:mt-8 lg:mt-10">
             <div className=" flex text-3xl font-bold">
-              Hi {localStorage.getItem('fname')?.toUpperCase()}  {localStorage.getItem('lname')!='null'?localStorage.getItem('lname')?.toUpperCase():''}  
+              Hi  {localStorage.getItem('fname')?.toUpperCase()}  {localStorage.getItem('lname')!='null'?localStorage.getItem('lname')?.toUpperCase():''}  
             </div>
             <p className=" text-lg mt-3">Lets track your reports</p>
           </div>
-          <div id="REPORT UPLOAD" className="border-b-2 p-3 rounded-md pl-10 transition duration-200 ease-in-out transform hover:bg-custom hover:text-black cursor-pointer hover:scale-100 -mt-10">
+          </div>
+          <div className="  sm:mt-6 md:mt-10 lg:mt-16">
+          <div id="REPORT UPLOAD" className="border-b-2 p-3 rounded-md pl-0 md:pl-8 lg:pl-10 transition duration-200 ease-in-out transform hover:bg-custom hover:text-black cursor-pointer hover:scale-100 sm:mt-10 md:mt-10 lg:-mt-10">
             <Upload />
           </div>
-          <div id="REPORTS" className=" mt-5">
+          <div id="REPORTS" className=" mt-12 sm:mt-5 md:mt-5 lg:mt-5">
             <div className="text-3xl font-medium">
               All Reports
             </div>
             <div className=" mt-3">
               <div> 
               </div>
-              <div className="scrol-report overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md border px-4 bg-white">
-              <Reports token={localStorage.getItem('TOKEN')}/>
-              </div>
+              <div className="scrol-report overflow-x-hidden overflow-y-scroll h-80 rounded-md shadow-md border md:px-4 lg:px-4 bg-white">
+              <Reports token={localStorage.getItem('TOKEN')}/> 
+              </div> 
             </div>
           </div>  
+          </div>
         </div>
       </div>
     </div> 

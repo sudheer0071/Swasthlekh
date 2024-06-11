@@ -132,9 +132,10 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
   return (
     <div>
       <div className="flex justify-center">
-        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ' bg-orange-200 text-black'} flex justify-center text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup}</div>
+        <div className={`popup ${isOpen ? 'active' : 'hide'} ${popup.includes('exist') || popup.includes('found') || popup.includes('Invalid') || popup.includes('email') || popup.includes('down') ? 'bg-red-400 p-2 h-12' : ' bg-orange-200 text-black'} flex justify-center text-center w-80 shadow-lg rounded-lg -ml-4 font-medium text-lg fixed top-4 h-11 p-1`}>{popup} 
+        </div>
       </div>
-      <div className="my-2">
+      <div className="md:my-2 lg:my-2">
         {/* <h3 className="text-slate-700">list of users</h3> */}
 
         {zero ? <div>
@@ -153,20 +154,23 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
               <div className= {`${hide?'hidden':''} flex justify-center font-medium text-lg navba border-b-2`}>
                 Showing reports associated with username: <div className=" text-slate-500 font-bold ml-4">"{username}"</div>
               </div>) : ''}
-              <div className=" -mt-2 p-2 flex justify-between">
+              <div className=" mt-1 sm:-mt-2 md:-mt-2 lg:-mt-2 sm:p-2 md:p-2 lg:p-2 flex justify-between">
                   <div className=" flex">
-                    <div className=" font-bold w-36">
+                    <div className=" font-semibold md:font-bold lg:font-bold ml-1 w-24 md:w-36 lg:w-36">
                       File Name
                     </div>
                   </div>
-                  <div className=" rounded-full items-center flex">
+                  <div className=" rounded-full items-center hidden md:flex lg:flex">
                     <div className=" font-bold ml-3">
                       Type
                     </div>
                   </div>
                   <div className=" flex flex-col">
-                    <div className=" font-bold -ml-14">
+                    <div className=" hidden sm:inline md:inline lg:inline w-32 lg:w-full font-semibold md:font-bold lg:font-bold ml-14 md:-ml-14 lg:-ml-14">
                       Uploaded Date and Time
+                    </div>
+                    <div className="inline sm:hidden md:hidden lg:hidden w-32 lg:w-full font-semibold md:font-bold lg:font-bold ml-5 sm:-ml-2 md:-ml-14 lg:-ml-14">
+                      Uploaded On
                     </div>
                   </div>
                   <div className=" flex px-2">
@@ -176,7 +180,7 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
                     </div>
                   </div>
                 </div>
-                <div className= {`${white?'bg-white':'bg-custom'} mt-3 border-2 rounded-md`}>
+                <div className= {`${white?'bg-white':'bg-custom'} ml-1 sm:ml-0 md:ml-0 lg:ml-0 mt-3 border-2 rounded-md`}>
             {report.map((report: any, index: any) => <UploadCard username={username} token={token} key={index} report={report} />)}
                 </div>
           </div>
@@ -387,38 +391,39 @@ export const UploadCard = ({ report, token, username }: any) => {
   const navigate = useNavigate()
 
 
-  return <div className=" border-b-2 p-2 flex justify-between">
+  return <div className=" border-b-2 p-1 sm:p-2 md:p-2 lg:p-2 flex justify-between">
     <div className=" flex">
       <div>
         <ClipboardMinus />
       </div>
-      <div className=" ml-2 font-mono w-40">
+      <div className=" ml-2 font-mono w-20 text-sm md:text-base lg:text-base md:w-40 lg:w-40">
         {report.filename.split('.')[0]}
 
       </div>
     </div>
-    <div className=" rounded-full items-center flex">
-      <div className=" px-2 bg-orange-100 font-bold text-orange-800">
+    <div className=" rounded-full items-center hidden md:flex lg:flex">
+      <div className=" px-2 bg-orange-100 md:font-bold lg:font-bold text-orange-800">
         PDF
       </div>
     </div>
     <div className=" flex flex-col">
-      <div className=" font-medium">
+      <div className="hidden md:inline lg:inline font-medium">
         Uploaded on
       </div>
-      <div className=" font-light">
+      <div className=" w-24 lg:w-full md:w-full  text-sm md:text-base lg:text-base font-light">
         {report.date.split(' G')[0]}
       </div>
     </div>
-    <div className=" flex">
-      <div onClick={() => {
+    <div className=" md:flex lg:flex">
+      <div onClick={() => 
+      {
 
         localStorage.setItem('viewFile', report.filename)
         setActions('Viewed')
         viewdoc()
         // window.open(`${content}`,'_blank', 'noreferrer')
       }} className=" cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 items-center hover:text-black mt-2 text-gray-600 px-2">
-        < Download />
+        < Download size={20} />
       </div>
       <div onClick={() => {
         localStorage.setItem('analyze', report.filename)
@@ -435,7 +440,7 @@ export const UploadCard = ({ report, token, username }: any) => {
           // analyze(localStorage.getItem('analyzee'))
           navigate('/users/view?id=' + token);
         }
-      }} className=" ml-7 cursor-pointer">
+      }} className=" md:ml-7 lg:ml-7 cursor-pointer">
         <div className=" cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 hover:text-black mt-2 text-gray-600 px-2">
           <BotMessageSquare />
         </div>
