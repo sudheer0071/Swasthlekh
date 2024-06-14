@@ -35,10 +35,15 @@ import * as os from 'os';
 import { Storage } from '@google-cloud/storage';
 import * as vision from '@google-cloud/vision';  
 
-process.env['GOOGLE_APPLICATION_CREDENTIALS'] = './winter-flare-414016-a7dd7ec7508f.json';
+process.env.GOOGLE_APPLICATION_CREDENTIALS
+
+if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+  console.error('Environment variable GOOGLE_APPLICATION_CREDENTIALS is not set.');
+  process.exit(1);
+}
 
 const storageClient = new Storage()
-const bucketname = 'swasthlekh_bucket'
+const bucketname = 'swasthlekh__bucket'
 
 // IPSF STORAGE SETUP  
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
@@ -164,7 +169,7 @@ type blobs = {
 // initializind cloud storage
 async function uploadToBucket({ blobname, data, bucketname }: blobs) {
   try {
-    console.log("inside upload...");
+    console.log("upload to bucket...");
     
     const bucket = storageClient.bucket(bucketname)
     const blob = bucket.file(blobname)
@@ -172,6 +177,7 @@ async function uploadToBucket({ blobname, data, bucketname }: blobs) {
     return true
   }
   catch (e) {
+    console.log("ERROR HAPPENED"); 
     console.error(e);
     return false
   }
@@ -193,11 +199,11 @@ console.log("prefix: "+prefix);
   } 
   
   // Lists files in the bucket, filtered by a prefix
-  const [files] = await storage.bucket('swasthlekh_bucket').getFiles(options);
+  const [files] = await storage.bucket('swasthlekh__bucket').getFiles(options);
   console.log("Files: "+files)  
   const promises = files.map(async (file) => {
     // Downloads the file into a buffer in memory.
-    const contents = await storage.bucket('swasthlekh_bucket').file(`${file.name}`).download();
+    const contents = await storage.bucket('swasthlekh__bucket').file(`${file.name}`).download();
     const jstring = JSON.parse(contents.toString())
     const pgnumber = jstring.responses.length;
 
@@ -249,6 +255,15 @@ route.post('/upload', userAuth, upload.single('file'), async (req: any, res: Res
       console.log("date: " + resposne.date.getDate());
       console.log("time: " + resposne.date);
 
+      console.log("Envirment name: "+process.env.GOOGLE_APPLICATION_CREDENTIALS);
+      
+
+      if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        console.error('Environment variable GOOGLE_APPLICATION_CREDENTIALS is not set.');
+        process.exit(1);
+      }
+      
+
       const bucketName = bucketname; // Your bucket name
       const folderName = user?.username; // Folder name (username in this case)
       const filePath = `files/${folderName}/${resposne.filename}`; // Path to the file within the folder
@@ -290,21 +305,21 @@ const putObjectCommand = new PutObjectCommand({
   } catch (error) {
     console.error('Error uploading file:', error);
   }
-})();
-
+})(); 
 
 // // The ID of your GCS bucket 
 const uploaded_file = `${user.username}/${resposne.filename}`
 const  source_file = `gs://${bucketName}/files/${uploaded_file}`;
 const extracted_json = `gs://${bucketName}/responses/${uploaded_file}/`;
-process.env.GOOGLE_APPLICATION_CREDENTIALS = "winter-flare-414016-a7dd7ec7508f.json";
+
+process.env.GOOGLE_APPLICATION_CREDENTIALS = "emerald-griffin-424814-k5-dfa516938e65.json";
 // // // Rest of your code
 
 const client = new vision.ImageAnnotatorClient();
 
 const gcsSourceUri = source_file;
 const gcsDestinationUri = extracted_json;
-
+ 
 const inputConfig = {
   mimeType: 'application/pdf',
   gcsSource: {

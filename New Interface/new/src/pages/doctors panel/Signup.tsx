@@ -207,7 +207,7 @@ sendReq()
 
       </div>
       <div className="hidden sm:hidden md:hidden lg:flex">
-        <img width={834} height={343} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Forms-cuate.png" alt="" />
+        <img width={834} height={343} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Doctor-amico.png" alt="" />
       </div>
     </div>
   </div>

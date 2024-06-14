@@ -1,6 +1,28 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu"
+
+
 export const NavBar = ()=>{
   const [menu, setMenu] = useState(false)
 
@@ -8,8 +30,14 @@ export const NavBar = ()=>{
   const handleUserClick = () => { 
     navigate('/user/portal/signup');
   };
+  const handleDoctorClick = () => { 
+    navigate('/doctor/portal/signup');
+  };
   const handleUserClickLogin = () => { 
     navigate('/user/portal/signin');
+  };
+  const handleDoctorClickLogin = () => { 
+    navigate('/doctor/portal/signin');
   };
 
 
@@ -43,10 +71,50 @@ export const NavBar = ()=>{
         <button>THE MOTIVE</button>
       </div>
       <div >
-      <button onClick={handleUserClick} className="btn hidden rounded-full px-12 py-4 text-md font-bold hover:bg-pink-500 transition-colors duration-700  lg:flex text-black">Join Now</button>
+     
+      <AlertDialog>
+  <AlertDialogTrigger className="btn hidden rounded-full px-12 py-4 text-md font-bold hover:bg-pink-500 transition-colors duration-700  lg:flex text-black">Join Now</AlertDialogTrigger>
+  <AlertDialogContent> 
+    <AlertDialogHeader>
+      <AlertDialogTitle>
+        <div className=" flex">
+          <div>
+            <div className="border-8 border-white rounded-md">
+            <img width={400} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Doctor-amico.png" alt="" />
+            </div>
+            <div className="mt-8 flex justify-center">
+            <AlertDialogFooter> 
+      <AlertDialogAction onClick={handleDoctorClick} className="">Join as a Doctor</AlertDialogAction>
+    </AlertDialogFooter>
+            </div>
+          </div>
+          <div className="">
+            <div className=" ml-10 border-8 border-white rounded-md">
+            <img width={400} className="" src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/patient.png" alt="" />
+            </div>
+            <div className="mt-8 flex justify-center">
+            <AlertDialogFooter> 
+      <AlertDialogAction onClick={handleUserClick} >Join as a Patient</AlertDialogAction>
+    </AlertDialogFooter>
+            </div>
+          </div> 
+        </div> 
+        </AlertDialogTitle> 
+    </AlertDialogHeader> 
+  </AlertDialogContent>
+</AlertDialog>
+
       </div>
-      <div className={` font-mono font-thin px-0 md:px-10 text-xl flex`}> 
-        <button onClick={handleUserClickLogin} >{menu?'MENU':'LOG IN'}</button>
+      <div className={` font-mono font-thin px-0 md:px-10 text-xl flex`}>  
+        <DropdownMenu>
+  <DropdownMenuTrigger>{menu?'LOG IN':'LOG IN'}</DropdownMenuTrigger> 
+  <DropdownMenuContent> 
+    <DropdownMenuItem onClick={handleUserClickLogin}>Patient</DropdownMenuItem>
+    <DropdownMenuItem onClick={handleDoctorClickLogin} >Doctor</DropdownMenuItem> 
+  </DropdownMenuContent>
+</DropdownMenu>
+
+
       </div>
     </div>
   </div>

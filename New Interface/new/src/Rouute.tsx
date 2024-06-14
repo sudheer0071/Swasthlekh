@@ -1,116 +1,43 @@
-import { useNavigate } from "react-router-dom";
-// import { Button } from "./components/Button";
-// import Storage from "./icons/Storage";
-// import { Analyze } from "./icons/Analyze";
-// import { Discuss } from "./icons/Discuss";
-// import { Accessed } from "./icons/Accessed";
-// import { Recieve } from "./icons/Recieve";
-// import { Search } from "./icons/Searrch";
-// import { Send } from "./icons/Send";   
+import { useNavigate } from "react-router-dom"; 
 import { NavBar } from "./New-components/NavBar";
 import { FeatureCard } from "./New-components/FeatureCard";
 import { Card } from "./New-components/Card";
 import { ReviewCard } from "./New-components/ReviewCard"; 
 import HorizontalScroll from "./New-components/HorizontalScroll";
 
-export function Rouute() { 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./components/ui/alert-dialog"
+
+
+export function Rouute() {  
+  
   const navigate = useNavigate();
   const handleUserClick = () => { 
     navigate('/user/portal/signup');
+  };
+  const handleDoctorClick = () => { 
+    navigate('/doctor/portal/signup');
+  };
+  const handleUserClickLogin = () => { 
+    navigate('/user/portal/signin');
+  };
+  const handleDoctorClickLogin = () => { 
+    navigate('/doctor/portal/signin');
   };
 
   // const handleDoctorClick = () => {
   //   navigate('/doctors/signup');
   // }; 
-  return <div >
-    {/* <div className="flex justify-center mt-16">   
-<div className="flex flex-col justify-center w-full mr-4"> 
-    <h1 className=" flex justify-center text-slate-700 font-semibold text-4xl "> I am a Patient</h1>
-    <div id="reports-list" className="report-list p-4 mt-10 bg-slate bg-slate-300 rounded-lg shadow-2xl h-96 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" > 
-    <div className=" text-slate-800 font-medium text-left text-1xl"> 
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg">
-      <div className="flex">
-       <Storage />  
-      </div> 
-      <div className="ml-3">Store Your reports </div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Analyze />  
-      </div> 
-      <div className="ml-3">  Analyse them </div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Discuss />  
-      </div> 
-      <div className="ml-3"> Discuss Your reports without chatbot</div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Accessed />  
-      </div> 
-      <div className=" ml-3 text-left "> Get Permanent logs of who accessed your profile and which report</div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Recieve />  
-      </div> 
-      <div className="ml-3"> Recieve reports from Hospital/Doctor </div>
-    </div> 
-    </div>
-       </div>
-      <div className="flex justify-center  -mt-20">
-        <Button label={'Join as a user'} height={12} loader={''} onclick={handleUserClick}></Button>
-      </div>
-</div> 
-<div className="flex flex-col justify-center w-full ml-5 ">
-    <h1 className="flex justify-center text-slate-700 text-4xl font-semibold "> I am a Doctor</h1>
-    <div id="reports-list" className="mainpage p-4 mt-10  bg-slate-300 rounded-lg shadow-lg h-96 overflow-x-hidden overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" > 
-    <div className="text-slate-800 font-medium text-left text-1xl "> 
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Search />  
-      </div> 
-      <div className="ml-3"> Search Your Patient </div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Analyze />  
-      </div> 
-      <div className="flex ml-3">
-      Access patient data
-      </div>
-    </div> 
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Send />  
-      </div> 
-      <div className=" ml-3">Send them their reports</div>
-    </div>
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Analyze />  
-      </div> 
-      <div className="flex ml-3">
-       Analyze their Medical Records before Major tocatment 
-      </div>
-    </div> 
-    <div className="flex shadow-lg border bg-slate-200 p-1 rounded-t-lg mt-2">
-      <div className="flex">
-       <Analyze />  
-      </div> 
-      <div className="flex ml-3">
-       Manage your patient medical records 
-      </div>
-    </div> 
-    </div> 
-       </div>
-      <div className="flex justify-center -mt-20">
-        <Button label={'Join as a doctor'} height={12} loader={''} onclick={handleDoctorClick}></Button>
-      </div> 
-</div> 
-      </div> */}
+  return <div > 
     <div id="NEW INTERFACE">
       <div className=" fixed w-full z-50 top-0 left-0 right-0">
         <NavBar />
@@ -294,7 +221,38 @@ export function Rouute() {
               
               <div className="flex mt-20">
                 <div className=" ">
-                <button onClick={handleUserClick} className="btn flex rounded-full px-4 md:px-10 py-4 text-xs sm:text-sm md:text-md font-bold hover:bg-pink-500 transition-colors duration-700  text-black">Join now</button>
+                
+      <AlertDialog>
+  <AlertDialogTrigger className="btn hidden rounded-full px-12 py-4 text-md font-bold hover:bg-pink-500 transition-colors duration-700  lg:flex text-black">Join Now</AlertDialogTrigger>
+  <AlertDialogContent> 
+    <AlertDialogHeader>
+      <AlertDialogTitle>
+        <div className=" flex">
+          <div>
+            <div className="border-8 border-white rounded-md">
+            <img width={400} src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/Doctor-amico.png" alt="" />
+            </div>
+            <div className="mt-8 flex justify-center">
+            <AlertDialogFooter> 
+      <AlertDialogAction onClick={handleDoctorClick} className="">Join as a Doctor</AlertDialogAction>
+    </AlertDialogFooter>
+            </div>
+          </div>
+          <div className="">
+            <div className=" ml-10 border-8 border-white rounded-md">
+            <img width={400} className="" src="https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/patient.png" alt="" />
+            </div>
+            <div className="mt-8 flex justify-center">
+            <AlertDialogFooter> 
+      <AlertDialogAction onClick={handleUserClick} >Join as a Patient</AlertDialogAction>
+    </AlertDialogFooter>
+            </div>
+          </div> 
+        </div> 
+        </AlertDialogTitle> 
+    </AlertDialogHeader> 
+  </AlertDialogContent>
+</AlertDialog>
                 </div>
                 <div className=" mx-4 md:mx-6">
                 <button className=" bg-transparent rounded-full border-2 hover:text-gray-500 border-whiterounded-full px-5 sm:px-7 md:px-10 py-4 text-xs sm:text-sm md:text-md font-medium md:font-bold">Learn about membership</button>
