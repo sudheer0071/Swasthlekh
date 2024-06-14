@@ -77,18 +77,18 @@ export function Requests(){
       </div>
   </div>):( <div>
     <div> 
-    <div className=" p-2 grid grid-cols-3 justify-between">
+    <div className=" p-1 md:p-2 lg:p-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between">
         <div className=" flex">
           <div className=" font-bold w-36">
             Doctor Name
           </div>
         </div> 
-        <div className=" flex flex-col">
+        <div className="hidden md:flex lg:flex flex-col">
           <div className=" font-bold">
             Requested Time
           </div>
         </div>
-        <div className=" font-bold flex flex-col">
+        <div className=" ml-12 md:ml-0 lg:ml-0 font-bold flex flex-col">
           <div>
             Actions
           </div>
@@ -226,10 +226,10 @@ export const RequestCard = ({ doctor, date }: any) => {
   return <div>
    {grandted?(<div className="flex px-4 justify-between border-b-2 rounded-md mt-2 text-lg font-medium" >Dr. {(doctor.charAt(0).toUpperCase()+ doctor.slice(1)).split('@')[0]} has now access to reports
     </div>):
-    (<div>{<div className=" grid grid-cols-3 border-b-2 p-2 justify-between">
+    (<div>{<div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3  border-b-2 p-1 md:p-2 lg:p-2 justify-between">
        <div className={`popup ${isOpen ? 'active' : 'hide'} $flex flex-col text-center ml-96 w-96 shadow-lg bg-orange-200 rounded-lg font-medium text-lg fixed top-4 h-11 p-1`}>{popup}
   </div> 
-    <div className=" flex">
+    <div className=" -ml-3 md:ml-0 lg:ml-0 flex">
       <div>
         <ClipboardMinus />
       </div>
@@ -243,7 +243,7 @@ export const RequestCard = ({ doctor, date }: any) => {
 
       </div>
     </div> 
-    <div className=" flex flex-col">
+    <div className="hidden md:flex lg:flex flex-col">
       <div className=" font-medium">
         Requested at
       </div>
@@ -251,12 +251,12 @@ export const RequestCard = ({ doctor, date }: any) => {
         {date.split(' G')[0]}
       </div>
     </div>
-    <div className=" fles flex-col items-center ml-3">
+    <div className=" fles flex-col items-center ml-10 md:ml-3 lg:ml-3">
       <div className=" flex">
         <div onClick={grantAccess} className=" p-2 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 hover:text-green-600">
           <SquareCheckBig/>
         </div>
-        <div className=" ml-6 p-2 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 hover:text-red-500">
+        <div className=" md:ml-6 lg:ml-6 p-2 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 hover:text-red-500">
           <X/>
         </div>
         {/* {actions.length == 0 ? 'Viewed' : actions} */}

@@ -149,9 +149,9 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
             </div>
             </div>)}
         </div> :
-          <div>
+          <div className="">
             {username ? (
-              <div className= {`${hide?'hidden':''} flex justify-center font-medium text-lg navba border-b-2`}>
+              <div className= {`${hide?'hidden':''} flex justify-center md:font-medium lg:font-medium text-base md:text-lg lg:text-lg navba border-b-2`}>
                 Showing reports associated with username: <div className=" text-slate-500 font-bold ml-4">"{username}"</div>
               </div>) : ''}
               <div className=" mt-1 sm:-mt-2 md:-mt-2 lg:-mt-2 sm:p-2 md:p-2 lg:p-2 flex justify-between">
@@ -391,7 +391,7 @@ export const UploadCard = ({ report, token, username }: any) => {
   const navigate = useNavigate()
 
 
-  return <div className=" border-b-2 p-1 sm:p-2 md:p-2 lg:p-2 flex justify-between">
+  return <div className={`${username?'bg-white':''}  border-b-2 p-1 sm:p-2 md:p-2 lg:p-2 flex justify-between`}>
     <div className=" flex">
       <div>
         <ClipboardMinus />

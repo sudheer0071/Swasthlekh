@@ -183,7 +183,7 @@ export function View() {
               </span>
           ) : ( 
             message.text.split('\n').map((line, index) => (<div className="flex">
-            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-7 md:size-10 lg:size-10 text-xl`}> <div  className=' flex justify-center md:mt-1 lg:mt-1'></div><div className="   md:mt-1 lg:mt-1 md:m-2 lg:m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-7 md:size-10 lg:size-10 md:text-xl lg:text-xl`}> <div className=' flex justify-center mt-1 md:mt-1 lg:mt-1'></div>{(localStorage.getItem('fname')?.charAt(0).toUpperCase())} </div>}   
+            {message.sender=='bot'?index==0?<div className= {`items-center text-center shadow-orange-400 navbar shadow-md rounded-full size-7 md:size-10 lg:size-10 text-xl`}> <div  className=' flex justify-center md:mt-1 lg:mt-1'></div><div className="   md:mt-1 lg:mt-1 md:m-2 lg:m-2"><Bot/></div> </div>:<div></div>:<div className= {`items-center text-center bg-slate-300 rounded-full size-7 md:size-10 lg:size-10 md:text-xl lg:text-xl`}> <div className=' flex justify-center mt-1 md:mt-1 lg:mt-1'></div>{(localStorage.getItem('docFname')?.charAt(0).toUpperCase())} </div>}   
               <div className=" ml-3 mt-1 items-center">
               <p key={index}>
                 {line.split(' ').map((word, wordIndex) => {
