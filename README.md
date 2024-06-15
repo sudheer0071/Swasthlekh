@@ -97,6 +97,7 @@ for patients, and medical record management</p>
 <br/>
 <br/>
 <br/> 
+<br/> 
 
 <h1 align=''>Doctor's Panel </h2>  
 <div>
