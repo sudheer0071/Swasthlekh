@@ -15,7 +15,7 @@ const HorizontalScroll = ({ children }:any) => {
 
   const handleMouseLeave = () => {
     setIsDown(false);
-  };
+  }; 
 
   const handleMouseUp = () => {
     setIsDown(false);

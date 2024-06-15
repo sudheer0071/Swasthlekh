@@ -56,7 +56,7 @@ const jwt = require('jsonwebtoken')
 const route: Router = express.Router()
 const prisma = new PrismaClient()
 
-
+ 
 
 const secret = '1234hjkl'
 route.get('/ts', (req: Request, res: Response) => {

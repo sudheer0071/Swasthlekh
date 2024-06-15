@@ -73,7 +73,7 @@ export function Home(){
     console.log("inside grant");
     
     const res = await axios.post(
-      `${BACKEND_URL}/api/v3/doctors/access`,
+      `${BACKEND_URL}/api/v3/doctors/checkGrant`,
       {
         username:localStorage?.getItem('searchedUser')
     },
@@ -174,6 +174,41 @@ function Access(){
   const username = localStorage?.getItem('searchedUser')
   // const navigate = useNavigate()
 
+  
+  const checkAccess = async()=>{
+    console.log('checking access...');
+    
+    const res = await axios.post(
+      `${BACKEND_URL}/api/v3/doctors/allow`,
+      {
+        username
+    },
+      { 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('docToken')
+        }
+      }
+    );
+
+    const response = res.data.message
+    console.log("response: ");
+    
+    console.log("request message: "+response); 
+    if (response=='allowed') {
+      setSearch(true)
+      setAccess(false)
+    }
+    else{
+      setAllowText('Request on hold')
+      setTimeout(() => {
+        setRequest(false)
+        setSide(false)
+        navigate('/doctors/requests')
+      }, 5000);
+    }
+  }
+
   const grantAccess = async ()=>{
     console.log("sending request..");
     const res = await axios.post(
@@ -218,40 +253,7 @@ function Access(){
     setPop("Request sent") 
     } 
   }
-
-  const checkAccess = async()=>{
-    console.log('checking access...');
-    
-    const res = await axios.post(
-      `${BACKEND_URL}/api/v3/doctors/allow`,
-      {
-        username
-    },
-      { 
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('docToken')
-        }
-      }
-    );
-
-    const response = res.data.message
-    console.log("response: ");
-    
-    console.log("request message: "+response); 
-    if (response=='allowed') {
-      setSearch(true)
-      setAccess(false)
-    }
-    else{
-      setAllowText('Request on hold')
-      setTimeout(() => {
-        setRequest(false)
-        setSide(false)
-        navigate('/doctors/requests')
-      }, 5000);
-    }
-  }
+ 
  
   return   <div className=" md:px-9 lg:px-11">
   <div className=" flex justify-center text-black">

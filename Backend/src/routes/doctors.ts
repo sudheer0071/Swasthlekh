@@ -35,10 +35,10 @@ import * as os from 'os';
 import { Storage } from '@google-cloud/storage';
 import * as vision from '@google-cloud/vision';  
 
-process.env['GOOGLE_APPLICATION_CREDENTIALS'] = './winter-flare-414016-a7dd7ec7508f.json';
+process.env.GOOGLE_APPLICATION_CREDENTIALS
 
 const storageClient = new Storage()
-const bucketname = 'swasthlekh_bucket'
+const bucketname = 'swasthlekh__bucket'
 
 
 const jwt = require('jsonwebtoken')
@@ -311,6 +311,40 @@ try {
      grant:false
     }
   })
+ 
+  console.log("alreadyExist: ");
+  console.log(alreadyExist); 
+
+  if(!alreadyExist ){  
+      console.log("creating request"); 
+      const access = await prisma.accessReport.create({
+       data:{
+         user:username,
+         doctor:doc.username,
+         date: new Date(),
+         grant:false
+       }
+      })
+      return res.json({message:"creating access",access:access}) 
+  }
+  else if(!alreadyExist.grant) { 
+    
+    console.log("alreadyy requestedd");
+    
+    return res.json({message:'Already requested'})
+  } 
+  
+} catch (error) {
+  console.log("error happened: "+ error); 
+}
+})
+route1.post('/checkGrant',userAuth, async(req:Request,res:Response)=>{
+  const {username} = req.body
+    
+  const doc = await prisma.doctor.findUnique({
+   where:{id:req.userId}
+  })
+
   const granted = await prisma.accessReport.findUnique({
     where:{
      combinedAccess:{
@@ -320,28 +354,10 @@ try {
      grant:true
     }
   })
-  console.log(alreadyExist);
-  if (alreadyExist) { 
-    return res.json({message:'Already requested'})
-  } 
   if (granted) {
-    return res.json({message:'request granted'})
+    return res.json({message:'request granted'}) 
   }
-  else{
-    const access = await prisma.accessReport.create({
-     data:{
-       user:username,
-       doctor:doc.username,
-       date: new Date(),
-       grant:false
-     }
-    })
-    res.json({message:"creating access",access:access})
-  }
-} catch (error) {
-  console.log("error happened: "+ error);
-  
-}
+
 })
 route1.post('/allow',userAuth,async(req:Request, res:Response)=>{
   const {username} = req.body
@@ -380,11 +396,11 @@ console.log("prefix: "+prefix);
   } 
   
   // Lists files in the bucket, filtered by a prefix
-  const [files] = await storage.bucket('swasthlekh_bucket').getFiles(options);
+  const [files] = await storage.bucket('swasthlekh__bucket').getFiles(options);
   console.log("Files: "+files)  
   const promises = files.map(async (file) => {
     // Downloads the file into a buffer in memory.
-    const contents = await storage.bucket('swasthlekh_bucket').file(`${file.name}`).download();
+    const contents = await storage.bucket('swasthlekh__bucket').file(`${file.name}`).download();
     const jstring = JSON.parse(contents.toString())
     const pgnumber = jstring.responses.length;
 
