@@ -24,7 +24,7 @@ for patients, and medical record management</p>
 <br>
 <br>
 
-<h2 align=''>Patients Panel </h2>  
+<h1 align=''>Patient's Panel </h2>  
 <div>
 <img alt='swasthlekh.png' align='right' width='500' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/report%20upload.png'/>
 </div>
@@ -98,7 +98,7 @@ for patients, and medical record management</p>
 <br/>
 <br/> 
 
-<h2 align=''>Doctor's Panel </h2>  
+<h1 align=''>Doctor's Panel </h2>  
 <div>
 <img alt='swasthlekh.png' align='right' width='500' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/doctor%20request.png'/>
 </div>
