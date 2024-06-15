@@ -1,5 +1,5 @@
 ﻿<a href="https://swasthlekh.vercel.app/">
-<img align=' ' alt='' width='150' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swasthlekh%20svg%202.png'><img/>
+<img align=' ' alt='' width='250' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swasthlekh%20svg%202.png'><img/>
 </a> 
 <h3 align=''>Streamlining Patient-Doctor Interactions:</h4> 
 Enhancing the ease ofcommunication and scheduling between patients and doctors to provide a smoother experience</p> 
