@@ -2,6 +2,7 @@ import express,{Express, Response, Request} from 'express'
 import {router} from "./routes/index"
 import cors from 'cors';
 require('dotenv').config()
+
 const app:Express = express() 
  
 const PORT = process.env.PORT 
