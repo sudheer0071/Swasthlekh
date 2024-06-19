@@ -101,6 +101,7 @@ route.post('/signup', async (req, res) => {
   }
 })
 
+
 route.post('/signin', async (req: Request, res: Response) => {
   try {
     const { username, firstname, lastname, password } = req.body
@@ -139,7 +140,7 @@ route.post('/signin', async (req: Request, res: Response) => {
     console.log(exist);
 
     const token = jwt.sign({ userId: user.id }, secret)
-    res.json({ message: "Fetching details...", token: token, username, firstname:user.firstname, lastname:user.lastname})
+    res.json({ message: "Fetching details...", token: token, username, firstname:user.firstname, lastname:user.lastname}) 
 
   } catch (error) {
     console.log(error);

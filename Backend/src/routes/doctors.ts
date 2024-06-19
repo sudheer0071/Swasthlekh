@@ -299,7 +299,7 @@ route1.post('/access',userAuth ,async (req:Request,res:Response)=>{
     
    const doc = await prisma.doctor.findUnique({
     where:{id:req.userId}
-   })
+   })  
   //  const userExist()
 try {
   const alreadyExist = await prisma.accessReport.findUnique({
@@ -317,7 +317,7 @@ try {
 
   if(!alreadyExist ){  
       console.log("creating request"); 
-      const access = await prisma.accessReport.create({
+      const access = await prisma.accessReport.create({ 
        data:{
          user:username,
          doctor:doc.username,

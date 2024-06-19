@@ -237,8 +237,8 @@ console.log(setFilename);
       </div>   */}
      
        <div className=" ">
-    <div className="fixed bottom- flex justify-between">
-      <input id="right" className="text-lg shadow-md px-2 border rounded h-12 font-medium border-slate-200 py-1 bg-white border-1 w-4/5 md:w-9/12 lg:w-9/12 fixed bottom-2  p-2 border-t"  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+    <div className="fixed bottom- flex justify-between shadow-amber-600">
+      <input id="right" className=" text-lg shadow-md shadow-slate-800 px-2 border rounded h-12 font-medium border-slate-200 py-1 bg-white border-1 w-4/5 md:w-9/12 lg:w-9/12 fixed bottom-2  p-2 border-t"  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter') {
                 fetchResponse();
               }
