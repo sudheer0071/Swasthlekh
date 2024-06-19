@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "emerald-griffin-424814-k5",
+  "private_key_id": "dfa516938e65802685d1fdc5ce780fa72bbe7c06",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDQHj6AqXCiKcyh\nJBfukvHXJaB0y9Tm+GYhaoZj9X8cD/8rhKY55RALZe8AEpme64TZTwPF9BQudNSX\ngNj0UPr7fc770JGh9NjiKzkSVNkwKa3wfdCaiyxQkHHVH/tD4EtgPP5GVZDlle1B\nkvgBGpkL7NWuN6Gv1R9CT+lY9IYnQHe/AR/1it7qApUwSMbjJL1VClpy7wPStO8M\naenR3aNmaC4Xs0wmUSGPxrmY5lmr+j0hDmDdxvblADHK5cPlg9LUsSTKYH6A5Llw\nSiW5Ga9wvD4l+8EiCyBhYTG5xliW95ifhjDDUfYaxdD3+Ve9IDwFGB5RLctvDYWs\n4LDtAUH/AgMBAAECggEAFGGB2XO+dgMF6RnxxglZ6anjpsx3Uw8sYUVfV9ao1gSz\nBn39EVpfUd5vo2Au7yM9ZVKZmf8nIs2KLDQQCw0LJynQ5VQtjuC9hJibBDKO+mp6\ngDyx+xB6DIG4xBhXsPP8LbaLaDPk9rbR/0P3SZRjPIm6+06zZNbIMuREg9Oed6Vp\nMnxZlP+g3VQ8kvyt9621O7w6jtyo/yxD0WvlqDtjqqro70MNLnygyHnTITjFp75U\nrSy5V0SECd+8gqXIAKPcJyNu5a5iwvLXAu6M5FdwkAUnI/HjauO55MxDKdsN1TnP\nGWdh9r8g5IR2CnjggkFWqvoZjJtvD6A6Jdaou5d0oQKBgQD8A0EF2qm2V46pw1ni\n8r8cxQOw2KVxoPJn0EY9p0MGeK5hF3pZEvRngbJWjqUex5S4mR7duBLK9v2IRyR5\nAkZCRB1uifLIPuFjpU8/3TQV/mwg3AoJMFGksNLAj7eUNpwfz4tAgxGYK53F+HOR\n13zjTJzBUQXi07LksFa33llg9wKBgQDTaTNgA7JBgPAiV5VDp9BpD5vUzC2nvY5l\nLuhvnI/EfrwhUR2Rm7TUBI/lMTBxMuV2CBREruxw64vcZW2909lqJyFP71NJ3ox4\nlYxBkLwo55gvbxQglC6QAvVaqbCk7wKrLqeZIX6Gyx+k7YlS5SpesPPNsgQur/br\nGG2hNtrtOQKBgHhaDXmAPcBo/CaytoCdsQtKQ0L3k7s6Q8m0O3dCI845X/3aOoHD\nfZjY5ZRUtyKF6c5mwcjdGYx4fAfTAeYQYgFPika59ooPDZCK59f2CePfB0CCFQDi\nZHskPuHbQK61jcXbVgNPFN35JnXe+0JRCMF8Wvgve4Ih27M/S4qv0zttAoGBAJIC\ns1/ZzbBd6/vb/5Q1f8Q/6oFi7xlN2t3ZMuF7APRWD3r3OfPJ1W8lI3jIq0tTOpV1\naQIyycwHcpYqW0vi1+Lv2ZsKkLyQ/vV9W9wgqUObCEmibwU9Mpd145zVW9Hd3Tr7\nQveI4YkZGubew5xD+CpkDk5/Z1ITZ/bg7T6N01BJAoGAeCeLZ74FWlVWUTJLfJZa\n51fBIygUnsidbCwE/4QE/iD/Qm6tq9oz1F7nJNckbFhFgDqQqEoe0iyOhkZE412s\nFBYJBHn6WzTn/dfj0HL2ZxeX5sz9yatweLwUIG3/TtfSjMlKIREnJPX3i7Cfaaic\ng0m0u2jJWfUZK+OpQrQ1kXY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "swasthlekh@emerald-griffin-424814-k5.iam.gserviceaccount.com",
+  "client_id": "101408750040944097757",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/swasthlekh%40emerald-griffin-424814-k5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
