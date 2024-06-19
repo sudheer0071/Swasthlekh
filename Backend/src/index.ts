@@ -5,8 +5,7 @@ require('dotenv').config()
 const app:Express = express() 
  
 const PORT = process.env.PORT 
-
-// yaad rehne wala error
+ 
 app.use(cors())
 
 app.use(express.json())
