@@ -1,4 +1,4 @@
-﻿<a href="https://swasthlekh.vercel.app/">
+<a href="https://swasthlekh.vercel.app/">
 <img align=' ' alt='' width='250' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swasthlekh%20svg%202.png'><img/>
 </a> 
 <h3 align=''>Streamlining Patient-Doctor Interactions:</h4> 
@@ -11,8 +11,39 @@ leading to 25% more patients per day for doctors
 Improving the flow of operations across
 various hospital processes such as OPD checkups, report understanding
 for patients, and medical record management</p>  
+
+ ### Testing credentials 
+ <div align=''>
+ 
+- Patient's Credentials 
+   - Username/email
+    ```
+     john@gmail.com 
+    ```
+   
+ 
+   - Password
+    ```
+     12345 
+    ```
+ </div>
+    
+ <div align=''>
+
+- Doctor's Credentials 
+   - Username/email
+    ```
+     mehta@gmail.com 
+    ``` 
+ 
+   - Password
+    ```
+     12345 
+    ```
+ </div>
+   
+ 
 <br/>
-  
 <img alt='swasthlekh.png' align=' ' width=' ' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swaslekh_home.png'/>
  
 <br>
@@ -52,6 +83,7 @@ for patients, and medical record management</p>
 
 #### 3. Evaluation Frameworks + Hallucination mitigating Techniques for better responses
 #### 4. Better understanding of your reports and prescription.  
+ 
 </div>
 
  
@@ -72,6 +104,8 @@ for patients, and medical record management</p>
 #### 5. Whenever doctor wants to access patient's reports, first patient has to approve the request.
 #### 6. Only after patients approval, doctor will able to access the patient's report.
 #### 7. It's a one time process.
+
+ 
 
 </div>
 
