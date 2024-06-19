@@ -1,10 +1,14 @@
 dist
 node_modules
+<<<<<<< HEAD
 # Keep environment variables out of version control
 <<<<<<< HEAD
  
 =======
 # emerald-griffin-424814-k5-dfa516938e65.json 
 >>>>>>> 0866b4b (fixing env variables)
+=======
+# Keep environment variables out of version control 
+>>>>>>> 1c2db0f (updated)
 .env
 .vercel
