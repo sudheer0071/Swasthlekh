@@ -43,6 +43,7 @@ export const actions = atom({
   default:''
 })
 
+
 export const home = atom({
   key:'home',
   default:false

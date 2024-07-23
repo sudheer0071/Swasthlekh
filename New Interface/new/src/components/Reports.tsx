@@ -274,7 +274,7 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
 //       </div>
 //       <div className="mt-1 font-medium ">
 //         <div className="flex text-slate-800" >
-//           {report.filename.charAt(0).toUpperCase() + report.filename.slice(1)}
+//           {report.filename. (0).toUpperCase() + report.filename.slice(1)}
 //         </div>
 //         <p id="date-text" className="flex text-slate-400 group-hover:text-slate-500">Uploaded on: {report.date.split(' G')[0]}</p>
 //       </div>
