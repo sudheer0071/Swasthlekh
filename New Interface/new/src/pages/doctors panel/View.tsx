@@ -198,6 +198,7 @@ export function View() {
                     const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
                     const match = words.match(urlRegex);
                   if (match) {
+                    
                     return (
                       <div>
                           {mainWord[0].split("]")[0]}{"]"}
