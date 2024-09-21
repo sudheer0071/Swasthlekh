@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../components/ui/alert-dialog"
+} from "./ui/alert-dialog"
 
 import {
   DropdownMenu,
@@ -20,7 +20,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu"
+} from "./ui/dropdown-menu"
 
 
 export const NavBar = ()=>{

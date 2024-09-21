@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 // import { Recieve } from "./icons/Recieve";
 // import { Search } from "./icons/Searrch";
 // import { Send } from "./icons/Send";   
-import { NavBar } from "../New-components/NavBar";  
+import { NavBar } from "../components/NavBar";  
 
 export function Privacy() { 
   const navigate = useNavigate();

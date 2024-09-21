@@ -58,3 +58,8 @@ export const requestt = atom({
   key:'request',
   default:false
 })
+
+export const uploadedState = atom({
+  key:'uploadedState',
+  default:false
+})

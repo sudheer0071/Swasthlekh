@@ -9,7 +9,7 @@ import { View } from './View';
 import { Upload } from '../../components/Upload';
 import { Logs } from './Logs'
 import { Requests } from './Requests';
-import { SideBar } from '../../New-components/Sidebar'; 
+import { SideBar } from '../../components/Sidebar'; 
 
 
 function Users() {  

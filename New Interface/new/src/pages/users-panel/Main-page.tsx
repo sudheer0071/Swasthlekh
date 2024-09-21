@@ -1,4 +1,4 @@
-import { SideBar } from "../../New-components/Sidebar"
+import { SideBar } from "../../components/Sidebar"
 import { Home } from "./Home"
 
 export const MainPage = ()=>{

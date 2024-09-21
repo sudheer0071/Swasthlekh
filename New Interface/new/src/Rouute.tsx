@@ -1,16 +1,14 @@
 import { useNavigate } from "react-router-dom"; 
-import { NavBar } from "./New-components/NavBar";
-import { FeatureCard } from "./New-components/FeatureCard";
-import { Card } from "./New-components/Card";
-import { ReviewCard } from "./New-components/ReviewCard"; 
-import HorizontalScroll from "./New-components/HorizontalScroll";
+import { NavBar } from "./components/NavBar";
+import { FeatureCard } from "./components/cards/FeatureCard";
+import { Card } from "./components/cards/Card";
+import { ReviewCard } from "./components/cards/ReviewCard"; 
+import HorizontalScroll from "./components/HorizontalScroll";
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
+  AlertDialogAction, 
+  AlertDialogContent, 
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -27,12 +25,12 @@ export function Rouute() {
   const handleDoctorClick = () => { 
     navigate('/doctor/portal/signup');
   };
-  const handleUserClickLogin = () => { 
-    navigate('/user/portal/signin');
-  };
-  const handleDoctorClickLogin = () => { 
-    navigate('/doctor/portal/signin');
-  };
+  // const handleUserClickLogin = () => { 
+  //   navigate('/user/portal/signin');
+  // };
+  // const handleDoctorClickLogin = () => { 
+  //   navigate('/doctor/portal/signin');
+  // };
 
   // const handleDoctorClick = () => {
   //   navigate('/doctors/signup');

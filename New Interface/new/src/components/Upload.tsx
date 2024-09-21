@@ -5,11 +5,14 @@ import { BACKEND_URL } from "../pages/config"
 // import { useNavigate } from "react-router-dom"; 
 import logo from "../assets/tick-green-icon.svg";
 import { UploadIcon } from "lucide-react";
+import { useRecoilState } from "recoil";
+import { uploadedState } from "../pages/atom";
 
 
 export function Upload(){ 
   const [popup, setPopup] = useState("")
   const [isOpen, setIsopen] = useState(false)
+  const [uploaded, setUploaded] = useRecoilState(uploadedState)
    
   // const navigate = useNavigate()
 
@@ -35,7 +38,8 @@ export function Upload(){
             setIsopen(false)
             setPopup('')
             // navigate('/users/home')
-            window.location.reload()
+            // window.location.reload()
+            setUploaded(true)
           }, 3000);
           setIsopen(true)
           setPopup(json)

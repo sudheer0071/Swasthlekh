@@ -31,7 +31,7 @@ export function View() {
   const [content, setContent] = useState('') 
   
   // const[avatar, setAvatar] = useState('')
-console.log(setFilename);
+// console.log(setFilename);
 
   const [messages, setMessages] = useState<{ text: string; sender: string; }[]>([]);
   const [latestBotMessageIndex, setLatestBotMessageIndex] = useState(-1);
@@ -165,13 +165,19 @@ console.log(setFilename);
                     const match = words.match(urlRegex);
                   if (match) {
                     return (
-                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                      <div>
+                          {mainWord[0].split("]")[0]}{"]"}
+                      <span className=" ml-4 font-mono text-blue-700" key={`${index}-${wordIndex}`}>
                         {match[1]}
                         <a href={match[2]} target="_blank" rel="noopener noreferrer">
-                          {match[2]}
+                          {match[2]}{")"}
                         </a>
-                        {match[3]}{' '}
+                        {/* {match[3]}{' '} */}
                       </span>
+                      <div>
+                          {mainWord[1]&&mainWord[1].split(/[:\-]/)}
+                      </div>
+                      </div>
                     );
                   } else {
                     return <span key={`${index}-${wordIndex}`}>{word} </span>;
@@ -192,13 +198,19 @@ console.log(setFilename);
                     const match = words.match(urlRegex);
                   if (match) {
                     return (
-                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                      <div>
+                          {mainWord[0].split("]")[0]}{"]"}
+                      <span className=" ml-4 font-mono text-blue-700" key={`${index}-${wordIndex}`}>
                         {match[1]}
                         <a href={match[2]} target="_blank" rel="noopener noreferrer">
-                          {match[2]}
+                          {match[2]}{")"}
                         </a>
-                        {match[3]}{' '}
+                        {/* {match[3]}{' '} */}
                       </span>
+                      <div>
+                          {mainWord[1].split(":")}
+                      </div>
+                      </div>
                     );
                   } else {
                     return <span key={`${index}-${wordIndex}`}>{word} </span>;
@@ -247,7 +259,7 @@ console.log(setFilename);
               setInput(e.target.value);
             }}
             value={input} type="text" placeholder="Ask your Query" />
-    <div id="btn" onClick={fetchResponse} className=" fixed bottom-3 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 ">
+    <div id="btn" onClick={fetchResponse} className=" mr-2 fixed bottom-3 cursor-pointer transition duration-200 ease-in-out transform hover:scale-125 text-slate-500 ">
           <Send size={29} /> 
         </div>
     </div>

@@ -38,7 +38,7 @@ import * as vision from '@google-cloud/vision';
 process.env.GOOGLE_APPLICATION_CREDENTIALS
 
 const storageClient = new Storage()
-const bucketname = 'swasthlekh__bucket'
+const bucketname = 'swashlekh'
 
 
 const jwt = require('jsonwebtoken')
@@ -396,11 +396,11 @@ console.log("prefix: "+prefix);
   } 
   
   // Lists files in the bucket, filtered by a prefix
-  const [files] = await storage.bucket('swasthlekh__bucket').getFiles(options);
+  const [files] = await storage.bucket('swashlekh').getFiles(options);
   console.log("Files: "+files)  
   const promises = files.map(async (file) => {
     // Downloads the file into a buffer in memory.
-    const contents = await storage.bucket('swasthlekh__bucket').file(`${file.name}`).download();
+    const contents = await storage.bucket('swashlekh').file(`${file.name}`).download();
     const jstring = JSON.parse(contents.toString())
     const pgnumber = jstring.responses.length;
 

@@ -164,17 +164,23 @@ export function View() {
                     const words = mainWord[0]
                     const urlRegex = /((?:\[|\()*)(https?:\/\/\S+)((?:\]|\))*)/i;
                     const match = words.match(urlRegex);
-                  if (match) {
-                    return (
-                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
-                        {match[1]}
-                        <a href={match[2]} target="_blank" rel="noopener noreferrer">
-                          {match[2]}
-                        </a>
-                        {match[3]}{' '}
-                      </span>
-                    );
-                  } else {
+                    if (match) {
+                      return (
+                        <div>
+                            {mainWord[0].split("]")[0]}{"]"}
+                        <span className=" ml-4 font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                          {match[1]}
+                          <a href={match[2]} target="_blank" rel="noopener noreferrer">
+                            {match[2]}{")"}
+                          </a>
+                          {/* {match[3]}{' '} */}
+                        </span>
+                        <div>
+                            {mainWord[1]&&mainWord[1].split(/[:\-]/)}
+                        </div>
+                        </div>
+                      );
+                    }else {
                     return <span key={`${index}-${wordIndex}`}>{word} </span>;
                   }
                 })}
@@ -193,13 +199,19 @@ export function View() {
                     const match = words.match(urlRegex);
                   if (match) {
                     return (
-                      <span className=" font-mono text-blue-700" key={`${index}-${wordIndex}`}>
+                      <div>
+                          {mainWord[0].split("]")[0]}{"]"}
+                      <span className=" ml-4 font-mono text-blue-700" key={`${index}-${wordIndex}`}>
                         {match[1]}
                         <a href={match[2]} target="_blank" rel="noopener noreferrer">
-                          {match[2]}
+                          {match[2]}{")"}
                         </a>
-                        {match[3]}{' '}
+                        {/* {match[3]}{' '} */}
                       </span>
+                      <div>
+                          {mainWord[1].split(":")}
+                      </div>
+                      </div>
                     );
                   } else {
                     return <span key={`${index}-${wordIndex}`}>{word} </span>;

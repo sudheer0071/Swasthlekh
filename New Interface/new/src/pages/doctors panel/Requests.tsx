@@ -178,7 +178,8 @@ const AllRequests = ({data}:any)=>{
   navigate('/doctors/viewReports')
    // window.open(`${content}`,'_blank', 'noreferrer')
    }} className={`btn transition-colors duration-700 inline-flex items-center px-7 py-3 -mr-4 mt-3 mb-2 text-sm font-medium text-center text-white rounded-lg cursor-pointer  hover:bg-pink-500 dark:focus:ring-blue-300'}`}>View</button>
-</div>:<div className="flex justify-center items-center p-3 h-full mr-2 ml-4">
+</div>:
+<div className="flex justify-center items-center p-3 h-full mr-2 ml-4">
   <button onClick={()=> { 
   //  grantAccess()  
    // window.open(`${content}`,'_blank', 'noreferrer')

@@ -3,7 +3,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../pages/config"
 import { useRecoilState } from "recoil"
-import { actions } from "../pages/atom"
+import { actions, uploadedState } from "../pages/atom"
 import { BotMessageSquare, ClipboardMinus, Download } from "lucide-react"
 export function Reports({ hide, white, token, username }: {hide?:boolean, white?:boolean, token:any, username?:any}) {
   // console.log(localStorage.getItem("TOKEN"));
@@ -13,6 +13,8 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
   const [isOpen, setIsopen] = useState(false)
   const [found, setFound] = useState(false)
   const [message, setMessage] = useState(false)
+  const [uploaded, setUploaded] = useRecoilState(uploadedState)
+
 
   if (username) {
     console.log("inside usernamee");
@@ -84,7 +86,7 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
         }
       }
       fetchData();
-    }, []);
+    }, [report]);
   }
 
   else {
@@ -123,7 +125,7 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
       }
 
       fetchData();
-    }, [])
+    }, [uploaded])
 
   }
 

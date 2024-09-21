@@ -8,7 +8,7 @@ import {   Routes, Route } from 'react-router-dom'
 import { Home } from './Home';
 import { View } from './View'; 
 import { Upload } from '../../components/Upload'; 
-import { SideBar } from '../../New-components/Sidebar';
+import { SideBar } from '../../components/Sidebar';
 import { Requests } from './Requests';
 import { History } from './History';
 import { ViewReport } from './ViewReports';

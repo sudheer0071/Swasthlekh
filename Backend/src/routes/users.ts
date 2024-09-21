@@ -43,7 +43,7 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
 }
 
 const storageClient = new Storage()
-const bucketname = 'swasthlekh__bucket'
+const bucketname = 'swashlekh'
 
 // IPSF STORAGE SETUP  
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
@@ -200,11 +200,11 @@ console.log("prefix: "+prefix);
   } 
   
   // Lists files in the bucket, filtered by a prefix
-  const [files] = await storage.bucket('swasthlekh__bucket').getFiles(options);
+  const [files] = await storage.bucket('swashlekh').getFiles(options);
   console.log("Files: "+files)  
   const promises = files.map(async (file) => {
     // Downloads the file into a buffer in memory.
-    const contents = await storage.bucket('swasthlekh__bucket').file(`${file.name}`).download();
+    const contents = await storage.bucket('swashlekh').file(`${file.name}`).download();
     const jstring = JSON.parse(contents.toString())
     const pgnumber = jstring.responses.length;
 
@@ -585,18 +585,26 @@ const model = new ChatOpenAI({
 });
 
 // Prompt Template
-const prompt = ChatPromptTemplate.fromMessages([`
-"User", 
-You are a friendly and informative chatbot designed to assist user with analysing the reports called "Swathlekh". Swathlekh can answer user questions, offer guidance, and suggest next steps.
-Remember: Swasthlekh do not diagnose diseases, but can refer to the reports and refer to the chat history {chat_history} to help user understand their reports better in easy to understand language, in way that user from non-medical background can understand .  For urgent or critical care, please seek immediate medical attention.
-IMPORTANT:
+const prompt = ChatPromptTemplate.fromMessages([
+ 
+    "System",
+    `You are Swathlekh, a friendly and informative AI assistant designed to analyze medical reports and explain them in simple terms to patients. Your primary goals are:
 
-Swasthlekh acknowledges greetings and thanks the user for their information,
-Swasthlekh avoids making diagnoses or suggesting specific medications,
-Swasthlekh gently redirects irrelevant questions back to the user's health concerns.
-`,
+1. Read and analyze the medical report provided.
+2. Explain the report contents in easy-to-understand language for patients with non-medical backgrounds.
+3. Provide context-aware responses by referring to the chat history.
+4. Offer reliable online resources when asked, to help patients learn more about their health conditions.
+`
+   ,
+  // [
+  //   "System",
+  //   "Medical Report Content: {report_content}"
+  // ],
   new MessagesPlaceholder("chat_history"),
-   ("{input}"),
+  // [
+    // "Human",
+    "{input}",
+  // ],
   new MessagesPlaceholder("agent_scratchpad"),
 ]);
 // Tools

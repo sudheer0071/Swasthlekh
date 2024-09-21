@@ -41,7 +41,7 @@ for patients, and medical record management</p>
      12345 
     ```
  </div>
-   
+ 
  
 <br/>
 <img alt='swasthlekh.png' align=' ' width=' ' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swaslekh_home.png'/>

@@ -99,7 +99,7 @@ export function Logs() {
 
 function Doctors({ doctor, accessedFiles }: any) {
   return <div>
-    <div className=" w-44 md:w-full lg:w-full -z-10 -mt-14 text-lg font-medium py-3">
+    <div className=" w-44 md:w-full lg:w-full -z-10 mt-5 text-lg font-medium py-3">
       Files accessed by Dr. {doctor}
     </div>
     <div id="report-section" className="scrol-report overflow-x-hidden overflow-y-scroll  md:max-h-80 lg:max-h-80 rounded-md shadow-md border py-3 px-4 bg-white">
