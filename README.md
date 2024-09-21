@@ -43,6 +43,10 @@ for patients, and medical record management</p>
  </div>
    
  
+## Demonstration video
+https://github.com/user-attachments/assets/0542959e-8549-4b96-8edd-66c0a2ccbfb9
+
+
 <br/>
 <img alt='swasthlekh.png' align=' ' width=' ' src='https://pub-f7df8bb286174a36bc558870137a7fb7.r2.dev/swaslekh_home.png'/>
  
