@@ -15,6 +15,7 @@ export function Reports({ hide, white, token, username }: {hide?:boolean, white?
   const [message, setMessage] = useState(false)
   const [uploaded, setUploaded] = useRecoilState(uploadedState)
 
+console.log(setUploaded);
 
   if (username) {
     console.log("inside usernamee");

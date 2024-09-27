@@ -42,6 +42,8 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
   process.exit(1);
 }
 
+
+
 const storageClient = new Storage()
 const bucketname = 'swashlekh'
 
@@ -533,6 +535,10 @@ route.post('/chat',userAuth,async (req:Request,res:Response)=>{
     
 
     const {userFile,input} = req.body
+  console.log("inside chaatttttttttttt.......");
+  console.log(JSON.stringify(userFile));
+  console.log(input);
+  
   
     const user = await prisma.user.findUnique({
       where:{
