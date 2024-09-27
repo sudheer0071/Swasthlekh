@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ci=false npx prisma generate && tsc &&  echo $SECRET | base64 -d > emerald-griffin-424814-k5-dfa516938e65.json",
+    "build": "ci=false npx prisma generate && tsc",
     "start": "node dist/index.js",
     "dev": "node --max-old-space-size=5096 dist/index.js"
   },
