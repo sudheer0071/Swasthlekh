@@ -546,6 +546,9 @@ route.post('/chat',userAuth,async (req:Request,res:Response)=>{
       }
     })  
    const prefix = `responses/${user.username}/${userFile}/`
+
+   console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+   
   // The delimiter to use 
   // var dataaa 
   const data = await listFilesByPrefix(prefix)
